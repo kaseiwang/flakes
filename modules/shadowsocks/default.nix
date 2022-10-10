@@ -2,7 +2,6 @@
 {
   sops.secrets.shadowsocks = {
     sopsFile = ./secrets.yaml;
-    format = "binary";
     restartUnits = [ "shadowsocks.service" ];
   };
   cloud.services.shadowsocks.config = {
