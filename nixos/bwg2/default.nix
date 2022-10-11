@@ -1,9 +1,6 @@
-{ self, nixpkgs , inputs, ... }:
-
-nixpkgs.lib.nixosSystem {
-  system = "x86_64-linux";
-
-  modules = with self.nixosModules; [
+{ self , inputs, ... }:
+{
+  imports = [
     self.nixosModules.default
     ./configuration.nix
     ./hardware.nix

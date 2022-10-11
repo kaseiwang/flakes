@@ -41,14 +41,36 @@
         formatter = pkgs.nixpkgs-fmt;
         devShells = with pkgs; mkShell {
           sources = attrValues self.inputs;
-          nativeBuildInputs = [ sops-import-keys-hook ];
+          nativeBuildInputs = [ colmena sops-import-keys-hook ];
         };
       }
     ) //
   {
     nixosModules = import ./modules;
     overlay = final: prev: nixpkgs.lib.composeExtensions this.overlay (import ./functions.nix) final prev;
-    nixosConfigurations =
-      mapAttrs (k: _: import (./nixos + "/${k}") { inherit self nixpkgs inputs; }) (readDir ./nixos);
+    nixosConfigurations = {
+      bwg2 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./nixos/bwg2 ];
+        specialArgs = { inherit self inputs; };
+      };
+    };
+
+    colmena = {
+      meta = {
+        specialArgs = {
+          inherit self inputs;
+        };
+        nixpkgs = import inputs.nixpkgs {
+          system = "x86_64-linux";
+        };
+      };
+      bwg2 = { ... }: {
+        deployment = {
+          targetHost = "107.182.29.43";
+        };
+        imports = [ ./nixos/bwg2 ];
+      };
+    };
   };
 }
