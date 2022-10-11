@@ -63,7 +63,8 @@ with pkgs;
 
   environment.persistence."/persist" = {
     directories = [
-      "/var/lib"
+      "/var"
+      "/home"
     ];
   };
 

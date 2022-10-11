@@ -30,6 +30,12 @@
     options = [ "subvol=nix"  "noatime" "compress-force=zstd" "space_cache=v2" ];
     neededForBoot = true;
   };
+  fileSystems."/persist" = {
+    fsType = "btrfs";
+    device = "/dev/disk/by-uuid/f15541fc-2493-4520-9fb9-674d497ff7dc";
+    options = [ "subvol=persist"  "noatime" "compress-force=zstd" "space_cache=v2" ];
+    neededForBoot = true;
+  };
 
   swapDevices = [ ];
 }
