@@ -53,7 +53,7 @@ with lib;
     environment = {
       systemPackages = with pkgs; [
         vim curl tmux htop
-        git neovim ncdu iftop iotop
+        git neovim ncdu iftop iotop file
         direnv nix-direnv
       ];
       interactiveShellInit = ''
