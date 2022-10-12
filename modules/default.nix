@@ -6,6 +6,7 @@ rec {
     ];
   });
   shadowsocks = import ./shadowsocks;
+  tinc = import ./tinc;
   cloud = {
     common = import ./cloud/common.nix;
     filesystems = import ./cloud/filesystems.nix;

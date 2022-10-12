@@ -16,6 +16,20 @@
     "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
   ];
 
+  sops.secrets.tincrsa = {
+    sopsFile = ./secrets.yaml;
+    mode = "0600";
+  };
+
+  services.tinc.networks.kaseinet = {
+    name          = "gz1";
+    rsaPrivateKeyFile = "${config.sops.secrets.tincrsa.path}";
+  };
+
+  environment.etc = {
+    "tinc/kaseinet/rsa_key.priv".source = "${config.sops.secrets.tincrsa.path}";
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

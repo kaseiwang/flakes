@@ -11,9 +11,6 @@ with pkgs.lib;
     useDHCP = false;
     firewall.enable = false;
     useNetworkd = true;
-    interfaces.ens18 = {
-      useDHCP = true;
-    };
     interfaces.ens5 = {
       useDHCP = true;
     };
