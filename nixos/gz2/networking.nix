@@ -18,8 +18,4 @@ with pkgs.lib;
       useDHCP = true;
     };
   };
-
-  services = {
-    lldpd.enable = true;
-  };  
 }
