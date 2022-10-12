@@ -71,6 +71,12 @@
         };
         imports = [ ./nixos/bwg2 ];
       };
+      gz2 = { ... }: {
+        deployment = {
+          targetHost = "81.71.146.69";
+        };
+        imports = [ ./nixos/gz2 ];
+      };
     };
   };
 }
