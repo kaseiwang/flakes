@@ -27,6 +27,7 @@ with lib;
 
     services.openssh = {
       enable = true;
+      passwordAuthentication = false;
     };
 
     services.vnstat = {
