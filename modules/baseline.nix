@@ -29,6 +29,10 @@ with lib;
       enable = true;
     };
 
+    services.vnstat = {
+      enable = true;
+    };
+
     nix = {
       package = pkgs.nixVersions.stable;
       settings = {
