@@ -13,7 +13,8 @@
   };
 
   nix.settings.substituters = pkgs.lib.mkForce [
-    "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+    "https://mirrors.bfsu.edu.cn/nix-channels/store"
+    "https://cache.nixos.org"
   ];
 
   sops.secrets.tincrsa = {

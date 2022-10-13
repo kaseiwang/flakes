@@ -59,6 +59,11 @@
         modules = [ ./nixos/gz2 ];
         specialArgs = { inherit self inputs; };
       };
+      nixos-vm = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [ ./nixos/nixos-vm ];
+        specialArgs = { inherit self inputs; };
+      };
     };
 
     colmena = {
