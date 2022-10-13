@@ -70,6 +70,9 @@ with lib;
     systemd.network.enable = true;
 
     programs = {
+      mosh = {
+        enable = true;
+      };
       neovim = {
         enable = true;
         vimAlias = true;
