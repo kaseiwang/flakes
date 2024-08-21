@@ -1,0 +1,30 @@
+{ config, pkgs, ... }:
+
+{
+  time.timeZone = "Asia/Shanghai";
+
+  i18n.defaultLocale = "en_US.UTF-8";
+
+  nix.settings.substituters = pkgs.lib.mkForce [
+    #"https://mirrors.bfsu.edu.cn/nix-channels/store"
+    "https://cache.nixos.org"
+  ];
+
+  sops.defaultSopsFile = ./secrets.yaml;
+  sops.secrets = {
+    tinced25519 = { mode = "0400"; };
+  };
+
+  services.tinc.networks.kaseinet = {
+    name = "gz1";
+    ed25519PrivateKeyFile = "${config.sops.secrets.tinced25519.path}";
+  };
+
+  # This value determines the NixOS release from which the default
+  # settings for stateful data, like file locations and database versions
+  # on your system were taken. It‘s perfectly fine and recommended to leave
+  # this value at the release version of the first install of this system.
+  # Before changing this value read the documentation for this option
+  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
+  system.stateVersion = "22.05"; # Did you read the comment?
+}

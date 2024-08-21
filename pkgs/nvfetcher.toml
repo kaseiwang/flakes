@@ -1,0 +1,41 @@
+[smartdns-china-list]
+src.git = "https://github.com/felixonmars/dnsmasq-china-list"
+fetch.github = "felixonmars/dnsmasq-china-list"
+
+[fcitx5-pinyin-zhwiki]
+src.archpkg = "fcitx5-pinyin-zhwiki"
+src.prefix = "0.2.5."
+fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-$ver.dict"
+
+[xdg-open]
+src.github_tag = "kitsunyan/xdg-open-server"
+fetch.github = "kitsunyan/xdg-open-server"
+
+[rabbit-digger-pro]
+src.git= "https://github.com/rabbit-digger/rabbit-digger-pro"
+fetch.git= "https://github.com/rabbit-digger/rabbit-digger-pro"
+git.fetchSubmodules = true
+extract = ["Cargo.lock"]
+
+[vscode-ext-sops]
+src.vsmarketplace = "signageos.signageos-vscode-sops"
+fetch.vsmarketplace = "signageos.signageos-vscode-sops"
+passthru = { publisher = "signageos", name = "signageos-vscode-sops" }
+
+[vscode-ext-ccls]
+src.vsmarketplace = "ccls-project.ccls"
+fetch.vsmarketplace = "ccls-project.ccls"
+passthru = { publisher = "ccls-project", name = "ccls" }
+
+[vscode-ext-codeium]
+src.vsmarketplace = "Codeium.codeium"
+fetch.vsmarketplace = "Codeium.codeium"
+passthru = { publisher = "Codeium", name = "codeium" }
+
+[qbittorrent-enhanced-nox]
+src.github = "c0re100/qBittorrent-Enhanced-Edition"
+fetch.github = "c0re100/qBittorrent-Enhanced-Edition"
+
+[nvidia_gpu_exporter]
+src.github = "utkuozdemir/nvidia_gpu_exporter"
+fetch.github = "utkuozdemir/nvidia_gpu_exporter"

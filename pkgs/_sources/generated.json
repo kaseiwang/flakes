@@ -1,0 +1,172 @@
+{
+    "fcitx5-pinyin-zhwiki": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "fcitx5-pinyin-zhwiki",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "name": null,
+            "sha256": "sha256-ozGXj/xZmXzopF7qiG2z+hcwGHc+3Lq6OqyFRreK9Kc=",
+            "type": "url",
+            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20240722.dict"
+        },
+        "version": "20240722"
+    },
+    "nvidia_gpu_exporter": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "nvidia_gpu_exporter",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "utkuozdemir",
+            "repo": "nvidia_gpu_exporter",
+            "rev": "v1.2.1",
+            "sha256": "sha256-+YmZ25OhOeIulkOH/Apqh3jGQ4Vanv0GIuc/EjBiZ+w=",
+            "type": "github"
+        },
+        "version": "v1.2.1"
+    },
+    "qbittorrent-enhanced-nox": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "qbittorrent-enhanced-nox",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "c0re100",
+            "repo": "qBittorrent-Enhanced-Edition",
+            "rev": "release-4.6.5.10",
+            "sha256": "sha256-Yy0DUTz1lWkseh9x1xnHJCI89BKqi/D7zUn/S+qC+kM=",
+            "type": "github"
+        },
+        "version": "release-4.6.5.10"
+    },
+    "rabbit-digger-pro": {
+        "cargoLocks": null,
+        "date": "2024-04-24",
+        "extract": {
+            "Cargo.lock": "./rabbit-digger-pro-5d74fc4644bfaaef4a598845fdab78d0a8c39bca/Cargo.lock"
+        },
+        "name": "rabbit-digger-pro",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": true,
+            "leaveDotGit": false,
+            "name": null,
+            "rev": "5d74fc4644bfaaef4a598845fdab78d0a8c39bca",
+            "sha256": "sha256-BQ/I8DmxVEzMIlMwjNqSKfnt/uQDq1m82eETun5sqFU=",
+            "type": "git",
+            "url": "https://github.com/rabbit-digger/rabbit-digger-pro"
+        },
+        "version": "5d74fc4644bfaaef4a598845fdab78d0a8c39bca"
+    },
+    "smartdns-china-list": {
+        "cargoLocks": null,
+        "date": "2024-08-14",
+        "extract": null,
+        "name": "smartdns-china-list",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "felixonmars",
+            "repo": "dnsmasq-china-list",
+            "rev": "9cb06e9d1e617ebac77ff296a3eea3f45ceb1be8",
+            "sha256": "sha256-k/3Wz2OSlUx+H5PDf2u4xrHCrsbMpPKtEwxxaIGOIVQ=",
+            "type": "github"
+        },
+        "version": "9cb06e9d1e617ebac77ff296a3eea3f45ceb1be8"
+    },
+    "vscode-ext-ccls": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "vscode-ext-ccls",
+        "passthru": {
+            "name": "ccls",
+            "publisher": "ccls-project"
+        },
+        "pinned": false,
+        "src": {
+            "name": "ccls-0.1.29.zip",
+            "sha256": "sha256-RjMYBLgbi+lgPqaqN7yh8Q8zr9euvQ+YLEoQaV3RDOA=",
+            "type": "url",
+            "url": "https://ccls-project.gallery.vsassets.io/_apis/public/gallery/publisher/ccls-project/extension/ccls/0.1.29/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
+        },
+        "version": "0.1.29"
+    },
+    "vscode-ext-codeium": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "vscode-ext-codeium",
+        "passthru": {
+            "name": "codeium",
+            "publisher": "Codeium"
+        },
+        "pinned": false,
+        "src": {
+            "name": "codeium-1.13.5.zip",
+            "sha256": "sha256-WUyNuNk2C/V3qRSjuZSc6PTWlWm1Ohs+TESqU9hW/co=",
+            "type": "url",
+            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.13.5/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
+        },
+        "version": "1.13.5"
+    },
+    "vscode-ext-sops": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "vscode-ext-sops",
+        "passthru": {
+            "name": "signageos-vscode-sops",
+            "publisher": "signageos"
+        },
+        "pinned": false,
+        "src": {
+            "name": "signageos-vscode-sops-0.9.1.zip",
+            "sha256": "sha256-b1Gp+tL5/e97xMuqkz4EvN0PxI7cJOObusEkcp+qKfM=",
+            "type": "url",
+            "url": "https://signageos.gallery.vsassets.io/_apis/public/gallery/publisher/signageos/extension/signageos-vscode-sops/0.9.1/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
+        },
+        "version": "0.9.1"
+    },
+    "xdg-open": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "xdg-open",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "kitsunyan",
+            "repo": "xdg-open-server",
+            "rev": "v1.3",
+            "sha256": "sha256-BX/Z3e1MQMISWWtrw+D1ChwdIhwxgWOx2evgZdMkPjg=",
+            "type": "github"
+        },
+        "version": "v1.3"
+    }
+}
