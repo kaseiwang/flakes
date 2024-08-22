@@ -35,8 +35,8 @@
         volumes = [
           "alist:/opt/alist/data"
           #"/pool0/samba-share:/mnt/samba"
-          "/pool0/media/samba:/mnt/samba"
-          "/pool0/media/qbittorrent/.config/qBittorrent/downloads:/mnt/qbittorrent"
+          "/pool0/encrypted/media/samba:/mnt/samba"
+          "/pool0/encrypted/media/qbittorrent/.config/qBittorrent/downloads:/mnt/qbittorrent"
         ];
         ports = [ "127.0.0.1:5244:5244" ];
       };
@@ -360,13 +360,13 @@
         server role = standalone server
         dns proxy = no
         [nas0]
-            path = /pool0/media/samba
+            path = /pool0/encrypted/media/samba
             valid users = @nas, kasei
             public = no
             writable = yes
             create mask = 0765
         [qbittorrent]
-            path = /pool0/media/qbittorrent/downloads
+            path = /pool0/encrypted/media/qbittorrent/downloads
             valid users = @nas, kasei
             public = no
             force user = qbittorrent
@@ -653,6 +653,7 @@
       enable = true;
       group = "nas";
       openFilesLimit = 65535;
+      # TODO: use module to manage qbittorrent settings
       #dataDir = "/pool0/media/qbittorrent";
     };
 
