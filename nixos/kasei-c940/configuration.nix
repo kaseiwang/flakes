@@ -84,6 +84,7 @@
   };
 
   nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
+    "feishu"
     "vscode"
     "vscode-extension-ms-vscode-remote-remote-ssh"
     "vscode-extension-github-copilot"

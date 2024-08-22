@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 {
   home.packages = with pkgs; [
+    feishu
     cloc # count lines of code
     fzf
     devenv
