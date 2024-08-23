@@ -175,6 +175,8 @@
   environment = {
     systemPackages = with pkgs; [
       config.boot.kernelPackages.cpupower
+      man-pages
+      man-pages-posix
       # gnome
       gnome-tweaks
       dconf-editor
