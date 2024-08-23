@@ -112,6 +112,13 @@
           };
           imports = [ ./nixos/cone2 ];
         };
+        cone3 = { ... }: {
+          deployment = {
+            targetHost = "66.103.210.62";
+            buildOnTarget = false;
+          };
+          imports = [ ./nixos/cone3 ];
+        };
         r5c = { ... }: {
           nixpkgs.system = "aarch64-linux";
           deployment = {
