@@ -18,5 +18,5 @@ with pkgs;
 
   environment.baseline.enable = true;
 
-  system.stateVersion = "22.05";
+  system.stateVersion = pkgs.lib.mkDefault "22.05";
 }
