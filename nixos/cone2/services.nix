@@ -43,7 +43,7 @@
           ];
           handshake = {
             server = "kasei.im";
-            server_port = "443";
+            server_port = 443;
           };
         }
       ];
