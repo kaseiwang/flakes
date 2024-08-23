@@ -174,6 +174,7 @@
 
   environment = {
     systemPackages = with pkgs; [
+      amdgpu_top
       config.boot.kernelPackages.cpupower
       man-pages
       man-pages-posix
