@@ -98,13 +98,6 @@
           };
           imports = [ ./nixos/fx63vm ];
         };
-        cone = { ... }: {
-          deployment = {
-            targetHost = "cone.kasei.im";
-            buildOnTarget = false;
-          };
-          imports = [ ./nixos/cone1 ];
-        };
         cone2 = { ... }: {
           deployment = {
             targetHost = "74.48.96.113";

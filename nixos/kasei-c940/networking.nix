@@ -334,7 +334,7 @@ with pkgs.lib;
         {
           type = "shadowsocks";
           tag = "ss-cone";
-          server = "2607:f130:0:186::f71a:2d6a";
+          server = "2607:f130:0:179::2f6b:52ea";
           server_port = 9555;
           method = "2022-blake3-aes-128-gcm";
           password = { _secret = "${config.sops.secrets.singboxpass.path}"; };

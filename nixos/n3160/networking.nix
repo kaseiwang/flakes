@@ -265,7 +265,7 @@ in
       ];
       outbounds = [
         {
-          server = "2607:f130:0:186::f71a:2d6a";
+          server = "2607:f130:0:179::2f6b:52ea";
           server_port = 443;
           tag = "tls-cone";
           type = "shadowtls";
@@ -283,7 +283,7 @@ in
         {
           type = "shadowsocks";
           tag = "ss-cone";
-          server = "2607:f130:0:186::f71a:2d6a";
+          server = "2607:f130:0:179::2f6b:52ea";
           server_port = 9555;
           method = "2022-blake3-aes-128-gcm";
           password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
@@ -335,7 +335,7 @@ in
               "openai.com"
               "hanime.tv"
             ];
-            outbound = "ss-cone";
+            outbound = "tls-cone";
           }
         ];
         final = "wgcf";
@@ -384,7 +384,7 @@ in
               flags constant, interval
               elements = {
                 74.48.96.113/32, # cone
-                148.135.81.252/32, # cone
+                66.103.210.62/32, # cone
                 81.71.146.69/32, # gz2
                 #37.27.0.0/16, # Hetzner, slow with warp
                 #95.217.0.0/16,
@@ -401,6 +401,7 @@ in
               elements = {
                 2607:f130:0:186::0/64, # cone
                 2607:f130:0:17e::0/64, # cone
+                2607:f130:0:179::0/64,
               }
             }
 
