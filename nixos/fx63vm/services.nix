@@ -483,8 +483,15 @@
           };
         in
         {
-          "${config.networking.hostName}.${config.networking.domain}" = mkVirtualHosts {
+          "default" = {
+            serverName = "_";
             default = true;
+            rejectSSL = true;
+            locations."/" = {
+              return = "444";
+            };
+          };
+          "${config.networking.hostName}.${config.networking.domain}" = mkVirtualHosts {
             serverName = "${config.networking.hostName}.${config.networking.domain}";
             basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
             locations = {
