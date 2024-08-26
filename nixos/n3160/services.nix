@@ -134,8 +134,6 @@
       let
         mkVirtualHosts = input: input // {
           reuseport = true;
-          quic = true;
-          http3 = true;
           onlySSL = true;
           sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
           sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
