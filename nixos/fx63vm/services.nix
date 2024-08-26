@@ -468,185 +468,92 @@
         ssl_stapling on;
         ssl_stapling_verify on;
       '';
-      virtualHosts = {
-        "${config.networking.hostName}.${config.networking.domain}" = {
-          default = true;
-          reuseport = true;
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          serverName = "${config.networking.hostName}.${config.networking.domain}";
-          basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
-          locations = {
-            "~ ^/prometheus" = {
-              proxyPass = "http://localhost:${toString config.services.prometheus.port}";
+      virtualHosts =
+        let
+          mkVirtualHosts = input: input // {
+            reuseport = true;
+            quic = true;
+            http3 = true;
+            onlySSL = true;
+            sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
+            sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
+            extraConfig = ''
+              add_header Alt-Svc 'h3=":$server_port"; ma=86400';
+            '';
+          };
+        in
+        {
+          "${config.networking.hostName}.${config.networking.domain}" = mkVirtualHosts {
+            default = true;
+            serverName = "${config.networking.hostName}.${config.networking.domain}";
+            basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
+            locations = {
+              "~ ^/prometheus" = {
+                proxyPass = "http://localhost:${toString config.services.prometheus.port}";
+              };
+              "~ ^/peerbanhelper" = {
+                extraConfig = ''
+                  rewrite /peerbanhelper/(.*) /$1 break;
+                '';
+                proxyPass = "http://localhost:9898";
+              };
+              "/" = {
+                return = 404;
+              };
             };
-            "~ ^/peerbanhelper" = {
-              extraConfig = ''
-                rewrite /peerbanhelper/(.*) /$1 break;
-              '';
+          };
+          "gitea.kasei.im" = mkVirtualHosts {
+            serverName = "gitea.kasei.im";
+            locations."/" = {
+              proxyPass = "http://unix:${config.services.gitea.settings.server.HTTP_ADDR}";
+              extraConfig = ''client_max_body_size 512M;'';
+              proxyWebsockets = true;
+            };
+          };
+          "nextcloud.kasei.im" = mkVirtualHosts {
+            serverName = "nextcloud.kasei.im";
+          };
+          "grafana.kasei.im" = mkVirtualHosts {
+            serverName = "grafana.kasei.im";
+            locations."/" = {
+              proxyPass = "http://unix:${config.services.grafana.settings.server.socket}";
+              proxyWebsockets = true;
+            };
+          };
+          "bt.kasei.im" = mkVirtualHosts {
+            serverName = "bt.kasei.im";
+            basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
+            locations."/" = {
+              proxyPass = "http://localhost:${toString config.services.qbittorrent.port}";
+              extraConfig = ''proxy_cookie_path / "/; Secure";'';
+            };
+          };
+          "alist.kasei.im" = mkVirtualHosts {
+            serverName = "alist.kasei.im";
+            locations."/" = {
+              proxyPass = "http://localhost:5244";
+            };
+          };
+          "chat.kasei.im" = mkVirtualHosts {
+            serverName = "chat.kasei.im";
+            locations."/" = {
+              proxyPass = "http://localhost:3000";
+            };
+          };
+          "peerbanhelper.kasei.im" = mkVirtualHosts {
+            serverName = "peerbanhelper.kasei.im";
+            locations."/" = {
               proxyPass = "http://localhost:9898";
             };
-            "/" = {
-              return = 404;
+          };
+          "yarr.kasei.im" = mkVirtualHosts {
+            serverName = "yarr.kasei.im";
+            basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
+            locations."/" = {
+              proxyPass = "http://localhost:${toString config.services.yarr.port}";
             };
           };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
         };
-        "gitea.kasei.im" = {
-          serverName = "gitea.kasei.im";
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          locations."/" = {
-            proxyPass = "http://unix:${config.services.gitea.settings.server.HTTP_ADDR}";
-            extraConfig = ''client_max_body_size 512M;'';
-            proxyWebsockets = true;
-          };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-        "nextcloud.kasei.im" = {
-          serverName = "nextcloud.kasei.im";
-          quic = true;
-          http3 = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-        "grafana.kasei.im" = {
-          serverName = "grafana.kasei.im";
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          locations."/" = {
-            proxyPass = "http://unix:${config.services.grafana.settings.server.socket}";
-            proxyWebsockets = true;
-          };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-        "bt.kasei.im" = {
-          serverName = "bt.kasei.im";
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
-          locations."^~ /peerbanhelper" = {
-            extraConfig = ''
-              rewrite ^/peerbanhelper(.*)$ $1 last;
-            '';
-            proxyPass = "http://localhost:9898";
-          };
-          locations."/" = {
-            proxyPass = "http://localhost:${toString config.services.qbittorrent.port}";
-            extraConfig = ''proxy_cookie_path / "/; Secure";'';
-          };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-        "alist.kasei.im" = {
-          serverName = "alist.kasei.im";
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          locations."/" = {
-            proxyPass = "http://localhost:5244";
-          };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-        "chat.kasei.im" = {
-          serverName = "chat.kasei.im";
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          #basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
-          locations."/" = {
-            proxyPass = "http://localhost:3000";
-          };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-        "peerbanhelper.kasei.im" = {
-          serverName = "peerbanhelper.kasei.im";
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          #basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
-          locations."/" = {
-            proxyPass = "http://localhost:9898";
-          };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-        "rsshub.i.kasei.im" = {
-          serverName = "rsshub.i.kasei.im";
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          locations."/" = {
-            proxyPass = "http://localhost:1200";
-          };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-        "yarr.kasei.im" = {
-          serverName = "yarr.kasei.im";
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
-          locations."/" = {
-            proxyPass = "http://localhost:${toString config.services.yarr.port}";
-          };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-        "calibre.i.kasei.im" = {
-          serverName = "calibre.i.kasei.im";
-          quic = true;
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
-          locations."/" = {
-            proxyPass = "http://localhost:${toString config.services.calibre-web.listen.port}";
-          };
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
-      };
-      streamConfig = ''
-        server {
-          listen 0.0.0.0:3389 reuseport;
-          proxy_timeout 1800s;
-          proxy_pass 192.168.0.1:3389;
-        }
-      '';
     };
 
     qbittorrent = {

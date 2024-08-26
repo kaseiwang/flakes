@@ -18,7 +18,7 @@
       mode = "0400";
       owner = config.users.users."btrbk".name;
     };
-    miioenv = {};
+    miioenv = { };
   };
 
   /*
@@ -130,43 +130,48 @@
       ssl_stapling on;
       ssl_stapling_verify on;
     '';
-    virtualHosts = {
-      "default" = {
-        serverName = "_";
-        default = true;
-        rejectSSL = true;
-        locations."/" = {
-          return = "444";
+    virtualHosts =
+      let
+        mkVirtualHosts = input: input // {
+          reuseport = true;
+          quic = true;
+          http3 = true;
+          onlySSL = true;
+          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
+          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
+          extraConfig = ''
+            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
+          '';
+        };
+      in
+      {
+        "default" = {
+          serverName = "_";
+          default = true;
+          rejectSSL = true;
+          locations."/" = {
+            return = "444";
+          };
+        };
+        "${config.networking.hostName}.${config.networking.domain}" = mkVirtualHosts {
+          locations."/" = {
+            return = "200";
+          };
+        };
+        "bitwarden.kasei.im" = mkVirtualHosts {
+          serverName = "bitwarden.kasei.im";
+          locations."/" = {
+            proxyPass = "http://127.0.0.1:8000";
+            proxyWebsockets = true;
+          };
+        };
+        "zte.i.kasei.im" = mkVirtualHosts {
+          serverName = "zte.i.kasei.im";
+          locations."/" = {
+            proxyPass = "http://192.168.1.1";
+          };
         };
       };
-      "${config.networking.hostName}.${config.networking.domain}" = {
-        onlySSL = true;
-        sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-        sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-        locations."/" = {
-          return = "200";
-        };
-      };
-      "bitwarden.kasei.im" = {
-        serverName = "bitwarden.kasei.im";
-        onlySSL = true;
-        sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-        sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-        locations."/" = {
-          proxyPass = "http://127.0.0.1:8000";
-          proxyWebsockets = true;
-        };
-      };
-      "zte.i.kasei.im" = {
-        serverName = "zte.i.kasei.im";
-        onlySSL = true;
-        sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-        sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-        locations."/" = {
-          proxyPass = "http://192.168.1.1";
-        };
-      };
-    };
   };
 
   services.btrfs = {

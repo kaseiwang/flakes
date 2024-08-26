@@ -33,7 +33,7 @@ let
         while True:
             time.sleep(15)
             update_status()
-''
+  ''
   ;
 in
 {
