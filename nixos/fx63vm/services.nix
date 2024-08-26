@@ -486,6 +486,7 @@
           "default" = {
             serverName = "_";
             default = true;
+            reuseport = true;
             rejectSSL = true;
             locations."/" = {
               return = "444";
