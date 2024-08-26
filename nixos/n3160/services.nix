@@ -147,6 +147,7 @@
           serverName = "_";
           default = true;
           rejectSSL = true;
+          reuseport = true;
           locations."/" = {
             return = "444";
           };
