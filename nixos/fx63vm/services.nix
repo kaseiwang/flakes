@@ -471,7 +471,6 @@
       virtualHosts =
         let
           mkVirtualHosts = input: input // {
-            reuseport = true;
             quic = true;
             http3 = true;
             onlySSL = true;
@@ -486,8 +485,8 @@
           "default" = {
             serverName = "_";
             default = true;
-            reuseport = true;
             rejectSSL = true;
+            reuseport = true;
             locations."/" = {
               return = "444";
             };
