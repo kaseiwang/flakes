@@ -104,6 +104,10 @@
 
   services.dbus.implementation = "broker";
 
+  services.gnome = {
+
+  };
+
   users.users.kasei = {
     extraGroups = [ "docker" "fuse" "adbusers" "wireshark" ];
   };
@@ -179,8 +183,8 @@
       man-pages
       man-pages-posix
       # gnome
-      gnome-tweaks
-      dconf-editor
+      #gnome-tweaks
+      #dconf-editor
       gnome-screenshot
       eog
       gnomeExtensions.kimpanel
@@ -188,14 +192,6 @@
       gnomeExtensions.system-monitor-next
       xorg.xhost
     ];
-    gnome.excludePackages = (with pkgs; [
-      epiphany # web browser
-      totem # video player
-      gnome.tali # poker game
-      gnome.iagno # go game
-      gnome.hitori # sudoku game
-      gnome.atomix # puzzle game
-    ]);
     etc = {
       "nfc/libnfc.conf" = {
         mode = "0555";

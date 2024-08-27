@@ -6,7 +6,6 @@
     fzf
     devenv
     btop
-    bear
     jq # json query
     ccls # c/c++ lsp server
     gopls # golang lsp server
@@ -18,24 +17,20 @@
     joplin-desktop
     mpv
     openssl
-    sops
     #(spotify.override {deviceScaleFactor = 2;})
-    standardnotes
-    moonlight-qt
     gdu
     rustup
     yubikey-manager
     freerdp
     remmina # RDP client
-    xdg-open
+    xdg-open # xdp proxy for app in docker
     unzip
     gdb
     go
-    nix-tree
+    nix-tree # nix space usage
     mercurial
-    #easyeffects
+    easyeffects # sound effect
     wireshark
-    brightnessctl
     python3.pkgs.ipython
     python3
   ];
