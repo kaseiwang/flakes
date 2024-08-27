@@ -112,6 +112,8 @@
     };
 
     postgresqlBackup = {
+      startAt = "*-*-* 04:30:00"; # every day
+      location = "/var/lib/backup/postgresql";
       enable = true;
       compression = "zstd";
     };

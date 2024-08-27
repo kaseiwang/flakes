@@ -109,7 +109,6 @@
     ];
     directories = [
       "/var/lib"
-      "/var/backup/postgresql"
     ];
   };
 
