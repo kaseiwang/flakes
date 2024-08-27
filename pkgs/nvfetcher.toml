@@ -39,3 +39,7 @@ fetch.github = "c0re100/qBittorrent-Enhanced-Edition"
 [nvidia_gpu_exporter]
 src.github = "utkuozdemir/nvidia_gpu_exporter"
 fetch.github = "utkuozdemir/nvidia_gpu_exporter"
+
+[yarr-pgsql]
+src.github_tag = "jgkawell/yarr"
+fetch.github = "jgkawell/yarr"
