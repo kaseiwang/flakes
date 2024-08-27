@@ -22,13 +22,13 @@
   };
   qbittorrent-enhanced-nox = {
     pname = "qbittorrent-enhanced-nox";
-    version = "release-4.6.5.10";
+    version = "release-4.6.6.10";
     src = fetchFromGitHub {
       owner = "c0re100";
       repo = "qBittorrent-Enhanced-Edition";
-      rev = "release-4.6.5.10";
+      rev = "release-4.6.6.10";
       fetchSubmodules = false;
-      sha256 = "sha256-Yy0DUTz1lWkseh9x1xnHJCI89BKqi/D7zUn/S+qC+kM=";
+      sha256 = "sha256-mmM/1eU8FTWAciq2rh7fRa96fOkovMk4ScoehnqHdIQ=";
     };
   };
   rabbit-digger-pro = {
@@ -47,15 +47,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "9cb06e9d1e617ebac77ff296a3eea3f45ceb1be8";
+    version = "6f289b29cfb8d5b3421b150fbd11dab8feb4ce35";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "9cb06e9d1e617ebac77ff296a3eea3f45ceb1be8";
+      rev = "6f289b29cfb8d5b3421b150fbd11dab8feb4ce35";
       fetchSubmodules = false;
-      sha256 = "sha256-k/3Wz2OSlUx+H5PDf2u4xrHCrsbMpPKtEwxxaIGOIVQ=";
+      sha256 = "sha256-II/JvUNrPR1Zb8H3a/lofyNK/mku/BGBMviqMIpT6a0=";
     };
-    date = "2024-08-14";
+    date = "2024-08-26";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -70,11 +70,11 @@
   };
   vscode-ext-codeium = {
     pname = "vscode-ext-codeium";
-    version = "1.13.5";
+    version = "1.15.9";
     src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.13.5/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.13.5.zip";
-      sha256 = "sha256-WUyNuNk2C/V3qRSjuZSc6PTWlWm1Ohs+TESqU9hW/co=";
+      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.15.9/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "codeium-1.15.9.zip";
+      sha256 = "sha256-cJgO7iXQS/XhsxUTQk9j/6R9788j019jbHPWiMtqFvk=";
     };
     publisher = "Codeium";
     name = "codeium";
@@ -99,6 +99,17 @@
       rev = "v1.3";
       fetchSubmodules = false;
       sha256 = "sha256-BX/Z3e1MQMISWWtrw+D1ChwdIhwxgWOx2evgZdMkPjg=";
+    };
+  };
+  yarr-pgsql = {
+    pname = "yarr-pgsql";
+    version = "v3.1.3";
+    src = fetchFromGitHub {
+      owner = "jgkawell";
+      repo = "yarr";
+      rev = "v3.1.3";
+      fetchSubmodules = false;
+      sha256 = "sha256-9tQFUlKy3alaAiZDjhtfoVY1rvISD8aRlyODc2gs5e8=";
     };
   };
 }
