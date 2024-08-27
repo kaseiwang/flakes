@@ -133,7 +133,6 @@
     virtualHosts =
       let
         mkVirtualHosts = input: input // {
-          reuseport = true;
           onlySSL = true;
           sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
           sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
