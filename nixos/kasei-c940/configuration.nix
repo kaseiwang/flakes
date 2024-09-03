@@ -98,7 +98,7 @@
     wireshark.enable = true;
     #virt-manager.enable = true;
     fuse.userAllowOther = true;
-    hyprland.enable = true;
+    #hyprland.enable = true;
     #ryzen-monitor-ng.enable = true;
   };
 

@@ -402,8 +402,8 @@
         "ccls.cache.directory" = "${config.xdg.cacheHome}/ccls-cache";
         "editor.inlineSuggest.enabled" = true;
         "editor.renderWhitespace" = "boundary";
-        "update.mode" = "none";
         "github.copilot.editor.enableAutoCompletions" = true;
+        "git.openRepositoryInParentFolders" = "never"; # stop annoying popup
       };
       extensions = with pkgs.vscode-extensions; [
         #vscodevim.vim

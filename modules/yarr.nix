@@ -36,6 +36,11 @@ in
       default = 7070;
     };
 
+    pguri = mkOption {
+      type = types.str;
+      default = "";
+    };
+
     proxy = mkOption {
       type = types.nullOr types.str;
       default = null;

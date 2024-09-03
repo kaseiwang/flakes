@@ -104,10 +104,15 @@
           name = "${config.services.gitea.database.name}";
           ensureDBOwnership = true;
         }
+        {
+          name = "${config.services.yarr.user}";
+          ensureDBOwnership = true;
+        }
       ];
       ensureDatabases = [
         "${config.services.nextcloud.config.dbname}"
         "${config.services.gitea.database.name}"
+        "${config.services.yarr.user}"
       ];
     };
 
