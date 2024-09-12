@@ -8,11 +8,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-ozGXj/xZmXzopF7qiG2z+hcwGHc+3Lq6OqyFRreK9Kc=",
+            "sha256": "sha256-djXrwl1MmiAf0U5Xvm4S7Fk2fKNRm5jtc94KUYIrcm8=",
             "type": "url",
-            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20240722.dict"
+            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20240909.dict"
         },
-        "version": "20240722"
+        "version": "20240909"
     },
     "nvidia_gpu_exporter": {
         "cargoLocks": null,
@@ -77,7 +77,7 @@
     },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2024-09-04",
+        "date": "2024-09-08",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -89,11 +89,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "e158355e5144451dce6f09382321e4ade15d5050",
-            "sha256": "sha256-ngnIyKYxs1FKDwPpU3pk9LsZPfkm4y/9e/frdc0VJ9w=",
+            "rev": "9d77635cdd84515e5591a6c907d9da2044db1306",
+            "sha256": "sha256-2GjE9l3RisAHZAE63KmMmxcoGAkWM5M7TkkgqvnWwAc=",
             "type": "github"
         },
-        "version": "e158355e5144451dce6f09382321e4ade15d5050"
+        "version": "9d77635cdd84515e5591a6c907d9da2044db1306"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,
@@ -124,12 +124,12 @@
         },
         "pinned": false,
         "src": {
-            "name": "codeium-1.15.15.zip",
-            "sha256": "sha256-a1zo2aZcyad6CDc9bOm64B5cE5ANJkNDJRibHNq0AuM=",
+            "name": "codeium-1.17.4.zip",
+            "sha256": "sha256-uvrpBI8tcUP64SL13UQAwto+4GYU0TG0+3u3mqTIhp4=",
             "type": "url",
-            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.15.15/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
+            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.17.4/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
         },
-        "version": "1.15.15"
+        "version": "1.17.4"
     },
     "vscode-ext-sops": {
         "cargoLocks": null,

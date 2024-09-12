@@ -3,10 +3,10 @@
 {
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20240722";
+    version = "20240909";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20240722.dict";
-      sha256 = "sha256-ozGXj/xZmXzopF7qiG2z+hcwGHc+3Lq6OqyFRreK9Kc=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20240909.dict";
+      sha256 = "sha256-djXrwl1MmiAf0U5Xvm4S7Fk2fKNRm5jtc94KUYIrcm8=";
     };
   };
   nvidia_gpu_exporter = {
@@ -47,15 +47,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "e158355e5144451dce6f09382321e4ade15d5050";
+    version = "9d77635cdd84515e5591a6c907d9da2044db1306";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "e158355e5144451dce6f09382321e4ade15d5050";
+      rev = "9d77635cdd84515e5591a6c907d9da2044db1306";
       fetchSubmodules = false;
-      sha256 = "sha256-ngnIyKYxs1FKDwPpU3pk9LsZPfkm4y/9e/frdc0VJ9w=";
+      sha256 = "sha256-2GjE9l3RisAHZAE63KmMmxcoGAkWM5M7TkkgqvnWwAc=";
     };
-    date = "2024-09-04";
+    date = "2024-09-08";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -70,11 +70,11 @@
   };
   vscode-ext-codeium = {
     pname = "vscode-ext-codeium";
-    version = "1.15.15";
+    version = "1.17.4";
     src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.15.15/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.15.15.zip";
-      sha256 = "sha256-a1zo2aZcyad6CDc9bOm64B5cE5ANJkNDJRibHNq0AuM=";
+      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.17.4/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "codeium-1.17.4.zip";
+      sha256 = "sha256-uvrpBI8tcUP64SL13UQAwto+4GYU0TG0+3u3mqTIhp4=";
     };
     publisher = "Codeium";
     name = "codeium";
