@@ -7,7 +7,8 @@
     devenv
     btop
     jq # json query
-    ccls # c/c++ lsp server
+    (ccls.override { llvmPackages = pkgs.llvmPackages_18; })
+    #ccls # c/c++ lsp server
     gopls # golang lsp server
     nil # nix lsp server
     evolution # email
