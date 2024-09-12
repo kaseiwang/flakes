@@ -357,30 +357,31 @@
     samba = {
       enable = true;
       openFirewall = true;
-      configText = ''
-        [global]
-        workgroup = MYGROUP
-        server string = NAS0 Samba Server
-        security = user
-        server min protocol = SMB2
-        server max protocol = SMB3
-        server role = standalone server
-        dns proxy = no
-        [nas0]
-            path = /pool0/encrypted/media/samba
-            valid users = @nas, kasei
-            public = no
-            writable = yes
-            create mask = 0765
-        [qbittorrent]
-            path = /pool0/encrypted/media/qbittorrent/downloads
-            valid users = @nas, kasei
-            public = no
-            force user = qbittorrent
-            force group = nas
-            browseable = yes
-            read only = yes
-      '';
+      settings = {
+        global = {
+          "server string" = "NAS0 Samba Server";
+          security = "user";
+          "passwd program" = "/run/wrappers/bin/passwd %u";
+          "server role" = "standalone server";
+          "server min protocol" = "SMB2";
+        };
+        nas0 = {
+          path = "/pool0/encrypted/media/samba";
+          "valid users" = "@nas, kasei";
+          public = "no";
+          writable = "yes";
+          "create mask" = "0765";
+        };
+        qbittorrent = {
+          path = "/pool0/encrypted/media/qbittorrent/downloads";
+          "valid users" = "@nas, kasei";
+          public = "no";
+          "force user" = "qbittorrent";
+          "force group" = "nas";
+          "read only" = "yes";
+          "browseable" = "yes";
+        };
+      };
     };
 
     samba-wsdd = {
