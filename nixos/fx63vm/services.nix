@@ -361,7 +361,6 @@
         global = {
           "server string" = "NAS0 Samba Server";
           security = "user";
-          "passwd program" = "/run/wrappers/bin/passwd %u";
           "server role" = "standalone server";
           "server min protocol" = "SMB2";
         };
