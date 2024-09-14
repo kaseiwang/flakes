@@ -47,15 +47,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "9d77635cdd84515e5591a6c907d9da2044db1306";
+    version = "663bac707e32d7a465b9dc3be94039f84b88916b";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "9d77635cdd84515e5591a6c907d9da2044db1306";
+      rev = "663bac707e32d7a465b9dc3be94039f84b88916b";
       fetchSubmodules = false;
-      sha256 = "sha256-2GjE9l3RisAHZAE63KmMmxcoGAkWM5M7TkkgqvnWwAc=";
+      sha256 = "sha256-Myhl4QN3uspEGiAlcGnd9+eygl2tNSjH5049J3MlUAE=";
     };
-    date = "2024-09-08";
+    date = "2024-09-13";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -70,11 +70,11 @@
   };
   vscode-ext-codeium = {
     pname = "vscode-ext-codeium";
-    version = "1.17.4";
+    version = "1.17.11";
     src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.17.4/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.17.4.zip";
-      sha256 = "sha256-uvrpBI8tcUP64SL13UQAwto+4GYU0TG0+3u3mqTIhp4=";
+      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.17.11/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "codeium-1.17.11.zip";
+      sha256 = "sha256-TVIx1iroR10xIaN5OBxNE5UJG+xnQFB7P9KUeyBYzGY=";
     };
     publisher = "Codeium";
     name = "codeium";
