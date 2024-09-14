@@ -26,7 +26,7 @@
   virtualisation = {
     oci-containers.containers = {
       "alist" = {
-        image = "xhofe/alist:v3.36.0";
+        image = "xhofe/alist:v3.37.1";
         environment = {
           PUID = "0";
           PGID = "0";
@@ -41,7 +41,7 @@
         ports = [ "127.0.0.1:5244:5244" ];
       };
       "chatgpt-next-web" = {
-        image = "yidadaa/chatgpt-next-web:v2.14.0";
+        image = "yidadaa/chatgpt-next-web:v2.15.1";
         ports = [ "127.0.0.1:3000:3000" ];
         environmentFiles = [ "${config.sops.secrets.chatgpt-envs.path}" ];
         environment = {
@@ -50,7 +50,7 @@
         };
       };
       "peerbanhelper" = {
-        image = "ghostchu/peerbanhelper:v5.1.0";
+        image = "ghostchu/peerbanhelper:v6.2.1";
         ports = [ "127.0.0.1:9898:9898" ];
         volumes = [
           "peerbanhelper:/app/data"
