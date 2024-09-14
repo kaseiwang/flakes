@@ -135,6 +135,10 @@
       ];
     };
 
+    eza = {
+      enable = true;
+    };
+
     neovim = {
       enable = true;
       vimAlias = true;
@@ -415,7 +419,7 @@
         golang.go
         #ms-vscode.PowerShell
         rust-lang.rust-analyzer
-        ms-python.python
+        #ms-python.python
         #ms-vscode-remote.remote-ssh
         #ms-vscode.makefile-tools
         #ms-kubernetes-tools.vscode-kubernetes-tools
