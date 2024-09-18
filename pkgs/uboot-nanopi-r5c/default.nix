@@ -1,5 +1,6 @@
 { pkgs, buildUBoot, fetchurl, ... }:
 let
+# TODO: why boot.binfmt.emulatedSystems not working?
   plat = pkgs.pkgsCross.aarch64-multiplatform;
   version = "2024.07";
 in
