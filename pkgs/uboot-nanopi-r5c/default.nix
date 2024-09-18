@@ -1,12 +1,13 @@
 { pkgs, buildUBoot, fetchurl, ... }:
 let
-  version = "2024.04";
+  plat = pkgs.pkgsCross.aarch64-multiplatform;
+  version = "2024.07";
 in
-buildUBoot {
-  version = "2024.04";
+plat.buildUBoot {
+  version = "${version}";
   src = fetchurl {
     url = "https://github.com/u-boot/u-boot/archive/refs/tags/v${version}.tar.gz";
-    hash = "sha256-1rV85XSgoFBKW2WWZEzqy393vek1N3m88v3gfEuaK5I=";
+    hash = "sha256-t/YTesyJ5Kk5B1YA3joEzDqGAvqTYZTCe9mhQAW8Yf0=";
   };
   defconfig = "nanopi-r5c-rk3568_defconfig";
   extraMeta.platforms = [ "aarch64-linux" ];
@@ -27,8 +28,8 @@ buildUBoot {
     which # for scripts/dtc-version.sh
   ];
 
-  BL31 = "${pkgs.rockchip-firmware-rk3568}/rk3568_bl31_v1.34.elf";
-  ROCKCHIP_TPL = "${pkgs.rockchip-firmware-rk3568}/rk3568_ddr_1560MHz_v1.13.bin";
+  BL31 = "${pkgs.rockchip-firmware-rk3568}/rk3568_bl31_v1.44.elf";
+  ROCKCHIP_TPL = "${pkgs.rockchip-firmware-rk3568}/rk3568_ddr_1560MHz_v1.21.bin";
   enableParallelBuilding = true;
   /*
     patches = [
