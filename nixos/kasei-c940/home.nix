@@ -1,39 +1,39 @@
 { config, lib, pkgs, ... }:
 {
   home.packages = with pkgs; [
-    feishu
-    cloc # count lines of code
-    fzf
-    devenv
     btop
-    jq # json query
-    (ccls.override { llvmPackages = pkgs.llvmPackages_18; })
     #ccls # c/c++ lsp server
-    gopls # golang lsp server
-    nil # nix lsp server
-    evolution # email
-    tdesktop
-    smartmontools
-    (subversion.override { saslSupport = true; })
-    joplin-desktop
-    mpv
-    openssl
-    #(spotify.override {deviceScaleFactor = 2;})
-    gdu
-    rustup
-    yubikey-manager
-    freerdp
-    remmina # RDP client
-    xdg-open # xdp proxy for app in docker
-    unzip
-    gdb
-    go
-    nix-tree # nix space usage
-    mercurial
+    (ccls.override { llvmPackages = pkgs.llvmPackages_18; })
+    cloc # count lines of code
+    devenv
     easyeffects # sound effect
-    wireshark
-    python3.pkgs.ipython
+    evolution # email
+    feishu
+    fzf
+    gdb
+    gdu
+    go
+    gopls # golang lsp server
+    joplin-desktop
+    jq # json query
+    mercurial
+    mpv
+    nil # nix lsp server
+    nix-tree # nix space usage
+    offlineimap
+    openssl
     python3
+    python3.pkgs.ipython
+    remmina # RDP client
+    rustup
+    smartmontools
+    #(spotify.override {deviceScaleFactor = 2;})
+    (subversion.override { saslSupport = true; })
+    tdesktop
+    unzip
+    wireshark
+    xdg-open # xdp proxy for app in docker
+    yubikey-manager
   ];
 
   wayland.windowManager.hyprland = {
