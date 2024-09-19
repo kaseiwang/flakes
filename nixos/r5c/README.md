@@ -15,7 +15,7 @@ Device         Start       End   Sectors  Size Type
 
 ## install u-boot
 ```
-nix build .#packages.aarch64-linux.uboot-nanopi-r5s
+nix build .#packages.aarch64-linux.uboot-nanopi-r5c
 ```
 
 ```
