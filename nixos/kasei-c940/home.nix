@@ -393,11 +393,14 @@
       enable = true;
       package = pkgs.vscode;
       enableUpdateCheck = false;
-      enableExtensionUpdateCheck = false;
-      mutableExtensionsDir = false;
+      enableExtensionUpdateCheck = true;
+      mutableExtensionsDir = true;
       userSettings = {
         "editor.fontFamily" = "JetBrains Mono";
+        "editor.minimap.autohide" = true;
         "editor.rulers" = [ 80 100 120 ];
+        "editor.inlineSuggest.enabled" = true;
+        "editor.renderWhitespace" = "boundary";
         "window.titleBarStyle" = "custom";
         "search.exclude" = {
           "**/.direnv" = true;
@@ -405,8 +408,6 @@
           "**/result" = true;
         };
         "ccls.cache.directory" = "${config.xdg.cacheHome}/ccls-cache";
-        "editor.inlineSuggest.enabled" = true;
-        "editor.renderWhitespace" = "boundary";
         "github.copilot.editor.enableAutoCompletions" = true;
         "git.openRepositoryInParentFolders" = "never"; # stop annoying popup
       };
