@@ -99,12 +99,6 @@ in
   };
 
   home.sessionVariables = {
-    LIBVA_DRIVER_NAME = "radeonsi";
-    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-    #MOZ_ENABLE_WAYLAND = "1";
-    #NIXOS_OZONE_WL = "1";
-    #QT_QPA_PLATFORM = "wayland";
-    #QT_QPA_PLATFORM = "xcb";
     # cache
     CARGO_HOME = "${config.xdg.cacheHome}/cargo";
     # enable google sync, https://chromium.googlesource.com/experimental/chromium/src/+/b08bf82b0df37d15a822b478e23ce633616ed959/google_apis/google_api_keys.cc
