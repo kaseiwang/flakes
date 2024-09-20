@@ -15,7 +15,10 @@ with lib;
 {
   options.environment.myhome = {
     enable = mkEnableOption "myhome configurations";
-    gui = mkEnableOption "enable GUI";
+    gui = mkEnableOption {
+      default = false;
+      description = "enable GUI";
+    };
     username = mkOption {
       type = types.str;
       default = "kasei";

@@ -1,6 +1,12 @@
 { config, pkgs, ... }:
 
 {
+  environment.baseline.enable = true;
+
+  environment.myhome = {
+    enable = true;
+  };
+
   boot.kernel.sysctl = {
     "net.ipv4.conf.all.forwarding" = true;
   };
@@ -11,7 +17,6 @@
 
   security.polkit.enable = true;
 
-  environment.baseline.enable = true;
 
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
@@ -88,12 +93,6 @@
     groups."nas" = {
       members = [ "kasei" "qbittorrent" "jellyfin" "nextcloud" ];
     };
-  };
-
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.kasei = import ./home.nix;
   };
 
   nix.settings.substituters = pkgs.lib.mkForce [
