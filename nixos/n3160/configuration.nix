@@ -6,10 +6,6 @@
     enable = true;
   };
 
-  time.timeZone = "Asia/Shanghai";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-
   environment.systemPackages = with pkgs; [
     wol
     ethtool
@@ -22,8 +18,6 @@
   ];
 
   sops.defaultSopsFile = ./secrets.yaml;
-
-  security.polkit.enable = true;
 
   environment.persistence."/persist" = {
     files = [

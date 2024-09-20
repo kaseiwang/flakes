@@ -7,39 +7,11 @@
     gui = true;
   };
 
-  time.timeZone = "Asia/Shanghai";
-
   i18n = {
     defaultLocale = "zh_CN.UTF-8";
     extraLocaleSettings = {
       LC_ALL = "zh_CN.UTF-8";
       LANGUAGE = "zh_CN.UTF8";
-    };
-  };
-
-  fonts = {
-    enableDefaultPackages = false;
-    packages = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk-sans
-      noto-fonts-cjk-serif
-      noto-fonts-emoji
-      wqy_microhei
-      jetbrains-mono
-      (nerdfonts.override { fonts = [ "JetBrainsMono" "Noto" ]; })
-    ];
-    fontDir.enable = true;
-    fontconfig = {
-      defaultFonts = pkgs.lib.mkForce {
-        serif = [ "Noto Serif CJK SC" "Noto Serif" ];
-        sansSerif = [ "Noto Sans CJK SC" "Noto Sans" ];
-        monospace = [ "Noto Sans Mono" "Noto Sans Mono CJK SC" ];
-        emoji = [ "Noto Color Emoji" ];
-      };
-      subpixel = {
-        rgba = "rgb";
-        lcdfilter = "default";
-      };
     };
   };
 
@@ -114,7 +86,6 @@
   };
 
   security = {
-    polkit.enable = true;
     pam.u2f = {
       enable = true;
       control = "sufficient";

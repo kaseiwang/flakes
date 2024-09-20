@@ -29,6 +29,32 @@ with lib;
   config = lib.mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate = lib.mkIf cfg.gui unfreepkgs;
 
+    fonts = {
+      enableDefaultPackages = false;
+      packages = with pkgs; [
+        noto-fonts
+        noto-fonts-cjk-sans
+        noto-fonts-cjk-serif
+        noto-fonts-emoji
+        wqy_microhei
+        jetbrains-mono
+        (nerdfonts.override { fonts = [ "JetBrainsMono" "Noto" ]; })
+      ];
+      fontDir.enable = true;
+      fontconfig = {
+        defaultFonts = pkgs.lib.mkForce {
+          serif = [ "Noto Serif CJK SC" "Noto Serif" ];
+          sansSerif = [ "Noto Sans CJK SC" "Noto Sans" ];
+          monospace = [ "Noto Sans Mono" "Noto Sans Mono CJK SC" ];
+          emoji = [ "Noto Color Emoji" ];
+        };
+        subpixel = {
+          rgba = "rgb";
+          lcdfilter = "default";
+        };
+      };
+    };
+
     home-manager = {
       useGlobalPkgs = true;
       useUserPackages = true;

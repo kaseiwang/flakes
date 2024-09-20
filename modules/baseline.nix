@@ -8,6 +8,8 @@ with lib;
     enable = mkEnableOption "baseline configurations";
   };
   config = lib.mkIf cfg.enable {
+    time.timeZone = "Asia/Shanghai";
+
     networking.domain = "i.kasei.im";
 
     users.users.kasei = {

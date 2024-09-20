@@ -11,13 +11,6 @@
     "net.ipv4.conf.all.forwarding" = true;
   };
 
-  time.timeZone = "Asia/Shanghai";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  security.polkit.enable = true;
-
-
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     acme-cloudflare = {

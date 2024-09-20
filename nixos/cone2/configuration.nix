@@ -1,10 +1,6 @@
 { config, pkgs, ... }:
 
 {
-  time.timeZone = "Asia/Shanghai";
-
-  i18n.defaultLocale = "en_US.UTF-8";
-
   sops.defaultSopsFile = ./secrets.yaml;
 
   # This value determines the NixOS release from which the default
