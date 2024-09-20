@@ -15,6 +15,12 @@
       enable = true;
     };
 
+    git = {
+      enable = true;
+      userName = "Kasei Wang";
+      userEmail = "kasei@kasei.im";
+    };
+
     neovim = {
       enable = true;
       vimAlias = true;

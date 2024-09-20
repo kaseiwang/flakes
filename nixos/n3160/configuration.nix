@@ -1,26 +1,20 @@
 { config, pkgs, ... }:
 
 {
+  environment.baseline.enable = true;
+  environment.myhome = {
+    enable = true;
+  };
+
   time.timeZone = "Asia/Shanghai";
 
   i18n.defaultLocale = "en_US.UTF-8";
 
-  environment.baseline.enable = true;
-
   environment.systemPackages = with pkgs; [
-    #config.boot.kernelPackages.cpupower
     wol
     ethtool
-    #compsize
-    #you-get
     smartmontools
   ];
-
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    users.kasei = import ./home.nix;
-  };
 
   nix.settings.substituters = pkgs.lib.mkForce [
     #"https://mirrors.bfsu.edu.cn/nix-channels/store"
