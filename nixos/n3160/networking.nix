@@ -611,6 +611,7 @@ in
         };
         address = [
           "10.10.2.1/24"
+          "10.10.2.2/24"
         ];
         routes = [
           { Destination = "10.10.2.0/24"; }
@@ -630,7 +631,6 @@ in
           PoolOffset = 129;
           DNS = "_server_address";
           NTP = "_server_address";
-          Timezone = "Asia/Shanghai";
           # https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
           SendOption = "15:string:i.kasei.im";
         };

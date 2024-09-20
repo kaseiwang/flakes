@@ -2,6 +2,7 @@ rec {
   default = ({ ... }: {
     imports = [
       (import ./baseline.nix)
+      (import ./myhome)
       (import ./cloud/services.nix)
       (import ./qbittorrent.nix)
       (import ./miio-exporter.nix)

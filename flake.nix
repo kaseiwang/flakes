@@ -57,7 +57,7 @@
           legacyPackages = pkgs;
           formatter = pkgs.nixpkgs-fmt;
           devShells.default = with pkgs; mkShellNoCC {
-            packages = [ colmena cachix e2fsprogs nvfetcher ripsecrets ];
+            packages = [ colmena sops cachix e2fsprogs nvfetcher ripsecrets ];
           };
         }
       ) //

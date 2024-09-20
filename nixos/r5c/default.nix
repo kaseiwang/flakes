@@ -9,6 +9,7 @@
     ./sdimage.nix
     self.nixosModules.chinaRoute
     inputs.sops-nix.nixosModules.sops
+    inputs.home-manager.nixosModules.home-manager
     {
       nixpkgs.overlays = [ self.overlays.default ];
     }

@@ -134,4 +134,3 @@ require('lualine').setup {
 
 require('which-key').setup {
 }
-

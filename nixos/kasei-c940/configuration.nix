@@ -2,6 +2,11 @@
 {
   environment.baseline.enable = true;
 
+  environment.myhome = {
+    enable = true;
+    gui = true;
+  };
+
   time.timeZone = "Asia/Shanghai";
 
   i18n = {
@@ -83,15 +88,6 @@
     };
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "feishu"
-    "vscode"
-    "vscode-extension-ms-vscode-remote-remote-ssh"
-    "vscode-extension-github-copilot"
-    "vscode-extension-github-copilot-chat"
-    "vscode-extension-signageos-signageos-vscode-sops" # https://github.com/signageos/vscode-sops/pull/75
-  ];
-
   programs = {
     dconf.enable = true;
     adb.enable = true;
@@ -104,28 +100,10 @@
 
   services.dbus.implementation = "broker";
 
-  services.gnome = {
-
-  };
+  services.gnome = { };
 
   users.users.kasei = {
     extraGroups = [ "docker" "fuse" "adbusers" "wireshark" ];
-  };
-
-  home-manager = {
-    useGlobalPkgs = true;
-    useUserPackages = true;
-    sharedModules = [
-      inputs.sops-nix.homeManagerModules.sops
-      inputs.nix-index-database.hmModules.nix-index
-      #inputs.hyprland.homeManagerModules.default
-    ];
-    users.kasei = {
-      imports = [
-        ./dconf.nix
-        ./home.nix
-      ];
-    };
   };
 
   virtualisation = {

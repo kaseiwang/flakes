@@ -7,6 +7,11 @@
 
   environment.baseline.enable = true;
 
+  environment.myhome = {
+    enable = true;
+    gui = false;
+  };
+
   documentation.enable = false;
   documentation.man.enable = false;
 

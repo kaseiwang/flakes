@@ -1,4 +1,10 @@
 { config, lib, pkgs, ... }:
+let
+  patched-openssh =
+    pkgs.openssh.overrideAttrs (prev: {
+      patches = (prev.patches or [ ]) ++ [ ./openssh-home-config-permission.patch ];
+    });
+in
 {
   home.packages = with pkgs; [
     btop
@@ -35,19 +41,6 @@
     xdg-open # xdp proxy for app in docker
     yubikey-manager
   ];
-
-  wayland.windowManager.hyprland = {
-    enable = true;
-    xwayland = {
-      enable = true;
-      #hidpi = true;
-    };
-    systemd = {
-      enable = true;
-      variables = [ ];
-    };
-    extraConfig = builtins.readFile ./hyprland.conf;
-  };
 
   sops = {
     age = {
@@ -121,74 +114,12 @@
   };
 
   programs = {
-    nix-index.enable = true;
-
-    fish = {
-      enable = true;
-      interactiveShellInit = ''
-        set -xg SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)
-      '';
-      plugins = [
-        { name = "tide"; src = pkgs.fishPlugins.tide.src; }
-        { name = "fzf"; src = pkgs.fishPlugins.fzf-fish.src; }
-        { name = "forgit"; src = pkgs.fishPlugins.forgit.src; }
-      ];
-    };
-
-    eza = {
-      enable = true;
-    };
-
-    neovim = {
-      enable = true;
-      vimAlias = true;
-      vimdiffAlias = true;
-      defaultEditor = true;
-      plugins = with pkgs.vimPlugins; [
-        nvim-lspconfig
-        nvim-cmp
-        cmp-nvim-lsp
-        everforest
-        luasnip
-        vim-lastplace
-        editorconfig-nvim
-        lualine-nvim
-        which-key-nvim
-        lualine-lsp-progress
-      ];
-      extraConfig = ''
-        :source ${./nvim.lua}
-      '';
-    };
-
     helix = {
       enable = true;
     };
 
-    tmux = {
-      enable = true;
-      baseIndex = 1;
-      escapeTime = 10;
-      shell = "${pkgs.fish}/bin/fish";
-      keyMode = "vi";
-      terminal = "screen-256color";
-      extraConfig = ''
-        set -g status-position top
-        set -g set-clipboard on
-        set -g mouse on
-        set -g status-right ""
-        set -g renumber-windows on
-        new-session -s main
-      '';
-    };
-
     ssh = {
       enable = true;
-      package = (pkgs.openssh.overrideDerivation (oldAttrs: {
-        # https://github.com/nix-community/home-manager/issues/322
-        patches = (oldAttrs.patches or [ ]) ++ [ ./openssh-home-config-permission.patch ];
-        doCheck = false;
-      }));
       forwardAgent = true;
       serverAliveInterval = 42;
       matchBlocks = {
@@ -391,7 +322,8 @@
 
     vscode = {
       enable = true;
-      package = pkgs.vscode;
+      # https://github.com/nix-community/home-manager/issues/322
+      package = pkgs.vscode.fhsWithPackages (_: [ patched-openssh ]);
       enableUpdateCheck = false;
       enableExtensionUpdateCheck = true;
       mutableExtensionsDir = true;
@@ -442,13 +374,6 @@
           sha256 = "RjMYBLgbi+lgPqaqN7yh8Q8zr9euvQ+YLEoQaV3RDOA=";
         }
       ];
-    };
-
-    direnv = {
-      enable = true;
-      nix-direnv = {
-        enable = true;
-      };
     };
 
     beets = {
@@ -532,9 +457,4 @@
       '';
     };
   };
-
-  # workaround https://github.com/NixOS/nixpkgs/issues/196651
-  manual.manpages.enable = true;
-
-  home.stateVersion = "22.05";
 }
