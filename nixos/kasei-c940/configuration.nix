@@ -7,11 +7,12 @@
     gui = true;
   };
 
-  i18n = {
-    defaultLocale = "zh_CN.UTF-8";
-    extraLocaleSettings = {
-      LC_ALL = "zh_CN.UTF-8";
-      LANGUAGE = "zh_CN.UTF8";
+  fonts = {
+    fontconfig = {
+      subpixel = {
+        rgba = "rgb";
+        lcdfilter = "default";
+      };
     };
   };
 

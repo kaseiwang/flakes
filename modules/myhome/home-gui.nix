@@ -7,6 +7,15 @@ let
 in
 {
   home.packages = with pkgs; [
+    # fonts
+    noto-fonts
+    noto-fonts-cjk-sans
+    noto-fonts-cjk-serif
+    noto-fonts-emoji
+    wqy_microhei
+    jetbrains-mono
+    (nerdfonts.override { fonts = [ "JetBrainsMono" "Noto" ]; })
+
     btop
     #ccls # c/c++ lsp server
     (ccls.override { llvmPackages = pkgs.llvmPackages_18; })
@@ -49,7 +58,7 @@ in
     defaultSopsFile = ./secrets.yaml;
     defaultSymlinkPath = "${config.xdg.configHome}/secrets";
     secrets = {
-      nixtoken = { mode = "0400"; };
+      nixtoken = { };
       corp-ssh-config = { };
       corp-git-config = { };
       gomod-git-config = { };
@@ -84,7 +93,19 @@ in
   };
 
   fonts = {
-    fontconfig.enable = true;
+    fontconfig = {
+      enable = true;
+      defaultFonts = pkgs.lib.mkForce {
+        serif = [ "Noto Serif CJK SC" "Noto Serif" ];
+        sansSerif = [ "Noto Sans CJK SC" "Noto Sans" ];
+        monospace = [ "Noto Sans Mono" "Noto Sans Mono CJK SC" ];
+        emoji = [ "Noto Color Emoji" ];
+      };
+    };
+  };
+
+  home.language = {
+    base = "zh_CN.UTF-8";
   };
 
   i18n = {
