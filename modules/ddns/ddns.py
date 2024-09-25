@@ -11,6 +11,8 @@ import sys
 import time
 from pyroute2 import IPRoute, NDB
 
+ndb = NDB()
+
 class Config():
     def __init__(self, filename):
         with open(filename, 'r') as f:
@@ -35,7 +37,7 @@ class DDNS():
 
     def GetInterfaceIP(self):
         ipaddrs = []
-        with NDB() as ndb:
+        try:
             with ndb.interfaces[self.config.interface] as iface:
                 ipdump = iface.ipaddr.dump()
                 ipdump.select_records(family=socket.AF_INET6)
@@ -43,6 +45,8 @@ class DDNS():
                     ipaddr = record._as_dict().get('address')
                     if ipaddr and not ipaddr.startswith('fe80'):
                         ipaddrs.append(ipaddr)
+        except Exception as e:
+            self.logger.info(e, exc_info=True)
         return ipaddrs
 
     def GetRecordIP(self):
