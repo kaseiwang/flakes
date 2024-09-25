@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 {
-  services.tinc.networks.kaseinet = {
+  services.kaseinet = {
+    enable = true;
     name = "gz1";
+    v4addr = "10.10.0.11";
+    v6addr = "fdcd:ad38:cdc5:0::11";
     ed25519PrivateKeyFile = "${config.sops.secrets.tinced25519.path}";
   };
 
