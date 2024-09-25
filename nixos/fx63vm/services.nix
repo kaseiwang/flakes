@@ -5,8 +5,7 @@
     nextcloud-admin = {
       owner = config.users.users."nextcloud".name;
     };
-    miio-token = {
-    };
+    miio-token = { };
     nginx-basic-auth = {
       owner = config.users.users."nginx".name;
     };
@@ -14,8 +13,7 @@
     grafana-envs = {
       owner = config.users.users."grafana".name;
     };
-    zfs-key = {
-    };
+    zfs-key = { };
   };
 
   systemd.services.grafana.serviceConfig.EnvironmentFile = "${config.sops.secrets.grafana-envs.path}";

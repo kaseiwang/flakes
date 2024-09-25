@@ -9,7 +9,6 @@ in
 {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
-
   boot = {
     loader = {
       grub.enable = true;
