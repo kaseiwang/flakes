@@ -7,8 +7,8 @@
     ./networking.nix
     ./services.nix
     self.nixosModules.cloud.common
-    #self.nixosModules.shadowsocks
     inputs.sops-nix.nixosModules.sops
+    inputs.home-manager.nixosModules.home-manager
     inputs.impermanence.nixosModules.impermanence
     inputs.disko.nixosModules.disko
   ];
