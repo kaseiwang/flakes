@@ -1,5 +1,10 @@
 { config, pkgs, ... }:
 {
+  services.tinc.networks.kaseinet = {
+    name = "gz1";
+    ed25519PrivateKeyFile = "${config.sops.secrets.tinced25519.path}";
+  };
+
   services.nginx = {
     enable = true;
     streamConfig = ''

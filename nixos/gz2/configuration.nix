@@ -6,11 +6,6 @@
     tinced25519 = { };
   };
 
-  services.tinc.networks.kaseinet = {
-    name = "gz1";
-    ed25519PrivateKeyFile = "${config.sops.secrets.tinced25519.path}";
-  };
-
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

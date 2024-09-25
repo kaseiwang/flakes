@@ -1,4 +1,12 @@
 { config, lib, pkgs, modulesPath, ... }:
+let
+  rootfs = "/dev/disk/by-uuid/961c4e66-a37f-4441-b31f-4b4cfaa0c54e";
+  rootopts = [
+    "noatime"
+    "compress=zstd:1"
+    "space_cache=v2"
+  ];
+in
 {
   imports = [ (modulesPath + "/profiles/qemu-guest.nix") ];
 
@@ -11,29 +19,36 @@
   boot.initrd.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
-  fileSystems."/" = {
-    fsType = "btrfs";
-    device = "/dev/disk/by-uuid/961c4e66-a37f-4441-b31f-4b4cfaa0c54e";
-    options = [ "subvol=rootvol" "noatime" "compress-force=zstd:1" "space_cache=v2" ];
-    neededForBoot = true;
-  };
-  fileSystems."/boot" = {
-    fsType = "btrfs";
-    device = "/dev/disk/by-uuid/961c4e66-a37f-4441-b31f-4b4cfaa0c54e";
-    options = [ "subvol=boot" "noatime" "compress-force=zstd:1" "space_cache=v2" ];
-    neededForBoot = true;
-  };
-  fileSystems."/nix" = {
-    fsType = "btrfs";
-    device = "/dev/disk/by-uuid/961c4e66-a37f-4441-b31f-4b4cfaa0c54e";
-    options = [ "subvol=nix" "noatime" "compress-force=zstd:1" "space_cache=v2" ];
-    neededForBoot = true;
-  };
-  fileSystems."/persist" = {
-    fsType = "btrfs";
-    device = "/dev/disk/by-uuid/961c4e66-a37f-4441-b31f-4b4cfaa0c54e";
-    options = [ "subvol=persist" "noatime" "compress-force=zstd:1" "space_cache=v2" ];
-    neededForBoot = true;
+  fileSystems = {
+    "/" = {
+      device = "none";
+      fsType = "tmpfs";
+      options = [ "defaults" "size=1G" "mode=755" ];
+    };
+    "/boot" = {
+      fsType = "btrfs";
+      device = rootfs;
+      options = [ "subvol=boot" ] ++ rootopts;
+      neededForBoot = true;
+    };
+    "/nix" = {
+      fsType = "btrfs";
+      device = rootfs;
+      options = [ "subvol=nix" ] ++ rootopts;
+      neededForBoot = true;
+    };
+    "/persist" = {
+      fsType = "btrfs";
+      device = rootfs;
+      options = [ "subvol=persist" ] ++ rootopts;
+      neededForBoot = true;
+    };
+    "/mnt/bareroot" = {
+      fsType = "btrfs";
+      device = rootfs;
+      options = rootopts;
+      neededForBoot = true;
+    };
   };
 
   swapDevices = [ ];

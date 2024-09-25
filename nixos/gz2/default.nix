@@ -8,6 +8,7 @@
     ./services.nix
     self.nixosModules.cloud.common
     inputs.sops-nix.nixosModules.sops
+    inputs.home-manager.nixosModules.home-manager
     inputs.impermanence.nixosModules.impermanence
   ];
 }
