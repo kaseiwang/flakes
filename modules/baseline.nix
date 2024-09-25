@@ -37,9 +37,7 @@ with lib;
     sops = {
       age = {
         keyFile = "/var/lib/sops.key";
-        sshKeyPaths = [ ];
       };
-      gnupg.sshKeyPaths = [ ];
     };
 
     nix = {

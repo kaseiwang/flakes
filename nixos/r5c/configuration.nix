@@ -18,7 +18,6 @@
   sops = {
     age = {
       keyFile = "/var/lib/sops.key";
-      sshKeyPaths = [ ];
     };
     defaultSopsFile = ./secrets.yaml;
     secrets = {

@@ -2,20 +2,17 @@
 {
   # tinc
   sops.secrets = {
-    tinced25519 = { mode = "0400"; };
+    tinced25519 = { };
     vaultwarden = {
-      mode = "0400";
       owner = config.users.users."vaultwarden".name;
     };
     cloudflared = {
       owner = config.users.users."cloudflared".name;
     };
     acme-cloudflare = {
-      mode = "0400";
       owner = config.users.users."acme".name;
     };
     btrbk-sshkey = {
-      mode = "0400";
       owner = config.users.users."btrbk".name;
     };
     miioenv = { };

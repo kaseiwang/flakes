@@ -2,7 +2,7 @@
 {
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
-    tinced25519 = { mode = "0400"; };
+    tinced25519 = { };
     singboxpass = { };
   };
 

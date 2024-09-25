@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 {
   sops.secrets = {
-    tinced25519 = { mode = "0400"; };
+    tinced25519 = { };
     wgcf-key = { };
   };
 

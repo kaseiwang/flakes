@@ -3,11 +3,9 @@
 {
   sops.secrets = {
     nextcloud-admin = {
-      mode = "0400";
       owner = config.users.users."nextcloud".name;
     };
     miio-token = {
-      mode = "0400";
     };
     nginx-basic-auth = {
       owner = config.users.users."nginx".name;
@@ -17,7 +15,6 @@
       owner = config.users.users."grafana".name;
     };
     zfs-key = {
-      mode = "0400";
     };
   };
 

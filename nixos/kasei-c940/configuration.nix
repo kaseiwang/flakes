@@ -19,15 +19,12 @@
   sops = {
     age = {
       keyFile = "/var/lib/sops.key";
-      sshKeyPaths = [ ];
     };
-    gnupg.sshKeyPaths = [ ];
     defaultSopsFile = ./secrets.yaml;
     secrets = {
       wgcf-key = { };
       u2f-keys = { mode = "0444"; };
       btrbk-sshkey = {
-        mode = "0400";
         owner = config.users.users."btrbk".name;
       };
       networkmanager-env = { };
