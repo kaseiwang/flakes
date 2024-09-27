@@ -29,9 +29,7 @@ with lib;
   config = lib.mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate = lib.mkIf cfg.gui unfreepkgs;
 
-    i18n.supportedLocales = [
-      "C.UTF-8/UTF-8"
-      "en_US.UTF-8/UTF-8"
+    i18n.supportedLocales = lib.mkAfter [
       "zh_CN.UTF-8/UTF-8"
     ];
 
