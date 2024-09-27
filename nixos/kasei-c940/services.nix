@@ -18,15 +18,10 @@
         ConnectTo = nanopir5c 
       '';
     };
+
     xserver = {
       enable = true;
-      videoDrivers = [ "modesetting" "amdgpu" "fbdev" ];
-      displayManager = {
-        gdm = {
-          enable = true;
-          wayland = true;
-        };
-      };
+      displayManager.gdm.enable = true;
       desktopManager.gnome = {
         enable = true;
         extraGSettingsOverrides = ''
@@ -34,10 +29,6 @@
           switch-monitor='[]'
         '';
       };
-    };
-
-    usbmuxd = {
-      enable = true;
     };
 
     pipewire = {
@@ -50,8 +41,6 @@
       gnome-keyring.enable = true;
     };
 
-
-
     pcscd.enable = true;
     fwupd.enable = true;
 
@@ -60,11 +49,6 @@
     ];
 
     openssh.settings.PasswordAuthentication = pkgs.lib.mkForce true;
-
-    saslauthd = {
-      enable = true;
-      mechanism = "kerberos5";
-    };
 
     btrbk = {
       ioSchedulingClass = "idle";
@@ -94,6 +78,6 @@
         };
       };
     };
-
   };
+
 }
