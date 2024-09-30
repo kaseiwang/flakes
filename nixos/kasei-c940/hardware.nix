@@ -63,7 +63,6 @@ in
     initrd = {
       systemd.enable = true;
       kernelModules = [ "btrfs" "nvme" "dm_crypt" ];
-      availableKernelModules = [ "xhci_pci" "usbhid" "ahci" ];
       compressor = pkgs: "${pkgs.zstd}/bin/zstd";
       luks = {
         devices = {

@@ -15,10 +15,6 @@ in
     grub.device = "/dev/vda";
   };
 
-  boot.initrd.availableKernelModules = [ "ata_piix" "xhci_pci" "virtio_pci" "virtio_scsi" "sd_mod" "sr_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.extraModulePackages = [ ];
-
   fileSystems = {
     "/" = {
       device = "none";

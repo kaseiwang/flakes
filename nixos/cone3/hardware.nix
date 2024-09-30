@@ -13,20 +13,6 @@ in
     loader = {
       grub.enable = true;
     };
-    initrd = {
-      availableKernelModules = [
-        "ata_piix"
-        "xhci_pci"
-        "virtio_pci"
-        "virtio_scsi"
-        "sd_mod"
-        "sr_mod"
-        "virtio_blk"
-        "virtio_net"
-        "virtio_balloon"
-        "virtio_ring"
-      ];
-    };
   };
 
   disko = {

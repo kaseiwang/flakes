@@ -76,7 +76,6 @@
         "r8169"
       ];
     };
-    kernelModules = [ ];
     # Let's blacklist the Rockchips RTC module so that the
     # battery-powered HYM8563 (rtc_hym8563 kernel module) will be used
     # by default

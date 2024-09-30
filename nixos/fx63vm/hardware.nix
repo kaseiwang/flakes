@@ -36,15 +36,9 @@ in
     };
 
     kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
-    kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [ ];
     kernelParams = [
       "mitigations=off"
     ];
-    initrd = {
-      availableKernelModules = [ "xhci_pci" "ahci" "nvme" "uas" ];
-      kernelModules = [ ];
-    };
 
     supportedFilesystems = [ "btrfs" "zfs" ];
 

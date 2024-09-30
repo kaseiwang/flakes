@@ -16,20 +16,14 @@ in
   powerManagement.cpuFreqGovernor = "powersave";
 
   boot = {
-    kernelModules = [ "kvm-intel" ];
     kernelParams = [
       "mitigations=off"
       "consoleblank=120"
       "libata.force=1.00:nodmalog" # fix "ata1.00: qc timeout after 15000 msecs"
     ];
-    extraModulePackages = [ ];
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
-    };
-    initrd = {
-      kernelModules = [ ];
-      availableKernelModules = [ "ahci" "xhci_pci" "usbhid" "sd_mod" ];
     };
     kernel.sysctl = {
       "net.ipv4.conf.all.forwarding" = true;
