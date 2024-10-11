@@ -35,7 +35,6 @@ in
       systemd-boot.enable = true;
     };
 
-    kernelPackages = config.boot.zfs.package.latestCompatibleLinuxPackages;
     kernelParams = [
       "mitigations=off"
     ];
