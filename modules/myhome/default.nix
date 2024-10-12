@@ -29,7 +29,7 @@ with lib;
   config = lib.mkIf cfg.enable {
     nixpkgs.config.allowUnfreePredicate = lib.mkIf cfg.gui (lib.mkAfter unfreepkgs);
 
-    i18n.supportedLocales =  lib.mkIf cfg.gui ([ "all" ]);
+    i18n.supportedLocales = lib.mkIf cfg.gui ([ "all" ]);
 
     home-manager = {
       useGlobalPkgs = true;
