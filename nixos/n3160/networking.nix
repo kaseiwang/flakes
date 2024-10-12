@@ -473,7 +473,7 @@ in
               meta l4proto {icmp, icmpv6, igmp} accept;
 
               tcp dport { 22, 655, 8688 } accept;
-              udp dport { 22, 546, 655, 2480, 8688 } accept;
+              udp dport { 22, 546, 655, 2480, 2481, 8688 } accept;
 
               iifname "${wanif}" drop
             }
@@ -704,23 +704,41 @@ in
     };
   };
 
-  networking.wireguard.interfaces."wgcf" = {
-    ips = [
-      "10.10.0.20/32"
-      "fd80:13f7::10:10:0:20/128"
-      "fdcd:ad38:cdc5:3:10:10:0:20/128"
-    ];
-    table = "300";
-    fwMark = "0xc8"; # 200
-    mtu = 1400;
-    listenPort = 2480;
-    privateKeyFile = "${config.sops.secrets.wireguard-key.path}";
-    peers = [
-      {
-        publicKey = "1gxW3wgMyVpPHmOkIa7Ooj25nrUqfZCNKUzLWg8Diwg=";
-        allowedIPs = [ "0.0.0.0/0" "::/0" ];
-      }
-    ];
+  networking.wireguard.interfaces = {
+    "wgcf" = {
+      ips = [
+        "10.10.0.20/32"
+        "fd80:13f7::10:10:0:20/128"
+        "fdcd:ad38:cdc5:3:10:10:0:20/128"
+      ];
+      table = "300";
+      fwMark = "0xc8"; # 200
+      mtu = 1400;
+      listenPort = 2480;
+      privateKeyFile = "${config.sops.secrets.wireguard-key.path}";
+      peers = [
+        {
+          publicKey = "1gxW3wgMyVpPHmOkIa7Ooj25nrUqfZCNKUzLWg8Diwg=";
+          allowedIPs = [ "0.0.0.0/0" "::/0" ];
+        }
+      ];
+    };
+    "wg1" = {
+      ips = [
+        "10.10.0.21/32"
+        "fd80:13f7::10:10:0:21/128"
+      ];
+      fwMark = "0xc8"; # 200
+      mtu = 1400;
+      listenPort = 2481;
+      privateKeyFile = "${config.sops.secrets.wireguard-key.path}";
+      peers = [
+        {
+          publicKey = "a+1PloG384NC+IkRSloQqnkRHPiNs/14mB5Tpf09d3g=";
+          allowedIPs = [ "10.10.0.22/32" "fd80:13f7::10:10:0:22/128" ];
+        }
+      ];
+    };
   };
 }
 
