@@ -290,7 +290,7 @@
       log-size = "0";
       audit-enable = true;
       audit-console = true;
-      audit-size = "0";
+      audit-num = "0";
       domain-rules = [
         "/cmcc.i.kasei.im/ -no-cache -rr-ttl-max 60"
       ];

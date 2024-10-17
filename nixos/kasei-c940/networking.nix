@@ -264,7 +264,7 @@ with pkgs.lib;
       log-size = "0";
       audit-enable = true;
       audit-console = true;
-      audit-size = "0";
+      audit-num = "0";
       conf-file = [
         "${pkgs.smartdns-china-list}/accelerated-domains.china.smartdns.conf"
         "${pkgs.smartdns-china-list}/apple.china.smartdns.conf"
