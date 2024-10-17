@@ -93,7 +93,7 @@ in
     neededForBoot = true;
   };
 
-  fileSystems."/bareroot" = {
+  fileSystems."/mnt/bareroot" = {
     fsType = "btrfs";
     device = rootfs;
     options = rootopts;
@@ -128,7 +128,7 @@ in
   services.btrfs = {
     autoScrub = {
       enable = true;
-      fileSystems = [ "/bareroot" ];
+      fileSystems = [ "/mnt/bareroot" ];
       interval = "monthly";
     };
   };

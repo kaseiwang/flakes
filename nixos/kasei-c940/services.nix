@@ -66,7 +66,7 @@
             stream_compress_level = "1";
             stream_buffer = "128m";
             volume = {
-              "/bareroot" = {
+              "/mnt/bareroot" = {
                 subvolume = {
                   "nixos_persist" = { };
                   "homevol_kasei" = { };
