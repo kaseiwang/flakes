@@ -96,17 +96,12 @@
           ensureDBOwnership = true;
         }
         {
-          name = "${config.services.gitea.database.name}";
-          ensureDBOwnership = true;
-        }
-        {
           name = "${config.services.yarr.user}";
           ensureDBOwnership = true;
         }
       ];
       ensureDatabases = [
         "${config.services.nextcloud.config.dbname}"
-        "${config.services.gitea.database.name}"
         "${config.services.yarr.user}"
       ];
     };
@@ -261,24 +256,6 @@
       caching = {
         redis = true;
         apcu = true;
-      };
-    };
-
-    gitea = {
-      enable = true;
-      database = {
-        type = "postgres";
-      };
-      settings = {
-        session.COOKIE_SECURE = true;
-        server = {
-          PROTOCOL = "http+unix";
-          DOMAIN = "gitea.kasei.im";
-          ROOT_URL = "https://gitea.kasei.im";
-        };
-        service = {
-          DISABLE_REGISTRATION = true;
-        };
       };
     };
 
@@ -509,14 +486,6 @@
               "/" = {
                 return = 404;
               };
-            };
-          };
-          "gitea.kasei.im" = mkVirtualHosts {
-            serverName = "gitea.kasei.im";
-            locations."/" = {
-              proxyPass = "http://unix:${config.services.gitea.settings.server.HTTP_ADDR}";
-              extraConfig = ''client_max_body_size 512M;'';
-              proxyWebsockets = true;
             };
           };
           "nextcloud.kasei.im" = mkVirtualHosts {

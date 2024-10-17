@@ -23,7 +23,6 @@
       enable = true;
       allowedTCPPorts = [
         443 # https
-        2233 # gitea
         5357 # samba-wsdd
         6771 # bittorrent
         12526 # bittorrent
