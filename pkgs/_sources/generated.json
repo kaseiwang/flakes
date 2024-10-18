@@ -1,4 +1,44 @@
 {
+    "alist": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "alist",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": false,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "AlistGo",
+            "repo": "alist",
+            "rev": "v3.38.0",
+            "sha256": "sha256-1nqveTEYrN9kYAOMTbLPw0MFNNNbFOqej+d+aTLAZ1o=",
+            "type": "github"
+        },
+        "version": "v3.38.0"
+    },
+    "alist-web": {
+        "cargoLocks": null,
+        "date": null,
+        "extract": null,
+        "name": "alist-web",
+        "passthru": null,
+        "pinned": false,
+        "src": {
+            "deepClone": false,
+            "fetchSubmodules": true,
+            "leaveDotGit": false,
+            "name": null,
+            "owner": "AlistGo",
+            "repo": "alist-web",
+            "rev": "3.38.0",
+            "sha256": "sha256-/70v171HrJcPQXez+JAi5khTzZRx4uipk+PdT+3evx8=",
+            "type": "github"
+        },
+        "version": "3.38.0"
+    },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
         "date": null,
@@ -77,7 +117,7 @@
     },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2024-10-16",
+        "date": "2024-10-19",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -89,11 +129,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "1ff37285c3b4406b8925ae289913a086ce816e63",
-            "sha256": "sha256-8RbqQC2VwM0Pi1OjuCXBvircBdoOntWac0Py33Zx67k=",
+            "rev": "ff106b0678489388c3ddba813556b74f5e9d45a4",
+            "sha256": "sha256-Q9dJlmMb1pzgnLpB1lekaMOm3eP2wFV691ssHEsdIHE=",
             "type": "github"
         },
-        "version": "1ff37285c3b4406b8925ae289913a086ce816e63"
+        "version": "ff106b0678489388c3ddba813556b74f5e9d45a4"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,
@@ -124,12 +164,12 @@
         },
         "pinned": false,
         "src": {
-            "name": "codeium-1.23.5.zip",
-            "sha256": "sha256-00b8ouGgFCCFAt6U1+10MuyBhumQ3Fby8ZQ8xg9GfZQ=",
+            "name": "codeium-1.23.6.zip",
+            "sha256": "sha256-uB2ATBMgw0R192757ogc6hBFvmcQjJNKcUb8xyEF2Yg=",
             "type": "url",
-            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.23.5/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
+            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.23.6/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
         },
-        "version": "1.23.5"
+        "version": "1.23.6"
     },
     "vscode-ext-sops": {
         "cargoLocks": null,
