@@ -12,6 +12,7 @@ rec {
       (import ./vlmcsd.nix)
       (import ./kaseinet.nix)
       (import ./nvidia_gpu_exporter.nix)
+      (import ./alist.nix)
       (import ./ddns)
     ];
   });
