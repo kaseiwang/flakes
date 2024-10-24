@@ -1,9 +1,11 @@
 { config, lib, pkgs, modulesPath, ... }:
 let
+  dev_boot = "/dev/disk/by-partlabel/BOOT";
+  dev_nixos = "/dev/disk/by-partlabel/NIXOS";
   rootfs = "/dev/disk/by-uuid/33aff63a-84ba-4288-ab26-7dfc50dcdf5d";
   rootopts = [
     "noatime"
-    "compress=zstd:1"
+    "compress-force=zstd:1"
     "space_cache=v2"
   ];
 in
@@ -57,34 +59,34 @@ in
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/AE79-1C11";
+    device = dev_boot;
     fsType = "vfat";
   };
 
   fileSystems."/nix" = {
     fsType = "btrfs";
-    device = rootfs;
+    device = dev_nixos;
     options = [ "subvol=nixos_nix" ] ++ rootopts;
     neededForBoot = true;
   };
 
   fileSystems."/var/log" = {
     fsType = "btrfs";
-    device = rootfs;
+    device = dev_nixos;
     options = [ "subvol=nixos_log" ] ++ rootopts;
     neededForBoot = true;
   };
 
   fileSystems."/persist" = {
     fsType = "btrfs";
-    device = rootfs;
+    device = dev_nixos;
     options = [ "subvol=nixos_persist" ] ++ rootopts;
     neededForBoot = true;
   };
 
   fileSystems."/mnt/bareroot" = {
     fsType = "btrfs";
-    device = rootfs;
+    device = dev_nixos;
     options = rootopts;
     neededForBoot = true;
   };
@@ -100,5 +102,6 @@ in
     neededForBoot = false;
   };
 
-  swapDevices = [ ];
+  swapDevices = [
+  ];
 }

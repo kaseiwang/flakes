@@ -1,6 +1,6 @@
 { config, lib, pkgs, modulesPath, ... }:
 let
-  rootfs = "/dev/disk/by-uuid/56bd4f41-1270-4297-9600-e8e879d72983";
+  dev_nixos = "/dev/mapper/rootblk1";
   rootopts = [
     "relatime"
     "space_cache=v2"
@@ -43,8 +43,6 @@ in
       #"lockdown=integrity"
     ];
 
-    tmp.useTmpfs = true;
-
     plymouth = {
       enable = true;
     };
@@ -67,12 +65,12 @@ in
       luks = {
         devices = {
           rootblk0 = {
-            device = "/dev/disk/by-uuid/6499c665-5daa-4feb-94c1-be0f62e6c4f3";
+            device = "/dev/disk/by-partlabel/CRYPT_NIXOS_P1";
             allowDiscards = true;
             preLVM = true;
           };
           rootblk1 = {
-            device = "/dev/disk/by-uuid/01d91bb4-3298-4763-a99d-030a40808623";
+            device = "/dev/disk/by-partlabel/CRYPT_NIXOS_P2";
             allowDiscards = true;
             preLVM = true;
           };
@@ -88,39 +86,39 @@ in
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/0F43-00AA";
+    device = "/dev/disk/by-partlabel/BOOT";
     fsType = "vfat";
     neededForBoot = true;
   };
 
   fileSystems."/mnt/bareroot" = {
     fsType = "btrfs";
-    device = rootfs;
+    device = dev_nixos;
     options = rootopts;
     neededForBoot = true;
   };
   fileSystems."/nix" = {
     fsType = "btrfs";
-    device = rootfs;
+    device = dev_nixos;
     options = [ "subvol=nixos_nix" ] ++ rootopts;
     neededForBoot = true;
   };
   fileSystems."/persist" = {
     fsType = "btrfs";
-    device = rootfs;
+    device = dev_nixos;
     options = [ "subvol=nixos_persist" ] ++ rootopts;
     neededForBoot = true;
   };
   fileSystems."/var/log" = {
     fsType = "btrfs";
-    device = rootfs;
+    device = dev_nixos;
     options = [ "subvol=nixos_log" ] ++ rootopts;
     neededForBoot = true;
   };
 
   fileSystems."/home/kasei" = {
     fsType = "btrfs";
-    device = rootfs;
+    device = dev_nixos;
     options = [ "subvol=homevol_kasei" ] ++ rootopts;
     neededForBoot = true;
   };
@@ -135,14 +133,14 @@ in
 
   swapDevices = [
     {
-      device = "/dev/disk/by-partuuid/6f94b082-826a-48e8-8c0d-6f1b6e6eb7ba";
+      device = "/dev/disk/by-partlabel/SWAP";
       discardPolicy = "once";
       randomEncryption = {
         enable = true;
       };
     }
     {
-      device = "/dev/disk/by-partuuid/eb830299-33da-4c65-af32-6fd6b2dbbd20";
+      device = "/dev/disk/by-partlabel/SWAP2";
       discardPolicy = "once";
       randomEncryption = {
         enable = true;

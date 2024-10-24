@@ -1,16 +1,15 @@
-{
-  callPackage,
-  system,
-  fetchurl,
-  lib,
-  autoPatchelfHook,
-  dpkg,
-  makeDesktopItem,
-  rsync,
-  fd,
-  qt5,
-  libyuv,
-  libjpeg8,
+{ callPackage
+, system
+, fetchurl
+, lib
+, autoPatchelfHook
+, dpkg
+, makeDesktopItem
+, rsync
+, fd
+, qt5
+, libyuv
+, libjpeg8
 }:
 
 let
