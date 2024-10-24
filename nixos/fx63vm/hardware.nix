@@ -37,6 +37,8 @@ in
 
     kernelParams = [
       "mitigations=off"
+      "zfs.zfs_arc_min=6442450944" # 6GB
+      "zfs.zfs_arc_max=10737418240" # 10GB
     ];
 
     supportedFilesystems = [ "btrfs" "zfs" ];
