@@ -52,3 +52,7 @@ fetch.github = "AlistGo/alist"
 src.github_tag = "AlistGo/alist-web"
 fetch.github = "AlistGo/alist-web"
 git.fetchSubmodules = true
+
+[aws-lc]
+src.github_tag = "aws/aws-lc"
+fetch.github = "aws/aws-lc"
