@@ -187,13 +187,13 @@
       }
     ];
     preSetup = ''
-      ${pkgs.iproute}/bin/ip link set dev wan0 xdp object ${pkgs.wgcf_bpf_r5s}/wgcf_bpf section wg-cf-xdp-ingress
-      ${pkgs.iproute}/bin/tc qdisc add dev wan0 clsact | true
-      ${pkgs.iproute}/bin/tc filter add dev wan0 egress bpf da obj ${pkgs.wgcf_bpf_r5s}/wgcf_bpf sec wg-cf-tc-egress
+      ${pkgs.iproute2}/bin/ip link set dev wan0 xdp object ${pkgs.wgcf_bpf_r5s}/wgcf_bpf section wg-cf-xdp-ingress
+      ${pkgs.iproute2}/bin/tc qdisc add dev wan0 clsact | true
+      ${pkgs.iproute2}/bin/tc filter add dev wan0 egress bpf da obj ${pkgs.wgcf_bpf_r5s}/wgcf_bpf sec wg-cf-tc-egress
     '';
     postShutdown = ''
-      ${pkgs.iproute}/bin/ip link set dev wan0 xdp off
-      ${pkgs.iproute}/bin/tc filter del dev wan0 egress
+      ${pkgs.iproute2}/bin/ip link set dev wan0 xdp off
+      ${pkgs.iproute2}/bin/tc filter del dev wan0 egress
     '';
   };
 
