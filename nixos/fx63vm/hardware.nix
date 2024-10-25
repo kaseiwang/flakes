@@ -2,7 +2,6 @@
 let
   dev_boot = "/dev/disk/by-partlabel/BOOT";
   dev_nixos = "/dev/disk/by-partlabel/NIXOS";
-  rootfs = "/dev/disk/by-uuid/33aff63a-84ba-4288-ab26-7dfc50dcdf5d";
   rootopts = [
     "noatime"
     "compress-force=zstd:1"
