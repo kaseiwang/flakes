@@ -36,15 +36,15 @@ buildGoModule {
     ninjaBuildPhase
   '';
 
-  cmakeFlags = [ "-GNinja" ] ++ lib.optionals (stdenv.hostPlatform.isLinux) [ "-DCMAKE_OSX_ARCHITECTURES=" ];
+  cmakeFlags = [ "-GNinja" "-DBUILD_SHARED_LIBS=ON" ] ++ lib.optionals (stdenv.hostPlatform.isLinux) [ "-DCMAKE_OSX_ARCHITECTURES=" ];
 
   installPhase = ''
     mkdir -p $bin/bin $dev $out/lib
 
     mv tool/bssl $bin/bin
 
-    mv ssl/libssl.a           $out/lib
-    mv crypto/libcrypto.a     $out/lib
+    mv ssl/libssl.so           $out/lib
+    mv crypto/libcrypto.so     $out/lib
 
     mv ../include $dev
   '';
