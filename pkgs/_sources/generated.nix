@@ -55,13 +55,13 @@
   };
   qbittorrent-enhanced-nox = {
     pname = "qbittorrent-enhanced-nox";
-    version = "release-5.0.0.10";
+    version = "release-4.6.7.10";
     src = fetchFromGitHub {
       owner = "c0re100";
       repo = "qBittorrent-Enhanced-Edition";
-      rev = "release-5.0.0.10";
+      rev = "release-4.6.7.10";
       fetchSubmodules = false;
-      sha256 = "sha256-MQo5z0OKwCw5kVQKyonrZxhgAvDdevuA+RNNFf1yj10=";
+      sha256 = "sha256-Mr376nH2pE6NMF9IdDhZULwqkRr7472OZnKO86hb6ZI=";
     };
   };
   rabbit-digger-pro = {
@@ -80,15 +80,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "201ebe037740302d51df17b59ad2fd3fcea03393";
+    version = "16e4ab4c454898d396e405de6c888207571734c9";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "201ebe037740302d51df17b59ad2fd3fcea03393";
+      rev = "16e4ab4c454898d396e405de6c888207571734c9";
       fetchSubmodules = false;
-      sha256 = "sha256-74w4Yhi2eXeBON6X1xR1FFZiuxNx1FuBjlQoVRMarTM=";
+      sha256 = "sha256-1noSir2jDU4f6KLwz9jKTaf1jQfODF6cVJepejPOFhY=";
     };
-    date = "2024-10-24";
+    date = "2024-10-27";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
