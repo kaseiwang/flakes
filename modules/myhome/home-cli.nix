@@ -11,6 +11,11 @@
       };
     };
 
+    atuin = {
+      enable = true;
+      flags = [ "--disable-up-arrow" ];
+    };
+
     eza = {
       enable = true;
     };
