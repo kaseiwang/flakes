@@ -47,12 +47,9 @@ with lib;
         auto-allocate-uids = true;
         use-cgroups = true;
         trusted-users = [ "kasei" ];
-        nix-path = [ "nixpkgs=${inputs.nixpkgs}" ];
         experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" "cgroups" ];
       };
       channel.enable = false;
-      nixPath = [ "nixpkgs=${inputs.nixpkgs.outPath}" ];
-      registry.nixpkgs.flake = inputs.nixpkgs;
       gc = {
         automatic = true;
         dates = "weekly";
