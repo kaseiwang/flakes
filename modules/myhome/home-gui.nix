@@ -18,7 +18,7 @@ in
 
     btop
     #ccls # c/c++ lsp server
-    (ccls.override { llvmPackages = pkgs.llvmPackages_18; })
+    (ccls.override { llvmPackages = pkgs.llvmPackages_latest; })
     cloc # count lines of code
     devenv
     easyeffects # sound effect
