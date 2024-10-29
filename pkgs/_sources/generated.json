@@ -209,11 +209,11 @@
         },
         "version": "0.9.1"
     },
-    "xdg-open": {
+    "xdg-open-server": {
         "cargoLocks": null,
         "date": null,
         "extract": null,
-        "name": "xdg-open",
+        "name": "xdg-open-server",
         "passthru": null,
         "pinned": false,
         "src": {

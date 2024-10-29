@@ -123,8 +123,8 @@
     publisher = "signageos";
     name = "signageos-vscode-sops";
   };
-  xdg-open = {
-    pname = "xdg-open";
+  xdg-open-server = {
+    pname = "xdg-open-server";
     version = "v1.3";
     src = fetchFromGitHub {
       owner = "kitsunyan";

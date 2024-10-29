@@ -47,7 +47,7 @@ in
     tdesktop
     unzip
     wireshark
-    xdg-open # xdp proxy for app in docker
+    xdg-open-server # xdp proxy for app in docker
     yubikey-manager
   ];
 
