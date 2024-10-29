@@ -17,8 +17,7 @@ in
     (nerdfonts.override { fonts = [ "JetBrainsMono" "Noto" ]; })
 
     btop
-    #ccls # c/c++ lsp server
-    (ccls.override { llvmPackages = pkgs.llvmPackages_latest; })
+    (ccls.override { llvmPackages = pkgs.llvmPackages_latest; }) # c/c++ lsp server
     cloc # count lines of code
     devenv
     easyeffects # sound effect

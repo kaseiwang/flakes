@@ -50,6 +50,11 @@
 
     openssh.settings.PasswordAuthentication = pkgs.lib.mkForce true;
 
+    offlineimap = {
+      enable = true;
+      onCalendar = "daily";
+    };
+
     btrbk = {
       ioSchedulingClass = "idle";
       instances = {
