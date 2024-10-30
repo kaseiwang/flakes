@@ -48,6 +48,7 @@ in
     wireshark
     xdg-open-server # xdp proxy for app in docker
     yubikey-manager
+    wemeet
   ];
 
   sops = {
