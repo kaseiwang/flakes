@@ -36,7 +36,7 @@
         ports = [ "127.0.0.1:5244:5244" ];
       };
       "chatgpt-next-web" = {
-        image = "yidadaa/chatgpt-next-web:v2.15.1";
+        image = "yidadaa/chatgpt-next-web:v2.15.6";
         ports = [ "127.0.0.1:3000:3000" ];
         environmentFiles = [ "${config.sops.secrets.chatgpt-envs.path}" ];
         environment = {
@@ -45,7 +45,7 @@
         };
       };
       "peerbanhelper" = {
-        image = "ghostchu/peerbanhelper:v6.2.1";
+        image = "ghostchu/peerbanhelper:v7.0.0";
         ports = [ "127.0.0.1:9898:9898" ];
         volumes = [
           "peerbanhelper:/app/data"
