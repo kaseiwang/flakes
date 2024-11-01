@@ -190,8 +190,13 @@ in
     alacritty = {
       enable = true;
       settings = {
-        live_config_reload = true;
-        ipc_socket = true;
+        general = {
+          live_config_reload = true;
+          ipc_socket = true;
+          import = [
+            "${pkgs.alacritty-theme}/everforest_dark.toml"
+          ];
+        };
         env = {
           TERM = "xterm-256color";
         };
@@ -251,9 +256,6 @@ in
         scrolling = {
           history = 100000;
         };
-        import = [
-          "${pkgs.alacritty-theme}/everforest_dark.toml"
-        ];
         colors = {
           primary.background = "#000000";
           primary.foreground = "#E8DEC8";
