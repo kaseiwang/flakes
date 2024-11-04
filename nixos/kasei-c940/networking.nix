@@ -126,11 +126,7 @@ with pkgs.lib;
 
     networkmanager = {
       enable = true;
-      #enableStrongSwan = true;
-      wifi = {
-        backend = "wpa_supplicant";
-      };
-      #firewallBackend = "none";
+      logLevel = "INFO";
       unmanaged = [
         "interface-name:wgcf"
         "interface-name:tinc.kaseinet"
@@ -162,12 +158,12 @@ with pkgs.lib;
               dns = "127.0.0.1";
               ignore-auto-dns = "true";
               method = "auto";
+              dhcp-client-id = "stable";
               dhcp-send-hostname = "false";
+              dhcp-vendor-class-identifier = "android-dhcp-14";
             };
             ipv6 = {
-              method = "auto";
-              dhcp-send-hostname = "false";
-              ip6-privacy = "1";
+              method = "disabled";
             };
           };
           "kaseinet" = {
