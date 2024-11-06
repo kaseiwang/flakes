@@ -95,6 +95,10 @@ with lib;
 
     systemd.network.enable = true;
 
+    # https://github.com/NixOS/nixpkgs/commit/8f4b41cfd44275f3905829d46c7a158689b47e10
+    boot.initrd.systemd.suppressedUnits = [ "systemd-machine-id-commit.service" ];
+    systemd.suppressedSystemUnits = [ "systemd-machine-id-commit.service" ];
+
     programs = {
       neovim = {
         enable = true;
