@@ -3,24 +3,24 @@
 {
   alist = {
     pname = "alist";
-    version = "v3.38.0";
+    version = "v3.39.1";
     src = fetchFromGitHub {
       owner = "AlistGo";
       repo = "alist";
-      rev = "v3.38.0";
+      rev = "v3.39.1";
       fetchSubmodules = false;
-      sha256 = "sha256-1nqveTEYrN9kYAOMTbLPw0MFNNNbFOqej+d+aTLAZ1o=";
+      sha256 = "sha256-x8H+1x3mpJHf/sSswpVCDceHL6+TO2jUdSh0MmiksHU=";
     };
   };
   alist-web = {
     pname = "alist-web";
-    version = "3.38.0";
+    version = "3.39.0";
     src = fetchFromGitHub {
       owner = "AlistGo";
       repo = "alist-web";
-      rev = "3.38.0";
+      rev = "3.39.0";
       fetchSubmodules = true;
-      sha256 = "sha256-/70v171HrJcPQXez+JAi5khTzZRx4uipk+PdT+3evx8=";
+      sha256 = "sha256-lzfpIw4Ck7OdtYMfJMV19WYxjfzMhaes1wS7P0LCDP4=";
     };
   };
   aws-lc = {
@@ -80,15 +80,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "16e4ab4c454898d396e405de6c888207571734c9";
+    version = "35482a6e21c71772d6cb97417a52a71fdbd30a42";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "16e4ab4c454898d396e405de6c888207571734c9";
+      rev = "35482a6e21c71772d6cb97417a52a71fdbd30a42";
       fetchSubmodules = false;
-      sha256 = "sha256-1noSir2jDU4f6KLwz9jKTaf1jQfODF6cVJepejPOFhY=";
+      sha256 = "sha256-IdgECoSIS/QvKpDmSYmKynq56QGq2LKM1BQidOWxVtQ=";
     };
-    date = "2024-10-27";
+    date = "2024-11-03";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -103,11 +103,11 @@
   };
   vscode-ext-codeium = {
     pname = "vscode-ext-codeium";
-    version = "1.25.2";
+    version = "1.25.8";
     src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.25.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.25.2.zip";
-      sha256 = "sha256-NiqNHs3FlSL3TOB6ComlKgxD2ryQ62+Q+bSglanbQfk=";
+      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.25.8/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "codeium-1.25.8.zip";
+      sha256 = "sha256-WwH6tt272Ne91LhAR/j/GJuPnj/1MNkgtwsaX9/gs/M=";
     };
     publisher = "Codeium";
     name = "codeium";

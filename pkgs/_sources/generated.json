@@ -13,11 +13,11 @@
             "name": null,
             "owner": "AlistGo",
             "repo": "alist",
-            "rev": "v3.38.0",
-            "sha256": "sha256-1nqveTEYrN9kYAOMTbLPw0MFNNNbFOqej+d+aTLAZ1o=",
+            "rev": "v3.39.1",
+            "sha256": "sha256-x8H+1x3mpJHf/sSswpVCDceHL6+TO2jUdSh0MmiksHU=",
             "type": "github"
         },
-        "version": "v3.38.0"
+        "version": "v3.39.1"
     },
     "alist-web": {
         "cargoLocks": null,
@@ -33,11 +33,11 @@
             "name": null,
             "owner": "AlistGo",
             "repo": "alist-web",
-            "rev": "3.38.0",
-            "sha256": "sha256-/70v171HrJcPQXez+JAi5khTzZRx4uipk+PdT+3evx8=",
+            "rev": "3.39.0",
+            "sha256": "sha256-lzfpIw4Ck7OdtYMfJMV19WYxjfzMhaes1wS7P0LCDP4=",
             "type": "github"
         },
-        "version": "3.38.0"
+        "version": "3.39.0"
     },
     "aws-lc": {
         "cargoLocks": null,
@@ -137,7 +137,7 @@
     },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2024-10-27",
+        "date": "2024-11-03",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -149,11 +149,11 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "16e4ab4c454898d396e405de6c888207571734c9",
-            "sha256": "sha256-1noSir2jDU4f6KLwz9jKTaf1jQfODF6cVJepejPOFhY=",
+            "rev": "35482a6e21c71772d6cb97417a52a71fdbd30a42",
+            "sha256": "sha256-IdgECoSIS/QvKpDmSYmKynq56QGq2LKM1BQidOWxVtQ=",
             "type": "github"
         },
-        "version": "16e4ab4c454898d396e405de6c888207571734c9"
+        "version": "35482a6e21c71772d6cb97417a52a71fdbd30a42"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,
@@ -184,12 +184,12 @@
         },
         "pinned": false,
         "src": {
-            "name": "codeium-1.25.2.zip",
-            "sha256": "sha256-NiqNHs3FlSL3TOB6ComlKgxD2ryQ62+Q+bSglanbQfk=",
+            "name": "codeium-1.25.8.zip",
+            "sha256": "sha256-WwH6tt272Ne91LhAR/j/GJuPnj/1MNkgtwsaX9/gs/M=",
             "type": "url",
-            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.25.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
+            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.25.8/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
         },
-        "version": "1.25.2"
+        "version": "1.25.8"
     },
     "vscode-ext-sops": {
         "cargoLocks": null,
