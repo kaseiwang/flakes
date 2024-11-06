@@ -94,29 +94,6 @@
         authFile = config.sops.secrets.u2f-keys.path;
       };
     };
-
-    krb5 = {
-      enable = true;
-      settings = {
-        libdefaults = {
-          default_realm = "CORP.NETEASE.COM";
-        };
-        domain_realm = {
-          "netease.com" = "CORP.NETEASE.COM";
-        };
-        realms = {
-          "CORP.NETEASE.COM" = {
-            default_domain = "netease.com";
-            admin_server = "kdc-internal.corp.netease.com";
-            kdc = [
-              "kdc-internal.corp.netease.com"
-              "kdc-hzinternal1.corp.netease.com"
-              "kdc-internet.corp.netease.com"
-            ];
-          };
-        };
-      };
-    };
   };
 
   xdg.portal = {

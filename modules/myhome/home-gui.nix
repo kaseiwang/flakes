@@ -42,7 +42,6 @@ in
     rustup
     smartmontools
     #(spotify.override {deviceScaleFactor = 2;})
-    (subversion.override { saslSupport = true; })
     tdesktop
     unzip
     wireshark
