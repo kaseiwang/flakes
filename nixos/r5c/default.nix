@@ -7,7 +7,6 @@
     ./networking.nix
     ./services.nix
     ./sdimage.nix
-    self.nixosModules.chinaRoute
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
     {

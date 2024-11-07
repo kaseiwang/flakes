@@ -6,8 +6,6 @@
     ./hardware.nix
     ./networking.nix
     ./services.nix
-    self.nixosModules.chinaRoute
-    self.nixosModules.nievpn
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
     inputs.impermanence.nixosModules.impermanence

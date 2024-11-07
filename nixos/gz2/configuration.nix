@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  environment.baseline_cloud.enable = true;
+
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     tinced25519 = { };

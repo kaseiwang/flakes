@@ -1,23 +1,11 @@
 rec {
   default = ({ ... }: {
-    imports = [
-      (import ./baseline.nix)
-      (import ./myhome)
-      (import ./qbittorrent.nix)
-      (import ./miio-exporter.nix)
-      (import ./udpxy.nix)
-      (import ./sozu.nix)
-      (import ./yarr.nix)
-      (import ./vlmcsd.nix)
-      (import ./kaseinet.nix)
-      (import ./nvidia_gpu_exporter.nix)
-      (import ./alist.nix)
-      (import ./ddns)
-    ];
+    imports =
+      let
+        ls = dir: builtins.map (f: (dir + "/${f}")) (builtins.attrNames (builtins.readDir dir));
+      in
+      [ ]
+      ++ ls ./services
+      ++ ls ./config;
   });
-  cloud = {
-    common = import ./cloud/common.nix;
-  };
-  chinaRoute = import ./china-route.nix;
-  nievpn = import ./nievpn;
 }

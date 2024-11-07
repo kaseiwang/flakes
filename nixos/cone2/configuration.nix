@@ -1,6 +1,8 @@
 { config, pkgs, ... }:
 
 {
+  environment.baseline_cloud.enable = true;
+
   sops.defaultSopsFile = ./secrets.yaml;
 
   # This value determines the NixOS release from which the default

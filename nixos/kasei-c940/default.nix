@@ -11,8 +11,6 @@ nixpkgs.lib.nixosSystem {
     ./hardware.nix
     ./networking.nix
     ./services.nix
-    self.nixosModules.chinaRoute
-    self.nixosModules.nievpn
     {
       nixpkgs.overlays = [
         self.overlays.default
