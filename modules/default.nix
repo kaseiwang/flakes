@@ -3,7 +3,6 @@ rec {
     imports = [
       (import ./baseline.nix)
       (import ./myhome)
-      (import ./cloud/services.nix)
       (import ./qbittorrent.nix)
       (import ./miio-exporter.nix)
       (import ./udpxy.nix)
@@ -18,7 +17,6 @@ rec {
   });
   cloud = {
     common = import ./cloud/common.nix;
-    filesystems = import ./cloud/filesystems.nix;
   };
   chinaRoute = import ./china-route.nix;
   nievpn = import ./nievpn;
