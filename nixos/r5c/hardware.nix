@@ -1,4 +1,13 @@
 { config, lib, pkgs, inputs, modulesPath, ... }:
+let
+  crossPkgs = import pkgs.path {
+    localSystem.system = "x86_64-linux";
+    crossSystem = {
+      system = "aarch64-linux";
+      config = "aarch64-unknown-linux-gnu";
+    };
+  };
+in
 {
   hardware = {
     enableRedistributableFirmware = lib.mkDefault true;
@@ -17,6 +26,7 @@
         enable = true;
       };
     };
+    kernelPackages = crossPkgs.linuxPackages_latest;
     # https://github.com/NixOS/nixos-hardware/blob/master/friendlyarm/nanopi-r5s/default.nix
     kernelPatches = [
       {
