@@ -9,6 +9,7 @@
     ./sdimage.nix
     inputs.sops-nix.nixosModules.sops
     inputs.home-manager.nixosModules.home-manager
+    inputs.impermanence.nixosModules.impermanence
     {
       nixpkgs.overlays = [ self.overlays.default ];
     }
