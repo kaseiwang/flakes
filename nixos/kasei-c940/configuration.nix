@@ -106,15 +106,6 @@
       config.boot.kernelPackages.cpupower
       man-pages
       man-pages-posix
-      # gnome
-      #gnome-tweaks
-      #dconf-editor
-      gnome-screenshot
-      eog
-      gnomeExtensions.kimpanel
-      gnomeExtensions.caffeine
-      gnomeExtensions.system-monitor-next
-      xorg.xhost
     ];
     etc = {
       "nfc/libnfc.conf" = {

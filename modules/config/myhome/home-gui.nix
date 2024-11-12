@@ -21,11 +21,13 @@ in
     cloc # count lines of code
     devenv
     easyeffects # sound effect
+    eog
     evolution # email
     feishu
     fzf
     gdb
     gdu
+    gnome-screenshot
     go
     gopls # golang lsp server
     joplin-desktop
@@ -46,6 +48,7 @@ in
     unzip
     wireshark
     xdg-open-server # xdp proxy for app in docker
+    xorg.xhost
     yubikey-manager
   ];
 
@@ -179,6 +182,16 @@ in
 
     gpg = {
       enable = true;
+    };
+
+    gnome-shell = {
+      enable = true;
+      extensions = with pkgs; [
+        { package = gnomeExtensions.caffeine; }
+        { package = gnomeExtensions.kimpanel; }
+        { package = gnomeExtensions.system-monitor-next; }
+        { package = gnomeExtensions.workspace-indicator; }
+      ];
     };
 
     alacritty = {
