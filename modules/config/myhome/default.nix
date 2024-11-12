@@ -3,7 +3,6 @@ let
   cfg = config.environment.myhome;
   unfreepkgs = pkg: builtins.elem (pkgs.lib.getName pkg) [
     "feishu"
-    "wemeet"
     "code"
     "vscode"
     "vscode-extension-ms-vscode-remote-remote-ssh"
