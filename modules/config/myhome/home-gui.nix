@@ -442,13 +442,6 @@ in
       enable = true;
     };
     configFile = {
-      /*
-      "chromium-flags.conf".text = ''
-        --ozone-platform-hint=auto
-        --disable-features=WaylandFractionalScaleV1
-        --gtk-version=4
-      '';
-      */
       "pipewire/pipewire.conf.d/20-main.conf".text = ''
         context.properties = {
           default.clock.allowed-rates = [ 44100 48000 96000 192000 256000 512000 768000 ]

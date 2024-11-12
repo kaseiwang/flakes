@@ -131,12 +131,6 @@
         };
         zfs.enable = true;
         postgres.enable = true;
-        /*
-        nextcloud = {
-          enable = true;
-          url = "https://nextcloud.kasei.im";
-        };
-          */
         smartctl = {
           enable = true;
           devices = [
@@ -190,16 +184,6 @@
             { targets = [ "localhost:9835" ]; }
           ];
         }
-        /*
-        {
-          job_name = "blackbox";
-          metrics_path = "/probe";
-          params = { module = [ "http_2xx" ]; };
-          static_configs = [
-            { targets = [ "http://10.10.3.1" ]; }
-          ];
-        }
-        */
       ];
     };
 
@@ -258,17 +242,6 @@
         apcu = true;
       };
     };
-
-    /*
-      calibre-web = {
-      enable = true;
-      openFirewall = false;
-      options = {
-        enableBookUploading = true;
-        calibreLibrary = "/pool0/media/Calibre";
-      };
-      };
-    */
 
     grafana = {
       enable = true;
@@ -364,70 +337,6 @@
       enable = true;
       proxy = "socks5://10.10.2.1:1080";
     };
-
-    /*
-      target = {
-      enable = true;
-      config = {
-        fabric_modules = [ ];
-        storage_objects = [
-          {
-            dev = "/dev/zvol/pool0/iscsi/win";
-            name = "nas0-win";
-            plugin = "block";
-            write_back = true;
-            wwn = "92b17c3f-6b40-4168-b082-ceeb7b495522";
-          }
-        ];
-        targets = [
-          {
-            fabric = "iscsi";
-            tpgs = [
-              {
-                enable = true;
-                attributes = {
-                  authentication = 0;
-                  generate_node_acls = 1;
-                };
-                luns = [
-                  {
-                    alias = "94dfe06967";
-                    alua_tg_pt_gp_name = "default_tg_pt_gp";
-                    index = 0;
-                    storage_object = "/backstores/block/nas0-win";
-                  }
-                ];
-                node_acls = [
-                  {
-                    mapped_luns = [
-                      {
-                        alias = "d42f5bdf8a";
-                        index = 0;
-                        tpg_lun = 0;
-                        write_protect = false;
-                      }
-                    ];
-                    node_wwn = "iqn.1991-05.com.microsoft:gih-d-26829";
-                  }
-                ];
-                portals = [
-                  {
-                    ip_address = "0.0.0.0";
-                    iser = false;
-                    offload = false;
-                    port = 3260;
-                  }
-                ];
-                tag = 1;
-              }
-            ];
-            wwn = "iqn.2003-01.org.linux-iscsi.target.x8664:sn.acf8fd9c23af";
-          }
-        ];
-      };
-      };
-      */
-
 
     nginx = {
       enable = true;

@@ -18,36 +18,6 @@
     miioenv = { };
   };
 
-  /*
-    containers."iptv" = {
-    privateNetwork = true;
-    hostBridge = "iptvbr";
-
-    config = { config, pkgs, lib, ... }: {
-      environment.systemPackages = with pkgs; [
-        curl
-        socat
-        ffmpeg
-      ];
-
-      networking = {
-        useNetworkd = true;
-        firewall.enable = false;
-
-        interfaces.eth0 = {
-          useDHCP = true;
-        };
-      };
-
-      services = {
-        resolved.enable = false;
-      };
-
-      system.stateVersion = "24.04";
-    };
-    };
-  */
-
   services.vaultwarden = {
     enable = true;
     dbBackend = "sqlite";

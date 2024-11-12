@@ -536,16 +536,6 @@ in
       id = 48;
       interface = "enp1s0";
     };
-    /*
-      vlans."cmcctr069" = {
-      id = 46;
-      interface = "enp1s0";
-      };
-      vlans."cmccother" = {
-      id = 50;
-      interface = "enp1s0";
-      };
-    */
 
     interfaces."cmccppp" = {
       useDHCP = false;
