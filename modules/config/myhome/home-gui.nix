@@ -102,10 +102,6 @@ in
     };
   };
 
-  home.language = {
-    base = "zh_CN.UTF-8";
-  };
-
   i18n = {
     inputMethod = {
       enabled = "fcitx5";
