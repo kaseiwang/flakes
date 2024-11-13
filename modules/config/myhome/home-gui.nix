@@ -8,6 +8,10 @@ in
 {
   home.packages = with pkgs; [
     # fonts
+    inter
+    fragment-mono
+    liberation_ttf
+    sarasa-gothic
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
@@ -96,7 +100,7 @@ in
   fonts = {
     fontconfig = {
       enable = true;
-      defaultFonts = pkgs.lib.mkForce {
+      defaultFonts = {
         serif = [ "Noto Serif CJK SC" "Noto Serif" ];
         sansSerif = [ "Noto Sans CJK SC" "Noto Sans" ];
         monospace = [ "Noto Sans Mono" "Noto Sans Mono CJK SC" ];
