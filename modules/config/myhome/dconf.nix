@@ -62,13 +62,26 @@ with lib.hm.gvariant;
 
     "org/gnome/shell" = {
       disable-user-extensions = false;
-      /*
       enabled-extensions = [
-        #"caffeine@patapon.info"
-        #"system-monitor-next@paradoxxx.zero.gmail.com"
-        #"workspace-indicator@gnome-shell-extensions.gcampax.github.com"
+        "caffeine@patapon.info"
+        "kimpanel@kde.org"
+        "system-monitor@gnome-shell-extensions.gcampax.github.com"
       ];
-      */
+    };
+
+    "org/gnome/shell/extensions/caffeine" = {
+      indicator-position-max = 1;
+      toggle-state = true;
+    };
+
+    "org/gnome/shell/extensions/kimpanel" = {
+      vertical = false;
+    };
+
+    "org/gnome/shell/extensions/system-monitor" = {
+      center-display = false;
+      compact-display = false;
+      icon-display = true;
     };
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
