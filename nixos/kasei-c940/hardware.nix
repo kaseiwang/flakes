@@ -61,7 +61,6 @@ in
     initrd = {
       systemd.enable = true;
       kernelModules = [ "btrfs" "nvme" "dm_crypt" ];
-      compressor = pkgs: "${pkgs.zstd}/bin/zstd";
       luks = {
         devices = {
           rootblk0 = {
