@@ -24,13 +24,7 @@
     xserver = {
       enable = true;
       displayManager.gdm.enable = true;
-      desktopManager.gnome = {
-        enable = true;
-        extraGSettingsOverrides = ''
-          [org.gnome.mutter.keybindings]
-          switch-monitor='[]'
-        '';
-      };
+      desktopManager.gnome.enable = true;
     };
 
     pipewire = {

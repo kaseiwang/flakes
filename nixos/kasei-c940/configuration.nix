@@ -62,15 +62,10 @@
     dconf.enable = true;
     adb.enable = true;
     wireshark.enable = true;
-    #virt-manager.enable = true;
     fuse.userAllowOther = true;
-    #hyprland.enable = true;
-    #ryzen-monitor-ng.enable = true;
   };
 
   services.dbus.implementation = "broker";
-
-  services.gnome = { };
 
   users.users.kasei = {
     extraGroups = [ "docker" "fuse" "adbusers" "wireshark" ];
@@ -94,10 +89,6 @@
         authFile = config.sops.secrets.u2f-keys.path;
       };
     };
-  };
-
-  xdg.portal = {
-    enable = true;
   };
 
   environment = {
@@ -140,15 +131,6 @@
       };
     };
   };
-
-  environment.variables.QT_PLUGIN_PATH =
-    let
-      fcitx5Workaround = pkgs.runCommand "fcitx5-workaround" { } ''
-        plugins="${pkgs.qt6Packages.fcitx5-qt}/${pkgs.qt6.qtbase.qtPluginPrefix}"
-        cp -r --dereference "$plugins" $out
-      '';
-    in
-    [ "${fcitx5Workaround}" ];
 
   environment.persistence."/persist" = {
     files = [
