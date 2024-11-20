@@ -66,18 +66,19 @@ with lib;
 
     environment = {
       systemPackages = with pkgs; [
-        curl
+        bpftrace
         btop
-        gdu
-        file
-        sysstat
-        pciutils
-        usbutils
-        inetutils
+        curl
         dig
+        file
+        gdu
+        inetutils
         mtr
+        pciutils
         socat
+        sysstat
         tcpdump
+        usbutils
       ];
       pathsToLink = [ "/share/fish" ];
     };
