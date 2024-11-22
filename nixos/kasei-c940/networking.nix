@@ -158,6 +158,7 @@ with pkgs.lib;
               dns = "127.0.0.1";
               ignore-auto-dns = "true";
               method = "auto";
+              dhcp-client-id = "mac";
               dhcp-send-hostname = "false";
               dhcp-vendor-class-identifier = "android-dhcp-14";
             };
