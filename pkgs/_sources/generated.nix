@@ -3,35 +3,35 @@
 {
   alist = {
     pname = "alist";
-    version = "v3.39.1";
+    version = "v3.40.0";
     src = fetchFromGitHub {
       owner = "AlistGo";
       repo = "alist";
-      rev = "v3.39.1";
+      rev = "v3.40.0";
       fetchSubmodules = false;
-      sha256 = "sha256-x8H+1x3mpJHf/sSswpVCDceHL6+TO2jUdSh0MmiksHU=";
+      sha256 = "sha256-D2XwY2D5WS7VoidmpEM5KyMA1NsZjlUV6Xs2uSj6+BE=";
     };
   };
   alist-web = {
     pname = "alist-web";
-    version = "3.39.0";
+    version = "3.39.2";
     src = fetchFromGitHub {
       owner = "AlistGo";
       repo = "alist-web";
-      rev = "3.39.0";
+      rev = "3.39.2";
       fetchSubmodules = true;
-      sha256 = "sha256-lzfpIw4Ck7OdtYMfJMV19WYxjfzMhaes1wS7P0LCDP4=";
+      sha256 = "sha256-l1gMAsHH1WrYuSPsTY01f13xcTQ2c262U1jJtxjcHL8=";
     };
   };
   aws-lc = {
     pname = "aws-lc";
-    version = "v1.37.0";
+    version = "v1.39.0";
     src = fetchFromGitHub {
       owner = "aws";
       repo = "aws-lc";
-      rev = "v1.37.0";
+      rev = "v1.39.0";
       fetchSubmodules = false;
-      sha256 = "sha256-jgzUre8hjj689YycZZAsNO0KraLB5HuCR/JEfczn0h8=";
+      sha256 = "sha256-LbhSnIjZWBtbU++puuZW2hgswO1lArrD5+uhBZNItNM=";
     };
   };
   fcitx5-pinyin-zhwiki = {
@@ -55,40 +55,40 @@
   };
   qbittorrent-enhanced-nox = {
     pname = "qbittorrent-enhanced-nox";
-    version = "release-4.6.7.10";
+    version = "release-5.0.2.10";
     src = fetchFromGitHub {
       owner = "c0re100";
       repo = "qBittorrent-Enhanced-Edition";
-      rev = "release-4.6.7.10";
+      rev = "release-5.0.2.10";
       fetchSubmodules = false;
-      sha256 = "sha256-Mr376nH2pE6NMF9IdDhZULwqkRr7472OZnKO86hb6ZI=";
+      sha256 = "sha256-9RCG530zWQ+qzP0Y+y69NFlBWVA8GT29dY8aC1cvq7o=";
     };
   };
   rabbit-digger-pro = {
     pname = "rabbit-digger-pro";
-    version = "b4487c2272e379e24e0dcb8edc27285716d98501";
+    version = "d6630cbcdc0c5866b12b0eb3411949e55b8997cd";
     src = fetchgit {
       url = "https://github.com/rabbit-digger/rabbit-digger-pro";
-      rev = "b4487c2272e379e24e0dcb8edc27285716d98501";
+      rev = "d6630cbcdc0c5866b12b0eb3411949e55b8997cd";
       fetchSubmodules = true;
       deepClone = false;
       leaveDotGit = false;
-      sha256 = "sha256-aBN3L5Q7Ps8F2efoH2hsVf3NX9DQbaicKacEA5iD3T8=";
+      sha256 = "sha256-zYSnJd35EsLjXW1Yvg5FakT/QMkKHOd6+SwKLxuY3BY=";
     };
-    "Cargo.lock" = builtins.readFile ./rabbit-digger-pro-b4487c2272e379e24e0dcb8edc27285716d98501/Cargo.lock;
-    date = "2024-10-02";
+    "Cargo.lock" = builtins.readFile ./rabbit-digger-pro-d6630cbcdc0c5866b12b0eb3411949e55b8997cd/Cargo.lock;
+    date = "2024-11-19";
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "35482a6e21c71772d6cb97417a52a71fdbd30a42";
+    version = "a01bda7597d2d54627bf865d1b1eaa4a992a5cb3";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "35482a6e21c71772d6cb97417a52a71fdbd30a42";
+      rev = "a01bda7597d2d54627bf865d1b1eaa4a992a5cb3";
       fetchSubmodules = false;
-      sha256 = "sha256-IdgECoSIS/QvKpDmSYmKynq56QGq2LKM1BQidOWxVtQ=";
+      sha256 = "sha256-oAe93QMpThZyA0Ff7dxlp7AJqGbJGTFrkbdmep4k8PU=";
     };
-    date = "2024-11-03";
+    date = "2024-11-23";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -103,11 +103,11 @@
   };
   vscode-ext-codeium = {
     pname = "vscode-ext-codeium";
-    version = "1.25.8";
+    version = "1.29.2";
     src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.25.8/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.25.8.zip";
-      sha256 = "sha256-WwH6tt272Ne91LhAR/j/GJuPnj/1MNkgtwsaX9/gs/M=";
+      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.29.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "codeium-1.29.2.zip";
+      sha256 = "sha256-huB1xP0NYPf6ezLklyYKhqlOyBLZXj2fBYzkXndkj4k=";
     };
     publisher = "Codeium";
     name = "codeium";
