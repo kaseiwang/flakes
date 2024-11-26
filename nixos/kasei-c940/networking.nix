@@ -138,6 +138,7 @@ with pkgs.lib;
           "NetEase-5G" = {
             connection = {
               id = "NetEase-5G";
+              stable-id = ''''${CONNECTION}-''${BOOT}-''${DEVICE}'';
               type = "wifi";
             };
             wifi = {
@@ -158,7 +159,7 @@ with pkgs.lib;
               dns = "127.0.0.1";
               ignore-auto-dns = "true";
               method = "auto";
-              dhcp-client-id = "mac";
+              dhcp-client-id = "stable";
               dhcp-send-hostname = "false";
               dhcp-vendor-class-identifier = "android-dhcp-14";
             };
