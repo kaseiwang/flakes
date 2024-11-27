@@ -11,7 +11,7 @@
         servers = [
           {
             tag = "cloudflare";
-            address = "https://1.1.1.1/dns-query";
+            address = "https://[2606:4700:4700::1111]/dns-query";
             strategy = "prefer_ipv6";
           }
         ];
@@ -34,6 +34,7 @@
           listen_port = 443;
           tag = "tls-in";
           type = "shadowtls";
+          detour = "ss-in";
           version = 3;
           users = [
             {

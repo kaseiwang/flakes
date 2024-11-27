@@ -6,8 +6,6 @@ let
   directdns = pkgs.writeText "direct.conf" ''
     nameserver /api.cloudflare.com/china
     nameserver /dns64.cloudflare-dns.com/china
-    address /*hanime.tv/172.19.0.2
-    address /*hanime.tv/fdf0:dcba:9876::2
     address /*docker.io/172.19.0.2
     address /*docker.io/fdf0:dcba:9876::2
     address /*docker.com/172.19.0.2
@@ -160,8 +158,8 @@ in
       ];
       server-tls = [
         #"2606:4700:4700::1111 -tls-host-verify cloudflare-dns.com"
-        "1.1.1.1 -tls-host-verify cloudflare-dns.com -interface wgcf"
-        "1.0.0.1 -tls-host-verify cloudflare-dns.com -interface wgcf"
+        "1.1.1.1 -tls-host-verify cloudflare-dns.com -interface singbox"
+        "1.0.0.1 -tls-host-verify cloudflare-dns.com -interface singbox"
         #"2400:3200::1 -tls-host-verify *.alidns.com -group china -exclude-default-group"
         #"223.5.5.5 -tls-host-verify *.alidns.com -group china -exclude-default-group"
         "1.12.12.12 -tls-host-verify 1.12.12.12 -group china -exclude-default-group -interface ${wanif} -subnet 120.235.1.1/16"
@@ -174,17 +172,6 @@ in
   services.resolved = {
     enable = false;
   };
-
-  # https://github.com/NixOS/nixpkgs/pull/239028
-  /*
-    services.miniupnpd = {
-    enable = false;
-    natpmp = true;
-    externalInterface = "${wanif}";
-    internalIPs = [ "${lanif}" ];
-    appendConfig = "";
-    };
-  */
 
   services.ddns = {
     enable = true;
@@ -214,18 +201,19 @@ in
         servers = [
           {
             tag = "cloudflare";
-            address = "https://1.1.1.1/dns-query";
+            address = "tls://[2606:4700:4700::1111]";
             strategy = "prefer_ipv6";
           }
           {
-            tag = "local";
-            address = "local";
+            tag = "tencent";
+            address = "tls://120.53.53.53";
             strategy = "prefer_ipv6";
+            detour = "direct";
           }
         ];
         rules = [{
           geosite = [ "cn" ];
-          server = "local";
+          server = "tencent";
         }];
         final = "cloudflare";
       };
@@ -267,7 +255,7 @@ in
         {
           server = "2607:f130:0:179::2f6b:52ea";
           server_port = 443;
-          tag = "tls-cone";
+          tag = "tls-cone3";
           type = "shadowtls";
           version = 3;
           password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
@@ -282,63 +270,70 @@ in
         }
         {
           type = "shadowsocks";
-          tag = "ss-cone";
+          tag = "ss-cone3";
           server = "2607:f130:0:179::2f6b:52ea";
           server_port = 9555;
           method = "2022-blake3-aes-128-gcm";
           password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
-          detour = "tls-cone";
+          detour = "tls-cone3";
           multiplex = {
             enabled = true;
             protocol = "h2mux";
           };
         }
         {
-          type = "socks";
-          tag = "r5c";
-          server = "10.10.3.1";
-          server_port = 1080;
-          version = "5";
+          server = "74.48.96.113";
+          server_port = 443;
+          tag = "tls-cone2";
+          type = "shadowtls";
+          version = 3;
+          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          tls = {
+            enabled = true;
+            server_name = "kasei.im";
+            utls = {
+              enabled = true;
+              fingerprint = "chrome";
+            };
+          };
+        }
+        {
+          type = "shadowsocks";
+          tag = "ss-cone2";
+          server = "74.48.96.113";
+          server_port = 9555;
+          method = "2022-blake3-aes-128-gcm";
+          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          detour = "tls-cone2";
+          multiplex = {
+            enabled = true;
+            protocol = "h2mux";
+          };
+        }
+        {
+          type = "selector";
+          tag = "select";
+          outbounds = [ "ss-cone3" "ss-cone2" ];
         }
         {
           type = "direct";
-          tag = "wgcf";
-          bind_interface = "wgcf";
-        }
-        {
-          type = "direct";
-          tag = "cmcc";
-          bind_interface = "${wanif}";
+          tag = "direct";
         }
       ];
       route = {
         rules = [
           {
             geoip = [ "cn" ];
-            outbound = "cmcc";
-          }
-          {
+            geosite = [ "cn" ];
             domain_suffix = [
               # steam cdn
               "clngaa.com"
               "pphimalayanrt.com"
             ];
-            outbound = "cmcc";
-          }
-          {
-            geosite = [ "cn" ];
-            outbound = "cmcc";
-          }
-          {
-            domain_suffix = [
-              "api.cloudflare.com" # ddns
-              "openai.com"
-              "hanime.tv"
-            ];
-            outbound = "tls-cone";
+            outbound = "direct";
           }
         ];
-        final = "wgcf";
+        final = "select";
       };
     };
   };
@@ -580,20 +575,6 @@ in
             GatewayOnLink = true;
           }
         ];
-        routingPolicyRules = [
-          {
-            Family = "both";
-            FirewallMark = 200;
-            Priority = 200;
-            Table = 254; # main route table
-          }
-          {
-            Family = "both";
-            FirewallMark = 300;
-            Priority = 300;
-            Table = 300;
-          }
-        ];
       };
       "50-lan" = {
         matchConfig = {
@@ -691,43 +672,6 @@ in
           }
         ];
       };
-    };
-  };
-
-  networking.wireguard.interfaces = {
-    "wgcf" = {
-      ips = [
-        "10.10.0.20/32"
-        "fd80:13f7::10:10:0:20/128"
-        "fdcd:ad38:cdc5:3:10:10:0:20/128"
-      ];
-      table = "300";
-      fwMark = "0xc8"; # 200
-      mtu = 1400;
-      listenPort = 2480;
-      privateKeyFile = "${config.sops.secrets.wireguard-key.path}";
-      peers = [
-        {
-          publicKey = "1gxW3wgMyVpPHmOkIa7Ooj25nrUqfZCNKUzLWg8Diwg=";
-          allowedIPs = [ "0.0.0.0/0" "::/0" ];
-        }
-      ];
-    };
-    "wg1" = {
-      ips = [
-        "10.10.0.21/32"
-        "fd80:13f7::10:10:0:21/128"
-      ];
-      fwMark = "0xc8"; # 200
-      mtu = 1400;
-      listenPort = 2481;
-      privateKeyFile = "${config.sops.secrets.wireguard-key.path}";
-      peers = [
-        {
-          publicKey = "a+1PloG384NC+IkRSloQqnkRHPiNs/14mB5Tpf09d3g=";
-          allowedIPs = [ "10.10.0.22/32" "fd80:13f7::10:10:0:22/128" ];
-        }
-      ];
     };
   };
 }

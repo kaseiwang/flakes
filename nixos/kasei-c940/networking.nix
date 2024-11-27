@@ -284,18 +284,19 @@ with pkgs.lib;
         servers = [
           {
             tag = "cloudflare";
-            address = "https://1.1.1.1/dns-query";
+            address = "https://[2606:4700:4700::1111]/dns-query";
             strategy = "prefer_ipv6";
           }
           {
-            tag = "local";
-            address = "local";
+            tag = "tencent";
+            address = "https://120.53.53.53/dns-query";
             strategy = "prefer_ipv4";
+            detour = "direct";
           }
         ];
         rules = [{
           geosite = [ "cn" ];
-          server = "local";
+          server = "tencent";
         }];
         final = "cloudflare";
       };
@@ -319,22 +320,67 @@ with pkgs.lib;
       ];
       outbounds = [
         {
-          type = "direct";
-          tag = "wgcf";
-          bind_interface = "wgcf";
+          server = "66.103.210.62";
+          server_port = 443;
+          tag = "tls-cone3";
+          type = "shadowtls";
+          version = 3;
+          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          tls = {
+            enabled = true;
+            server_name = "kasei.im";
+            utls = {
+              enabled = true;
+              fingerprint = "chrome";
+            };
+          };
         }
         {
           type = "shadowsocks";
-          tag = "ss-cone";
-          server = "2607:f130:0:179::2f6b:52ea";
+          tag = "ss-cone3";
+          server = "66.103.210.62";
           server_port = 9555;
           method = "2022-blake3-aes-128-gcm";
           password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
-          detour = "wgcf";
+          detour = "tls-cone3";
           multiplex = {
             enabled = true;
             protocol = "h2mux";
           };
+        }
+        {
+          server = "74.48.96.113";
+          server_port = 443;
+          tag = "tls-cone2";
+          type = "shadowtls";
+          version = 3;
+          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          tls = {
+            enabled = true;
+            server_name = "kasei.im";
+            utls = {
+              enabled = true;
+              fingerprint = "chrome";
+            };
+          };
+        }
+        {
+          type = "shadowsocks";
+          tag = "ss-cone2";
+          server = "74.48.96.113";
+          server_port = 9555;
+          method = "2022-blake3-aes-128-gcm";
+          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          detour = "tls-cone2";
+          multiplex = {
+            enabled = true;
+            protocol = "h2mux";
+          };
+        }
+        {
+          type = "selector";
+          tag = "select";
+          outbounds = [ "ss-cone3" "ss-cone2" ];
         }
         {
           type = "direct";
@@ -344,19 +390,12 @@ with pkgs.lib;
       route = {
         rules = [
           {
-            domain_suffix = [
-              "openai.com"
-              "coze.com"
-            ];
-            outbound = "ss-cone";
-          }
-          {
             geosite = [ "cn" ];
             geoip = [ "cn" ];
             outbound = "direct";
           }
         ];
-        final = "wgcf";
+        final = "select";
       };
     };
   };
