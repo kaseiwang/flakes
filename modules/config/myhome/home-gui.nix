@@ -18,7 +18,8 @@ in
     noto-fonts-emoji
     wqy_microhei
     jetbrains-mono
-    (nerdfonts.override { fonts = [ "JetBrainsMono" "Noto" ]; })
+    nerd-fonts.noto
+    nerd-fonts.jetbrains-mono
 
     btop
     (ccls.override { llvmPackages = pkgs.llvmPackages_latest; }) # c/c++ lsp server
