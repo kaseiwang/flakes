@@ -18,7 +18,6 @@ in
     noto-fonts-emoji
     wqy_microhei
     jetbrains-mono
-    nerd-fonts.noto
     nerd-fonts.jetbrains-mono
 
     btop
@@ -201,8 +200,6 @@ in
       enable = true;
       settings = {
         general = {
-          live_config_reload = true;
-          ipc_socket = true;
           import = [
             "${pkgs.alacritty-theme}/everforest_dark.toml"
           ];
@@ -210,14 +207,7 @@ in
         env = {
           TERM = "xterm-256color";
         };
-        debug = {
-          log_level = "info";
-        };
         window = {
-          dimensions = {
-            columns = 0;
-            lines = 0;
-          };
           padding = {
             x = 2;
             y = 2;
@@ -229,32 +219,16 @@ in
         font = {
           normal = {
             family = "JetBrains Mono";
-            style = "Regular";
-          };
-          bold = {
-            family = "JetBrains Mono";
-            style = "Bold";
-          };
-          italic = {
-            family = "JetBrains Mono";
-            style = "Italic";
           };
           size = 14.0;
-          offset = { x = 0; y = 0; };
-          glyph_offset = { x = 0; y = 0; };
         };
         mouse = {
-          hide_when_typing = false;
           bindings = [
             {
               mouse = "Middle";
               action = "PasteSelection";
             }
           ];
-        };
-        selection = {
-          semantic_escape_chars = "\t\r\n,│`|:\"' ()[]{}<>";
-          save_to_clipboard = true;
         };
         cursor = {
           style = "Underline";
