@@ -45,15 +45,6 @@ fetch.github = "utkuozdemir/nvidia_gpu_exporter"
 src.github_tag = "jgkawell/yarr"
 fetch.github = "jgkawell/yarr"
 
-[alist]
-src.github_tag = "AlistGo/alist"
-fetch.github = "AlistGo/alist"
-
-[alist-web]
-src.github_tag = "AlistGo/alist-web"
-fetch.github = "AlistGo/alist-web"
-git.fetchSubmodules = true
-
 [aws-lc]
 src.github_tag = "aws/aws-lc"
 fetch.github = "aws/aws-lc"
