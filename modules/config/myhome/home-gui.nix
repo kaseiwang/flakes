@@ -12,13 +12,13 @@ in
     fragment-mono
     liberation_ttf
     sarasa-gothic
+    nerd-fonts.symbols-only
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
     noto-fonts-emoji
     wqy_microhei
     jetbrains-mono
-    nerd-fonts.jetbrains-mono
 
     btop
     (ccls.override { llvmPackages = pkgs.llvmPackages_latest; }) # c/c++ lsp server
@@ -218,7 +218,7 @@ in
         };
         font = {
           normal = {
-            family = "JetBrains Mono";
+            family = "terminal";
           };
           size = 14.0;
         };
@@ -432,6 +432,18 @@ in
       enable = true;
     };
     configFile = {
+      "fontconfig/conf.d/20-my-fonts.conf".text = ''
+        <match target="pattern">
+          <test name="family">
+            <string>terminal</string>
+          </test>
+          <edit name="family" mode="prepend">
+            <string>JetBrains Mono</string>
+            <string>Noto Sans Mono CJK SC</string>
+            <string>Symbols Nerd Font Mono</string>
+          </edit>
+        </match>
+      '';
       "pipewire/pipewire.conf.d/20-main.conf".text = ''
         context.properties = {
           default.clock.allowed-rates = [ 44100 48000 96000 192000 256000 512000 768000 ]
