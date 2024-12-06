@@ -20,6 +20,7 @@ with lib;
       ];
       directories = [
         "/var/lib"
+        "/var/backup"
       ];
     };
 
