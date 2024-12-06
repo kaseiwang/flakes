@@ -21,6 +21,7 @@
   services.vaultwarden = {
     enable = true;
     dbBackend = "sqlite";
+    backupDir = "/var/backup/vaultwarden";
     environmentFile = "${config.sops.secrets.vaultwarden.path}";
     config = {
       domain = "https://bitwarden.kasei.im/";
