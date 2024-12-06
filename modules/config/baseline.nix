@@ -61,6 +61,9 @@ with lib;
       kernel.sysctl = {
         "net.core.default_qdisc" = "cake";
         "net.ipv4.tcp_congestion_control" = "bbr";
+        # bigger buffer for quic connection
+        "net.core.rmem_max" = 8192000;
+        "net.core.wmem_max" = 8192000;
       };
     };
 
