@@ -40,6 +40,7 @@ in
       "mitigations=off"
       "zswap.enabled=1"
       "amd_pstate=active"
+      "amdgpu.abmlevel=0"
       #"lockdown=integrity"
     ];
 
