@@ -21,7 +21,6 @@
     };
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      wgcf-key = { };
       inadyn = {
         owner = config.users.users.inadyn.name;
         path = "/etc/inadyn.conf";

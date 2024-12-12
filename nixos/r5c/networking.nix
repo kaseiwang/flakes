@@ -2,7 +2,6 @@
 {
   sops.secrets = {
     tinced25519 = { };
-    wgcf-key = { };
   };
 
   services.kaseinet = {
@@ -110,7 +109,6 @@
               type filter hook forward priority filter; policy accept;
 
               tcp flags syn tcp option maxseg size set rt mtu;
-              iifname "wgcf" tcp flags syn tcp option maxseg size set 1360;
 
               # Allow trusted network WAN access
               iifname {
@@ -125,7 +123,6 @@
             chain output {
               type filter hook output priority 100; policy accept;
               tcp flags syn tcp option maxseg size set rt mtu;
-              iifname "wgcf" tcp flags syn tcp option maxseg size set 1360;
             }
           '';
         };
@@ -134,7 +131,7 @@
           content = ''
             chain postrouting {
               type nat hook postrouting priority filter; policy accept;
-              oifname {"wanbr", "wgcf"} masquerade
+              oifname {"wanbr"} masquerade
             }
           '';
         };
@@ -143,7 +140,7 @@
           content = ''
             chain postrouting {
               type nat hook postrouting priority filter; policy accept;
-              oifname {"wanbr", "wgcf"} masquerade
+              oifname {"wanbr"} masquerade
             }
           '';
         };
@@ -160,41 +157,6 @@
     bridges = {
       "wanbr".interfaces = [ "wan0" "lan100" ];
     };
-  };
-
-  networking.wireguard.interfaces."wgcf" = {
-    table = "300";
-    fwMark = "0xc8"; # 200
-    mtu = 1400;
-    ips = [
-      "172.16.0.2/32"
-      "2606:4700:110:81d1:c1ab:267f:778c:4501/128"
-    ];
-    privateKeyFile = "${config.sops.secrets.wgcf-key.path}";
-    peers = [
-      {
-        publicKey = "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=";
-        endpoint = "162.159.192.1:2408"; # engage.cloudflareclient.com
-        allowedIPs = [ "0.0.0.0/0" "::/0" ];
-        persistentKeepalive = 60;
-      }
-      {
-        publicKey = "1xUgYLXcalz8s224Nfn2SP8/exaL8D8cp7VWTWIp1g0=";
-        endpoint = "cmcc.i.kasei.im:2480";
-        allowedIPs = [ "10.10.0.20/32" "fd80:13f7::10:10:0:20/128" "2409:8a55:a00::0/40" ];
-        persistentKeepalive = 60;
-        dynamicEndpointRefreshSeconds = 60;
-      }
-    ];
-    preSetup = ''
-      ${pkgs.iproute2}/bin/ip link set dev wan0 xdp object ${pkgs.wgcf_bpf_r5s}/wgcf_bpf section wg-cf-xdp-ingress
-      ${pkgs.iproute2}/bin/tc qdisc add dev wan0 clsact | true
-      ${pkgs.iproute2}/bin/tc filter add dev wan0 egress bpf da obj ${pkgs.wgcf_bpf_r5s}/wgcf_bpf sec wg-cf-tc-egress
-    '';
-    postShutdown = ''
-      ${pkgs.iproute2}/bin/ip link set dev wan0 xdp off
-      ${pkgs.iproute2}/bin/tc filter del dev wan0 egress
-    '';
   };
 
   systemd.network = {
@@ -253,11 +215,6 @@
           { MACAddress = "2c:f0:5d:e7:e2:a6"; Address = "10.10.3.11"; } # desktop
         ];
         routingPolicyRules = [
-          {
-            Family = "both";
-            IncomingInterface = "wgcf";
-            Table = 300;
-          }
           {
             Family = "ipv4";
             FirewallMark = 300;
