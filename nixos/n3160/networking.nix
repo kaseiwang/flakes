@@ -329,6 +329,7 @@ in
               "bt.kasei.im"
               "yarr.kasei.im"
               "chat.kasei.im"
+              "grafana.kasei.im"
             ];
             domain_suffix = [
               # steam cdn

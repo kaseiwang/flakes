@@ -362,6 +362,12 @@ with pkgs.lib;
           {
             geosite = [ "cn" ];
             geoip = [ "cn" ];
+            domain = [
+              "bt.kasei.im"
+              "yarr.kasei.im"
+              "chat.kasei.im"
+              "grafana.kasei.im"
+            ];
             outbound = "direct";
           }
         ];
