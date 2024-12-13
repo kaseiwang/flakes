@@ -334,6 +334,7 @@ in
             domain_suffix = [
               # steam cdn
               "clngaa.com"
+              "steamcontent.com"
               "pphimalayanrt.com"
             ];
             outbound = "direct";
