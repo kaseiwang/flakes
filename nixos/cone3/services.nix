@@ -29,7 +29,7 @@
       environmentFile = "${config.sops.secrets.vaultwarden.path}";
       config = {
         domain = "https://bitwarden.kasei.im/";
-        rocketAddress = "::1";
+        rocketAddress = "127.0.0.1";
         rocketPort = 8000;
         signupsAllowed = false;
         webVaultEnabled = true;
