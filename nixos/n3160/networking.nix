@@ -325,6 +325,11 @@ in
           {
             geoip = [ "cn" ];
             geosite = [ "cn" ];
+            domain = [
+              "bt.kasei.im"
+              "yarr.kasei.im"
+              "chat.kasei.im"
+            ];
             domain_suffix = [
               # steam cdn
               "clngaa.com"
