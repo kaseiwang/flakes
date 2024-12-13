@@ -15,7 +15,7 @@
       enable = true;
       tunnels."5beeeed9-80a2-4b40-92b5-b15e54fd8c7b" = {
         ingress = {
-          "bitwarden.kasei.im" = "http://127.0.0.1:8000";
+          "bitwarden.kasei.im" = "http://127.0.0.1:${toString config.services.vaultwarden.config.rocketPort}";
         };
         default = "http_status:404";
         credentialsFile = "${config.sops.secrets.cloudflared.path}";
@@ -29,6 +29,8 @@
       environmentFile = "${config.sops.secrets.vaultwarden.path}";
       config = {
         domain = "https://bitwarden.kasei.im/";
+        rocketAddress = "::1";
+        rocketPort = 8000;
         signupsAllowed = false;
         webVaultEnabled = true;
         websocketEnabled = false;
