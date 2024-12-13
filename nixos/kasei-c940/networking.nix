@@ -99,7 +99,7 @@ with pkgs.lib;
 
             chain postrouting {
               type nat hook postrouting priority 100; policy accept;
-              oifname { enp2s0,wlo1,tinc.kaseinet,tun0,tun1,wgcf } masquerade
+              oifname { enp2s0,wlo1,tinc.kaseinet,tun0,tun1 } masquerade
             }
           '';
         };
@@ -112,7 +112,6 @@ with pkgs.lib;
 
             chain postrouting {
               type nat hook postrouting priority 100; policy accept;
-              oifname { wgcf } masquerade
             }
           '';
         };
@@ -123,7 +122,6 @@ with pkgs.lib;
       enable = true;
       logLevel = "INFO";
       unmanaged = [
-        "interface-name:wgcf"
         "interface-name:tinc.kaseinet"
         "interface-name:singbox"
       ];
@@ -207,34 +205,6 @@ with pkgs.lib;
         };
       };
     };
-  };
-
-  networking.wireguard.interfaces."wgcf" = {
-    table = "300";
-    fwMark = "0xc8"; # 200
-    mtu = 1420;
-    ips = [
-      "172.16.0.2/32"
-      "2606:4700:110:8577:121f:f88d:851f:c93e/128"
-    ];
-    privateKeyFile = "${config.sops.secrets.wgcf-key.path}";
-    peers = [{
-      publicKey = "bmXOC+F1FxEMF9dyiK2H5/1SUtzH0JuVo51h2wPfgyo=";
-      allowedIPs = [ "0.0.0.0/0" "::/0" ];
-      #endpoint = "162.159.193.6:2408";
-      endpoint = "162.159.192.1:2408"; # engage.cloudflareclient.com
-    }];
-
-    preSetup = ''
-      ${pkgs.iproute2}/bin/ip link set dev wlo1 xdp object ${pkgs.wgcf_bpf}/wgcf_bpf section wg-cf-xdp-ingress
-      ${pkgs.iproute2}/bin/tc qdisc add dev wlo1 clsact | true
-      ${pkgs.iproute2}/bin/tc filter add dev wlo1 egress bpf da obj ${pkgs.wgcf_bpf}/wgcf_bpf sec wg-cf-tc-egress
-    '';
-    postShutdown = ''
-      ${pkgs.iproute2}/bin/ip link set dev wlo1 xdp off
-      ${pkgs.iproute2}/bin/tc filter del dev wlo1 egress
-    '';
-
   };
 
   services.chinaRoute = {

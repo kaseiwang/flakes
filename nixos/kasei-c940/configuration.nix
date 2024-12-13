@@ -22,7 +22,6 @@
     };
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      wgcf-key = { };
       u2f-keys = { mode = "0444"; };
       btrbk-sshkey = {
         owner = config.users.users."btrbk".name;
