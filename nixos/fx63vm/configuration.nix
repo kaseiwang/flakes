@@ -83,7 +83,7 @@
       nextcloud.extraGroups = [ "redis-nextcloud" ];
     };
     groups."nas" = {
-      members = [ "kasei" "qbittorrent" "jellyfin" "nextcloud" ];
+      members = [ "kasei" "qbittorrent" "nextcloud" ];
     };
   };
 
