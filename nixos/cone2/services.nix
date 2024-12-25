@@ -4,6 +4,22 @@
     singboxpass = { };
   };
 
+  services.nginx =
+    {
+      enable = true;
+      virtualHosts = {
+        "dcdn-origin2-test.kasei.im" = {
+          default = true;
+          reuseport = true;
+          locations = {
+            "/" = {
+              return = 200;
+            };
+          };
+        };
+      };
+    };
+
   services.sing-box = {
     enable = true;
     settings = {
