@@ -10,6 +10,23 @@
 
   services.nginx = {
     enable = true;
+
+
+    virtualHosts = {
+      "dcdn-origin1-test.kasei.im" = {
+        listen = [{
+          addr = "0.0.0.0";
+          port = 20080;
+        }];
+        default = true;
+        reuseport = true;
+        locations = {
+          "/" = {
+            return = 200;
+          };
+        };
+      };
+    };
     streamConfig = ''
       server {
         listen 0.0.0.0:9555 reuseport;
