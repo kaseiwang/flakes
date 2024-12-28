@@ -175,12 +175,4 @@
       };
     };
   };
-
-  /*
-    services.udpxy = {
-    enable = true;
-    mcastaddr = "cmcciptv";
-    binaddr = "ens1";
-    };
-  */
 }

@@ -519,7 +519,6 @@ in
     useNetworkd = true;
     interfaces.enp1s0 = {
       useDHCP = false;
-      #macAddress = "ec:6c:b5:2a:75:22"; # copy from cmcc router
       ipv4.addresses = [
         { address = "192.168.1.2"; prefixLength = 24; }
       ];
@@ -528,16 +527,26 @@ in
       ];
     };
 
-    vlans."cmccppp" = {
-      id = 41;
+    vlans."cuccppp" = {
+      id = 3961;
       interface = "enp1s0";
     };
-    vlans."cmcciptv" = {
-      id = 48;
+    /*
+    vlans."cucciptv" = {
+      id = 3964;
       interface = "enp1s0";
     };
+    vlans."cucctr069" = {
+      id = 3969;
+      interface = "enp1s0";
+    };
+    vlans."cuccother" = {
+      id = 3962;
+      interface = "enp1s0";
+    };
+    */
 
-    interfaces."cmccppp" = {
+    interfaces."cuccppp" = {
       useDHCP = false;
     };
   };
@@ -545,7 +554,7 @@ in
   systemd.services.systemd-networkd.environment.SYSTEMD_LOG_LEVEL = "debug";
   systemd.network = {
     wait-online = {
-      ignoredInterfaces = [ "cmccppp" "singbox" "ens1" "cmcciptv" "tinc.kaseinet" ];
+      ignoredInterfaces = [ "cuccppp" "singbox" "ens1" "cucciptv" "tinc.kaseinet" ];
     };
     networks = {
       "60-ppp0" = {
@@ -635,47 +644,15 @@ in
           }
         ];
       };
-      "40-cmccppp" = {
+      "40-cuccppp" = {
         matchConfig = {
-          Name = "cmccppp";
+          Name = "cuccppp";
         };
         networkConfig = {
           DHCP = "no";
           LinkLocalAddressing = "no";
           KeepConfiguration = "static";
         };
-      };
-
-      "40-cmcciptv" = {
-        matchConfig = {
-          Name = "cmcciptv";
-        };
-        linkConfig = {
-          #MACAddress = "ec:6c:b5:2a:75:22";
-          MACAddress = "c4:74:1e:88:76:84"; # copy from zte
-        };
-        networkConfig = {
-          DHCP = "ipv4";
-          IPv6AcceptRA = false;
-        };
-        dhcpV4Config = {
-          UseDNS = false;
-          UseNTP = false;
-          UseDomains = false;
-          UseRoutes = true;
-          RouteMetric = 2000;
-          UseGateway = false;
-        };
-        routes = [
-          {
-            Destination = "183.235.16.92/32";
-            Gateway = "_dhcp4";
-          }
-          {
-            Destination = "239.0.0.0/8";
-            Type = "multicast";
-          }
-        ];
       };
     };
   };
