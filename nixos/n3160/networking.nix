@@ -356,23 +356,6 @@ in
     useDHCP = false;
     firewall.enable = false;
     nat.enable = false;
-    timeServers = [
-      "ntp.aliyun.com"
-      "ntp1.aliyun.com"
-      "ntp2.aliyun.com"
-      "ntp3.aliyun.com"
-      "ntp4.aliyun.com"
-      "ntp.tencent.com"
-      "ntp1.tencent.com"
-      "ntp2.tencent.com"
-      "ntp3.tencent.com"
-      "ntp4.tencent.com"
-      "ntp5.tencent.com"
-      "0.cn.pool.ntp.org"
-      "1.cn.pool.ntp.org"
-      "2.cn.pool.ntp.org"
-      "3.cn.pool.ntp.org"
-    ];
     nftables = {
       enable = true;
       flattenRulesetFile = true;
