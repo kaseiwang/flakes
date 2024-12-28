@@ -162,8 +162,8 @@ in
         "1.0.0.1 -tls-host-verify cloudflare-dns.com -interface singbox"
         #"2400:3200::1 -tls-host-verify *.alidns.com -group china -exclude-default-group"
         #"223.5.5.5 -tls-host-verify *.alidns.com -group china -exclude-default-group"
-        "1.12.12.12 -tls-host-verify 1.12.12.12 -group china -exclude-default-group -interface ${wanif} -subnet 120.235.1.1/16"
-        "120.53.53.53 -tls-host-verify 120.53.53.53 -group china -exclude-default-group -interface ${wanif} -subnet 120.235.1.1/16"
+        "120.53.53.53 -tls-host-verify 120.53.53.53 -group china -exclude-default-group -interface ${wanif}"
+        "1.12.12.12 -tls-host-verify 120.53.53.53 -group china -exclude-default-group -interface ${wanif}"
       ];
       speed-check-mode = "none";
     };
