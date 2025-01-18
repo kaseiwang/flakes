@@ -1,11 +1,11 @@
 { pkgs, ... }:
 pkgs.stdenv.mkDerivation rec {
   pname = "fcitx5-pinyin-custom-pinyin-dictionary";
-  version = "20240824";
+  version = "20250101";
 
   src = pkgs.fetchurl {
     url = "https://github.com/wuhgit/CustomPinyinDictionary/releases/download/assets/CustomPinyinDictionary_Fcitx_${version}.tar.gz";
-    sha256 = "sha256-5juOsS4hyUt7MlXmR1UKhOKX55j1KTlp8mFvkZDdGRQ=";
+    sha256 = "sha256-3LQmbfRfmS5sfmhKBovtis9aXJGf4L9ahHKhepqRreU=";
   };
 
   unpackPhase = ''

@@ -13,7 +13,6 @@ in
     cpu.amd.updateMicrocode = true;
     #cpu.amd.ryzen-smu.enable = true;
     bluetooth.enable = true;
-    pulseaudio.enable = false;
 
     graphics = {
       enable = true;
