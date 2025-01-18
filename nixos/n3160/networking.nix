@@ -282,6 +282,18 @@ in
           };
         }
         {
+          type = "shadowsocks";
+          tag = "ss-aws1";
+          server = "2406:da14:1dd6:4d00:ed67:54aa:3175:22bc";
+          server_port = 9555;
+          method = "2022-blake3-aes-128-gcm";
+          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          multiplex = {
+            enabled = true;
+            protocol = "h2mux";
+          };
+        }
+        {
           server = "74.48.96.113";
           server_port = 443;
           tag = "tls-cone2";
@@ -313,7 +325,7 @@ in
         {
           type = "selector";
           tag = "select";
-          outbounds = [ "ss-cone3" "ss-cone2" ];
+          outbounds = [ "ss-aws1" "ss-cone3" "ss-cone2" ];
         }
         {
           type = "direct";
