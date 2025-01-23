@@ -17,8 +17,7 @@ let
 in
 {
   sops.secrets = {
-    wireguard-key = { };
-    wg-office-key = { };
+    wgkey = { };
     ddns-token = { };
     singboxpass = { };
     ppp0-config = {
@@ -158,8 +157,8 @@ in
       ];
       server-tls = [
         #"2606:4700:4700::1111 -tls-host-verify cloudflare-dns.com"
-        "1.1.1.1 -tls-host-verify cloudflare-dns.com -interface singbox"
-        "1.0.0.1 -tls-host-verify cloudflare-dns.com -interface singbox"
+        "1.1.1.1 -tls-host-verify cloudflare-dns.com"
+        "1.0.0.1 -tls-host-verify cloudflare-dns.com"
         #"2400:3200::1 -tls-host-verify *.alidns.com -group china -exclude-default-group"
         #"223.5.5.5 -tls-host-verify *.alidns.com -group china -exclude-default-group"
         "120.53.53.53 -tls-host-verify 120.53.53.53 -group china -exclude-default-group -interface ${wanif}"
@@ -227,17 +226,6 @@ in
           sniff_override_destination = true;
         }
         {
-          type = "tun";
-          tag = "tun-in";
-          interface_name = "singbox";
-          inet4_address = "172.19.0.1/30";
-          inet6_address = "fdf0:dcba:9876::1/126";
-          sniff = true;
-          sniff_override_destination = true;
-          auto_route = false;
-          #auto_redirect = false;
-        }
-        {
           listen = "::";
           listen_port = 8688;
           tag = "ss-in";
@@ -282,18 +270,6 @@ in
           };
         }
         {
-          type = "shadowsocks";
-          tag = "ss-aws1";
-          server = "2406:da14:1dd6:4d00:ed67:54aa:3175:22bc";
-          server_port = 9555;
-          method = "2022-blake3-aes-128-gcm";
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
-          multiplex = {
-            enabled = true;
-            protocol = "h2mux";
-          };
-        }
-        {
           server = "74.48.96.113";
           server_port = 443;
           tag = "tls-cone2";
@@ -325,7 +301,7 @@ in
         {
           type = "selector";
           tag = "select";
-          outbounds = [ "ss-aws1" "ss-cone3" "ss-cone2" ];
+          outbounds = [ "ss-cone3" "ss-cone2" ];
         }
         {
           type = "direct";
@@ -482,6 +458,7 @@ in
               ct state established,related counter accept;
 
               tcp flags syn tcp option maxseg size set rt mtu;
+              iifname "wg0" tcp flags syn tcp option maxseg size set 1360;
 
               # 12526, qbitorrent
               meta l4proto {icmp, icmpv6, igmp} accept;
@@ -495,6 +472,7 @@ in
             chain output {
               type filter hook output priority filter; policy accept;
               tcp flags syn tcp option maxseg size set rt mtu;
+              iifname "wg0" tcp flags syn tcp option maxseg size set 1360;
             }
           '';
         };
@@ -504,7 +482,16 @@ in
             # Setup NAT masquerading on the ${wanif} interface
             chain postrouting {
               type nat hook postrouting priority filter; policy accept;
-              oifname {${wanif}, enp1s0 } masquerade
+              oifname {${wanif}, enp1s0, wg0 } masquerade
+            }
+          '';
+        };
+        nat6 = {
+          family = "ip6";
+          content = ''
+            chain postrouting {
+              type nat hook postrouting priority filter; policy accept;
+              oifname wg0 masquerade
             }
           '';
         };
@@ -527,29 +514,51 @@ in
       interface = "enp1s0";
     };
     /*
-    vlans."cucciptv" = {
+      vlans."cucciptv" = {
       id = 3964;
       interface = "enp1s0";
-    };
-    vlans."cucctr069" = {
+      };
+      vlans."cucctr069" = {
       id = 3969;
       interface = "enp1s0";
-    };
-    vlans."cuccother" = {
+      };
+      vlans."cuccother" = {
       id = 3962;
       interface = "enp1s0";
-    };
+      };
     */
 
     interfaces."cuccppp" = {
       useDHCP = false;
+    };
+
+    wireguard.useNetworkd = false;
+    wireguard.interfaces."wg0" = {
+      table = "300";
+      fwMark = "0xc8"; # 200
+      listenPort = 2480;
+      mtu = 1400;
+      ips = [
+        "10.10.0.20/32"
+        "fdcd:ad38:cdc5:3:10:10:0:20/128"
+      ];
+      privateKeyFile = "${config.sops.secrets.wgkey.path}";
+      peers = [
+        {
+          publicKey = "c1OdyFkvCBz7DvuCNCIxUQH4kLxGocOOILodtSnmwRk=";
+          endpoint = "[2607:f130:0:179::2f6b:52ea]:2480";
+          allowedIPs = [ "0.0.0.0/0" "::/0" "10.10.0.21/32" "fdcd:ad38:cdc5:3:10:10:0:21/128" ];
+          persistentKeepalive = 60;
+          dynamicEndpointRefreshSeconds = 60;
+        }
+      ];
     };
   };
 
   systemd.services.systemd-networkd.environment.SYSTEMD_LOG_LEVEL = "debug";
   systemd.network = {
     wait-online = {
-      ignoredInterfaces = [ "cuccppp" "singbox" "ens1" "cucciptv" "tinc.kaseinet" ];
+      ignoredInterfaces = [ "cuccppp" "wg0" "ens1" "cucciptv" "tinc.kaseinet" ];
     };
     networks = {
       "60-ppp0" = {
@@ -582,6 +591,20 @@ in
           {
             Gateway = "::";
             GatewayOnLink = true;
+          }
+        ];
+        routingPolicyRules = [
+          {
+            Family = "both";
+            FirewallMark = 200;
+            Priority = 200;
+            Table = 254; # main route table
+          }
+          {
+            Family = "both";
+            FirewallMark = 300;
+            Priority = 300;
+            Table = 300;
           }
         ];
       };

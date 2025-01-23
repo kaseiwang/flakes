@@ -35,7 +35,7 @@
       this = import ./pkgs;
       lib = inputs.nixpkgs.lib;
     in
-    flake-utils.lib.eachSystem [ "aarch64-linux" "x86_64-linux" ]
+    flake-utils.lib.eachSystem [ "aarch64-linux" "aarch64-darwin" "x86_64-linux" ]
       (
         system:
         let

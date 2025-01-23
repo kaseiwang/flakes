@@ -123,7 +123,6 @@ with pkgs.lib;
       logLevel = "INFO";
       unmanaged = [
         "interface-name:tinc.kaseinet"
-        "interface-name:singbox"
       ];
       ensureProfiles = {
         environmentFiles = [ "${config.sops.secrets.networkmanager-env.path}" ];
