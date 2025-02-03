@@ -71,13 +71,20 @@ with pkgs.lib;
         "10.10.0.21/32"
         "fdcd:ad38:cdc5:3:10:10:0:21"
       ];
+      postSetup = ''
+        tc qdisc add dev wg0 root cake bandwidth 200mbit rtt 200ms diffserv4
+      '';
       privateKeyFile = "${config.sops.secrets.wgkey.path}";
       peers = [
         {
           publicKey = "1xUgYLXcalz8s224Nfn2SP8/exaL8D8cp7VWTWIp1g0=";
-          allowedIPs = [ "10.10.0.20/32" "fdcd:ad38:cdc5:3:10:10:0:20" ];
-          #persistentKeepalive = 60;
-          #dynamicEndpointRefreshSeconds = 60;
+          allowedIPs = [
+            "10.10.0.20/32"
+            "fdcd:ad38:cdc5:3:10:10:0:20"
+            "10.10.2.0/24"
+            "fdcd:ad38:cdc5:1::/64"
+            "2408:8207:18c0::/48"
+          ];
         }
       ];
     };
@@ -93,6 +100,25 @@ with pkgs.lib;
           IPv6AcceptRA = false;
           IPv6PrivacyExtensions = pkgs.lib.mkForce false;
         };
+        routes = [
+          {
+            Gateway = "66.103.210.1";
+            Table = 200;
+          }
+          {
+            Gateway = "2607:f130:0:179::1";
+            Table = 200;
+          }
+        ];
+
+        routingPolicyRules = [
+          {
+            Family = "both";
+            FirewallMark = 200;
+            Priority = 200;
+            Table = 200;
+          }
+        ];
       };
     };
   };

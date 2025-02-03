@@ -482,16 +482,8 @@ in
             # Setup NAT masquerading on the ${wanif} interface
             chain postrouting {
               type nat hook postrouting priority filter; policy accept;
-              oifname {${wanif}, enp1s0, wg0 } masquerade
-            }
-          '';
-        };
-        nat6 = {
-          family = "ip6";
-          content = ''
-            chain postrouting {
-              type nat hook postrouting priority filter; policy accept;
-              oifname wg0 masquerade
+              oifname {${wanif}, enp1s0 } masquerade
+              oifname wg0 ip saddr 10.70.0.0/16 masquerade
             }
           '';
         };
