@@ -11,6 +11,13 @@
     useDHCP = true;
     useNetworkd = true;
 
+    wireless = {
+      secretsFile = "${config.sops.secrets.wireless.path}";
+      networks = {
+        kaseinet.pskRaw = "ext:psk_kaseinet";
+      };
+    };
+
     interfaces."enp2s0" = {
       useDHCP = true;
     };
