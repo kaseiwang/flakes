@@ -12,6 +12,7 @@
     useNetworkd = true;
 
     wireless = {
+      enable = true;
       secretsFile = "${config.sops.secrets.wireless.path}";
       networks = {
         kaseinet.pskRaw = "ext:psk_kaseinet";
