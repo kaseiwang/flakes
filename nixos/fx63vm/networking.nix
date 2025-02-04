@@ -1,6 +1,10 @@
 { config, pkgs, ... }:
 
 {
+  sops.secrets = {
+    wireless = { };
+  };
+
   systemd.services.systemd-networkd.environment.SYSTEMD_LOG_LEVEL = "debug";
   networking = {
     hostName = "nas0";
