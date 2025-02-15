@@ -359,8 +359,14 @@ with pkgs.lib;
       route = {
         rules = [
           {
-            geosite = [ "cn" ];
-            geoip = [ "cn" ];
+            rule_set = "geoip-cn";
+            outbound = "direct";
+          }
+          {
+            rule_set = "geosite-cn";
+            outbound = "direct";
+          }
+          {
             domain = [
               "bt.kasei.im"
               "yarr.kasei.im"
