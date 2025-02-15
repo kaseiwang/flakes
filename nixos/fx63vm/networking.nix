@@ -29,6 +29,19 @@
 
     nftables = {
       enable = true;
+      preCheckRuleset = "sed 's/skuid ${config.services.qbittorrent.user}/skuid nobody/g' -i ruleset.conf";
+      tables = {
+        qos = {
+          family = "inet";
+          content = ''
+            chain output {
+              type filter hook output priority filter; policy accept;
+              skuid ${config.services.qbittorrent.user} ip dscp set lephb counter
+              skuid ${config.services.qbittorrent.user} ip6 dscp set lephb counter
+            }
+          '';
+        };
+      };
     };
 
     firewall = {
@@ -48,7 +61,6 @@
         12526 # bittorrent
         57299 # bittorrent
       ];
-      extraInputRules = ''ip saddr { 10.0.0.0/8 } tcp dport 3260 accept'';
     };
   };
 }

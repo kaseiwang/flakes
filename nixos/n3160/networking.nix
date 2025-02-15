@@ -311,8 +311,14 @@ in
       route = {
         rules = [
           {
-            geoip = [ "cn" ];
-            geosite = [ "cn" ];
+            rule_set = "geoip-cn";
+            outbound = "direct";
+          }
+          {
+            rule_set = "geosite-cn";
+            outbound = "direct";
+          }
+          {
             domain = [
               "bt.kasei.im"
               "yarr.kasei.im"
@@ -397,13 +403,12 @@ in
             }
 
             chain route-mark {
-              ether saddr {2c:fd:a1:b1:e1:02, 
-                2c:fd:a1:b1:e1:a1,
-                9e:72:34:02:37:dd} mark set 200; # nas0
               ip daddr @localnet meta mark set 200
               ip daddr @kaseiserversv4 meta mark set 200
+              ip dscp lephb meta mark set 200
               ip6 daddr @localnetv6 meta mark set 200
               ip6 daddr @kaseiserversv6 meta mark set 200
+              ip6 dscp lephb meta mark set 200
 
               meta mark 0 meta mark set 300
               meta mark 200 counter
@@ -631,8 +636,6 @@ in
         };
         dhcpServerStaticLeases = [
           { MACAddress = "4c:c6:4c:bd:41:bd"; Address = "10.10.2.10"; } # ax6000
-          { MACAddress = "2c:fd:a1:b1:e1:02"; Address = "10.10.2.11"; } # nas0
-          { MACAddress = "78:11:dc:b6:91:22"; Address = "10.10.2.176"; } # airpurifier
         ];
         ipv6SendRAConfig = {
           Managed = false;
