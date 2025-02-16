@@ -83,6 +83,7 @@ with pkgs.lib;
             "fdcd:ad38:cdc5:3:10:10:0:20"
             "10.10.2.0/24"
             "fdcd:ad38:cdc5:1::/64"
+            "2408:8206:18c0::/40"
             "2408:8207:18c0::/40"
           ];
         }
@@ -108,6 +109,13 @@ with pkgs.lib;
           {
             Gateway = "2607:f130:0:179::1";
             Table = 200;
+          }
+          # allow both wan and wg
+          {
+            Destination = "2408:8206:18c0::/40";
+          }
+          {
+            Destination = "2408:8207:18c0::/40";
           }
         ];
 
