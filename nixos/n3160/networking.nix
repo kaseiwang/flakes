@@ -211,8 +211,9 @@ in
           }
         ];
         rules = [{
-          geosite = [ "cn" ];
+          rule_set = [ "geosite-cn" "geoip-cn" ];
           server = "tencent";
+          outbound = "direct";
         }];
         final = "cloudflare";
       };
@@ -309,7 +310,12 @@ in
         }
       ];
       route = {
+        default_mark = 200;
         rules = [
+          {
+            ip_is_private = true;
+            outbound = "direct";
+          }
           {
             rule_set = "geoip-cn";
             outbound = "direct";
@@ -332,6 +338,20 @@ in
               "pphimalayanrt.com"
             ];
             outbound = "direct";
+          }
+        ];
+        rule_set = [
+          {
+            tag = "geoip-cn";
+            type = "local";
+            format = "binary";
+            path = "${pkgs.sing-geoip}/share/sing-box/rule-set/geoip-cn.srs";
+          }
+          {
+            tag = "geosite-cn";
+            type = "local";
+            format = "binary";
+            path = "${pkgs.sing-geosite}/share/sing-box/rule-set/geosite-cn.srs";
           }
         ];
         final = "select";
@@ -365,22 +385,6 @@ in
                 74.48.96.113/32, # cone
                 66.103.210.62/32, # cone
                 81.71.146.69/32, # gz2
-                #37.27.0.0/16, # Hetzner, slow with warp
-                #95.217.0.0/16,
-                #163.172.0.0/16,
-                #135.181.0.0/16,
-                #51.158.0.0/15,
-                #62.210.0.0/16,
-              }
-            }
-
-            set kaseiserversv6 {
-              type ipv6_addr
-              flags constant, interval
-              elements = {
-                2607:f130:0:186::0/64, # cone
-                2607:f130:0:17e::0/64, # cone
-                2607:f130:0:179::0/64,
               }
             }
 
@@ -407,7 +411,6 @@ in
               ip daddr @kaseiserversv4 meta mark set 200
               ip dscp lephb meta mark set 200
               ip6 daddr @localnetv6 meta mark set 200
-              ip6 daddr @kaseiserversv6 meta mark set 200
               ip6 dscp lephb meta mark set 200
 
               meta mark 0 meta mark set 300
