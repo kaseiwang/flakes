@@ -253,19 +253,20 @@ with pkgs.lib;
         servers = [
           {
             tag = "cloudflare";
-            address = "https://[2606:4700:4700::1111]/dns-query";
+            address = "tls://[2606:4700:4700::1111]";
             strategy = "prefer_ipv6";
           }
           {
             tag = "tencent";
-            address = "https://120.53.53.53/dns-query";
-            strategy = "prefer_ipv4";
+            address = "tls://120.53.53.53";
+            strategy = "prefer_ipv6";
             detour = "direct";
           }
         ];
         rules = [{
-          geosite = [ "cn" ];
+          rule_set = [ "geosite-cn" "geoip-cn" ];
           server = "tencent";
+          outbound = "direct";
         }];
         final = "cloudflare";
       };
@@ -356,8 +357,15 @@ with pkgs.lib;
           tag = "direct";
         }
       ];
+
       route = {
+        default_mark = 200;
+        final = "direct";
         rules = [
+          {
+            ip_is_private = true;
+            outbound = "direct";
+          }
           {
             rule_set = "geoip-cn";
             outbound = "direct";
@@ -366,17 +374,21 @@ with pkgs.lib;
             rule_set = "geosite-cn";
             outbound = "direct";
           }
+        ];
+        rule_set = [
           {
-            domain = [
-              "bt.kasei.im"
-              "yarr.kasei.im"
-              "chat.kasei.im"
-              "grafana.kasei.im"
-            ];
-            outbound = "direct";
+            tag = "geoip-cn";
+            type = "local";
+            format = "binary";
+            path = "${pkgs.sing-geoip}/share/sing-box/rule-set/geoip-cn.srs";
+          }
+          {
+            tag = "geosite-cn";
+            type = "local";
+            format = "binary";
+            path = "${pkgs.sing-geosite}/share/sing-box/rule-set/geosite-cn.srs";
           }
         ];
-        final = "select";
       };
     };
   };
