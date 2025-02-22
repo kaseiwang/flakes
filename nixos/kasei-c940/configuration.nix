@@ -44,15 +44,8 @@
         "uid-range"
         "big-parallel"
       ];
-      substituters = pkgs.lib.mkForce [
-        #"https://mirrors.bfsu.edu.cn/nix-channels/store" # 302 tuna
-        #"https://mirrors.nju.edu.cn/nix-channels/store"
-        #"https://mirror.nyist.edu.cn/nix-channels/store"
-        #"https://mirrors.cqupt.edu.cn/nix-channels/store"
-        #"https://mirrors.ustc.edu.cn/nix-channels/store"
+      substituters = [
         "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-        #"https://mirrors.sjtug.sjtu.edu.cn/nix-channels/store"
-        "https://cache.nixos.org"
       ];
     };
   };

@@ -28,11 +28,6 @@
     };
   };
 
-  nix.settings.substituters = pkgs.lib.mkForce [
-    #"https://mirrors.bfsu.edu.cn/nix-channels/store"
-    "https://cache.nixos.org"
-  ];
-
   # bug on first boot
   nix.gc.automatic = pkgs.lib.mkForce false;
 

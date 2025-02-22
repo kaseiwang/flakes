@@ -12,11 +12,6 @@
     smartmontools
   ];
 
-  nix.settings.substituters = pkgs.lib.mkForce [
-    #"https://mirrors.bfsu.edu.cn/nix-channels/store"
-    "https://cache.nixos.org"
-  ];
-
   sops.defaultSopsFile = ./secrets.yaml;
 
   environment.persistence."/persist" = {
