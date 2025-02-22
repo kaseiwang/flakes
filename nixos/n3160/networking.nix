@@ -2,16 +2,6 @@
 
 with pkgs.lib;
 let
-  # for dynamic dns
-  directdns = pkgs.writeText "direct.conf" ''
-    nameserver /api.cloudflare.com/china
-    nameserver /dns64.cloudflare-dns.com/china
-    address /*docker.io/172.19.0.2
-    address /*docker.io/fdf0:dcba:9876::2
-    address /*docker.com/172.19.0.2
-    address /*docker.com/fdf0:dcba:9876::2
-  '';
-
   wanif = "ppp0";
   lanif = "ens1";
 in
@@ -153,16 +143,25 @@ in
         "${pkgs.smartdns-china-list}/accelerated-domains.china.smartdns.conf"
         "${pkgs.smartdns-china-list}/apple.china.smartdns.conf"
         #"${pkgs.smartdns-china-list}/google.china.smartdns.conf"
-        "${directdns}"
       ];
       server-tls = [
-        #"2606:4700:4700::1111 -tls-host-verify cloudflare-dns.com"
-        "1.1.1.1 -tls-host-verify cloudflare-dns.com"
-        "1.0.0.1 -tls-host-verify cloudflare-dns.com"
-        #"2400:3200::1 -tls-host-verify *.alidns.com -group china -exclude-default-group"
-        #"223.5.5.5 -tls-host-verify *.alidns.com -group china -exclude-default-group"
-        "120.53.53.53 -tls-host-verify 120.53.53.53 -group china -exclude-default-group -interface ${wanif}"
-        "1.12.12.12 -tls-host-verify 120.53.53.53 -group china -exclude-default-group -interface ${wanif}"
+        # bootstrap
+        "223.5.5.5 -tls-host-verify *.alidns.com -group bootstrap-dns-cn -exclude-default-group -set-mark 200"
+        "223.6.6.6 -tls-host-verify *.alidns.com -group bootstrap-dns-cn -exclude-default-group -set-mark 200"
+        "1.1.1.1 -tls-host-verify cloudflare-dns.com -group bootstrap-dns-global -exclude-default-group -set-mark 300"
+        "1.0.0.1 -tls-host-verify cloudflare-dns.com -group bootstrap-dns-global -exclude-default-group -set-mark 300"
+        # oversea
+        "one.one.one.one -set-mark 300"
+        "dns.google -set-mark 300"
+        # china
+        "dot.pub -group china -exclude-default-group -set-mark 200"
+        "dns.alidns.com -group china -exclude-default-group -set-mark 200"
+      ];
+      nameserver = [
+        "/dot.pub/bootstrap-dns-cn"
+        "/dns.alidns.com/bootstrap-dns-cn"
+        "/one.one.one.one/bootstrap-dns-global"
+        "/dns.google/bootstrap-dns-global"
       ];
       speed-check-mode = "none";
     };
