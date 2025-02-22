@@ -113,9 +113,11 @@ with pkgs.lib;
           # allow both wan and wg
           {
             Destination = "2408:8206:18c0::/40";
+            Metric = 2048;
           }
           {
             Destination = "2408:8207:18c0::/40";
+            Metric = 2048;
           }
         ];
 
