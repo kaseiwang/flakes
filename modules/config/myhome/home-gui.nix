@@ -70,9 +70,16 @@ in
     };
   };
 
-  nix.extraOptions = ''
-    !include ${config.sops.secrets.nixtoken.path}
-  '';
+  nix = {
+    settings = {
+      substituters = [
+        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+      ];
+    };
+    extraOptions = ''
+      !include ${config.sops.secrets.nixtoken.path}
+    '';
+  };
 
   gtk = {
     enable = true;
