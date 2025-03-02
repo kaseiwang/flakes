@@ -3,13 +3,13 @@
 {
   aws-lc = {
     pname = "aws-lc";
-    version = "v1.42.0";
+    version = "v1.47.0";
     src = fetchFromGitHub {
       owner = "aws";
       repo = "aws-lc";
-      rev = "v1.42.0";
+      rev = "v1.47.0";
       fetchSubmodules = false;
-      sha256 = "sha256-G601ix6PyuvOTel8uGG/HbdyOtRipXL9lmFvnX1l3KA=";
+      sha256 = "sha256-Nf+UmtXbtWwkVT63eui5kINyzsmTYqCWXh8JlMHz1h8=";
     };
   };
   fcitx5-pinyin-zhwiki = {
@@ -33,59 +33,60 @@
   };
   qbittorrent-enhanced-nox = {
     pname = "qbittorrent-enhanced-nox";
-    version = "release-5.0.3.10";
+    version = "release-5.0.4.10";
     src = fetchFromGitHub {
       owner = "c0re100";
       repo = "qBittorrent-Enhanced-Edition";
-      rev = "release-5.0.3.10";
+      rev = "release-5.0.4.10";
       fetchSubmodules = false;
-      sha256 = "sha256-efQFjdJeVMrPvCQ5aYtUb65hozKc73MnP0/Kheti9BI=";
+      sha256 = "sha256-qYGDPEg4BZZgHschgFjp23EnmaBtmM+UNoC2Lympt/g=";
     };
   };
   rabbit-digger-pro = {
     pname = "rabbit-digger-pro";
-    version = "d6630cbcdc0c5866b12b0eb3411949e55b8997cd";
+    version = "b212e32730c6fedfc1c74efac3eb7a4e6491f6cc";
     src = fetchgit {
       url = "https://github.com/rabbit-digger/rabbit-digger-pro";
-      rev = "d6630cbcdc0c5866b12b0eb3411949e55b8997cd";
+      rev = "b212e32730c6fedfc1c74efac3eb7a4e6491f6cc";
       fetchSubmodules = true;
       deepClone = false;
       leaveDotGit = false;
-      sha256 = "sha256-zYSnJd35EsLjXW1Yvg5FakT/QMkKHOd6+SwKLxuY3BY=";
+      sparseCheckout = [ ];
+      sha256 = "sha256-5XallQUyyN/NPhQDdFGJt5wap7bxpwEiRsN56PeLhJQ=";
     };
-    "Cargo.lock" = builtins.readFile ./rabbit-digger-pro-d6630cbcdc0c5866b12b0eb3411949e55b8997cd/Cargo.lock;
-    date = "2024-11-19";
+    "Cargo.lock" = builtins.readFile ./rabbit-digger-pro-b212e32730c6fedfc1c74efac3eb7a4e6491f6cc/Cargo.lock;
+    date = "2025-02-11";
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "4994e14a5ae05daf7a63844ee17b034fb8272d09";
+    version = "6601f38990c06909d69364685a8ef4f3544e1e69";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "4994e14a5ae05daf7a63844ee17b034fb8272d09";
+      rev = "6601f38990c06909d69364685a8ef4f3544e1e69";
       fetchSubmodules = false;
-      sha256 = "sha256-Yu6/DWm4b7xQK1O9PivcIjbnmGxXbjztYmnCwXiSHwI=";
+      sha256 = "sha256-veQRHpT/TU7bQz7t7hoZvVtqR6eaXn+O7C8xu2oNFes=";
     };
-    date = "2025-01-16";
+    date = "2025-02-26";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
-    version = "0.1.29";
+    version = "0.1.32";
     src = fetchurl {
-      url = "https://ccls-project.gallery.vsassets.io/_apis/public/gallery/publisher/ccls-project/extension/ccls/0.1.29/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "ccls-0.1.29.zip";
-      sha256 = "sha256-RjMYBLgbi+lgPqaqN7yh8Q8zr9euvQ+YLEoQaV3RDOA=";
+      url = "https://ccls-project.gallery.vsassets.io/_apis/public/gallery/publisher/ccls-project/extension/ccls/0.1.32/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "ccls-0.1.32.zip";
+      sha256 = "sha256-sCsRwS2z/jJpHeSuSdcitk39WEzKBiaZgt0gYRpViYU=";
     };
     publisher = "ccls-project";
     name = "ccls";
   };
   vscode-ext-codeium = {
     pname = "vscode-ext-codeium";
-    version = "1.33.2";
+    version = "1.41.1";
     src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.33.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.33.2.zip";
-      sha256 = "sha256-wAamtVJorhdpqR168U/dNBNvUn3BehTTmtCldkqR6C0=";
+      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.41.1/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "codeium-1.41.1.zip";
+      sha256 = "sha256-YHJjr2lXJ6RMvefQZ0gGp8Ge7z/gR1KV/f3l7cv3WFI=";
     };
     publisher = "Codeium";
     name = "codeium";
@@ -114,13 +115,13 @@
   };
   yarr-pgsql = {
     pname = "yarr-pgsql";
-    version = "v3.1.3";
+    version = "v3.1.4";
     src = fetchFromGitHub {
       owner = "jgkawell";
       repo = "yarr";
-      rev = "v3.1.3";
+      rev = "v3.1.4";
       fetchSubmodules = false;
-      sha256 = "sha256-9tQFUlKy3alaAiZDjhtfoVY1rvISD8aRlyODc2gs5e8=";
+      sha256 = "sha256-CpshWL4rhhp7YUKreeQiQruT9biUQjzkerJgknmsZ3c=";
     };
   };
 }
