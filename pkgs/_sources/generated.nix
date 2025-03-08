@@ -3,13 +3,13 @@
 {
   aws-lc = {
     pname = "aws-lc";
-    version = "v1.47.0";
+    version = "v1.48.1";
     src = fetchFromGitHub {
       owner = "aws";
       repo = "aws-lc";
-      rev = "v1.47.0";
+      rev = "v1.48.1";
       fetchSubmodules = false;
-      sha256 = "sha256-Nf+UmtXbtWwkVT63eui5kINyzsmTYqCWXh8JlMHz1h8=";
+      sha256 = "sha256-oUGPIWtjRabMfXVeymlLvlZ9vfkfQJj65HzzYvnAVuM=";
     };
   };
   fcitx5-pinyin-zhwiki = {
@@ -59,15 +59,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "6601f38990c06909d69364685a8ef4f3544e1e69";
+    version = "bd89994f8d2b9a0955042824d5a345b79aec7a7c";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "6601f38990c06909d69364685a8ef4f3544e1e69";
+      rev = "bd89994f8d2b9a0955042824d5a345b79aec7a7c";
       fetchSubmodules = false;
-      sha256 = "sha256-veQRHpT/TU7bQz7t7hoZvVtqR6eaXn+O7C8xu2oNFes=";
+      sha256 = "sha256-fe9SKq5LcEdQGVog+7NL+dbR/hy33rB8G5erGKbOfDQ=";
     };
-    date = "2025-02-26";
+    date = "2025-03-08";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -82,11 +82,11 @@
   };
   vscode-ext-codeium = {
     pname = "vscode-ext-codeium";
-    version = "1.41.1";
+    version = "1.41.2";
     src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.41.1/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.41.1.zip";
-      sha256 = "sha256-YHJjr2lXJ6RMvefQZ0gGp8Ge7z/gR1KV/f3l7cv3WFI=";
+      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.41.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "codeium-1.41.2.zip";
+      sha256 = "sha256-Ki3r4sxF05t3tJGm89L2BvIoyZZWVn8RHBPWVEsG4m0=";
     };
     publisher = "Codeium";
     name = "codeium";
