@@ -14,6 +14,8 @@
 
   sops.defaultSopsFile = ./secrets.yaml;
 
+  users.extraUsers.kodi.isNormalUser = true;
+
   environment.persistence."/persist" = {
     files = [
       "/etc/machine-id"
