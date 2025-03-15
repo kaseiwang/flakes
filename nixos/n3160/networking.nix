@@ -158,10 +158,13 @@ in
         "dns.alidns.com -group china -exclude-default-group -set-mark 200"
       ];
       nameserver = [
+        # dot bootstrap
         "/dot.pub/bootstrap-dns-cn"
         "/dns.alidns.com/bootstrap-dns-cn"
         "/one.one.one.one/bootstrap-dns-global"
         "/dns.google/bootstrap-dns-global"
+        # extra china rules
+        "/steamcontent.com/china"
       ];
       speed-check-mode = "none";
     };
