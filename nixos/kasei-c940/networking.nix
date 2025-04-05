@@ -127,38 +127,6 @@ with pkgs.lib;
       ensureProfiles = {
         environmentFiles = [ "${config.sops.secrets.networkmanager-env.path}" ];
         profiles = {
-          "NetEase-5G" = {
-            connection = {
-              id = "NetEase-5G";
-              stable-id = ''''${RANDOM}-''${BOOT}-''${DEVICE}'';
-              type = "wifi";
-            };
-            wifi = {
-              mode = "infrastructure";
-              mac-address-randomization = "2";
-              ssid = "NetEase-5G";
-            };
-            wifi-security = {
-              key-mgmt = "wpa-eap";
-            };
-            "802-1x" = {
-              eap = "peap";
-              identity = "$NE_WIFI_USERNAME";
-              password = "$NE_WIFI_PASSWORD";
-              phase2-auth = "mschapv2";
-            };
-            ipv4 = {
-              dns = "127.0.0.1";
-              ignore-auto-dns = "true";
-              method = "auto";
-              dhcp-client-id = "mac";
-              dhcp-send-hostname = "false";
-              dhcp-vendor-class-identifier = "android-dhcp-14";
-            };
-            ipv6 = {
-              method = "disabled";
-            };
-          };
           "kaseinet" = {
             connection = {
               id = "kaseinet";

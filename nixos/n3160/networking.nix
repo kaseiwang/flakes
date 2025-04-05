@@ -111,8 +111,6 @@ in
     };
   };
 
-  #systemd.services.nievpn.wantedBy = [ "multi-user.target" ];
-
   services.kaseinet = {
     enable = true;
     name = config.networking.hostName;
