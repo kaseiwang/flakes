@@ -12,6 +12,9 @@
     smartmontools
   ];
 
+  # for cloudflared
+  nixpkgs.config.allowBroken = true;
+
   sops.defaultSopsFile = ./secrets.yaml;
 
   users.extraUsers.kodi.isNormalUser = true;
