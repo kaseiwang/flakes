@@ -21,7 +21,8 @@ in
     jetbrains-mono
 
     btop
-    (ccls.override { llvmPackages = pkgs.llvmPackages_latest; }) # c/c++ lsp server
+    ccls
+    #(ccls.override { llvmPackages = pkgs.llvmPackages_latest; }) # c/c++ lsp server
     cloc # count lines of code
     devenv
     easyeffects # sound effect
