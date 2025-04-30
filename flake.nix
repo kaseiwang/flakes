@@ -113,6 +113,13 @@
           };
           imports = [ ./nixos/cone3 ];
         };
+        greencloud1 = { ... }: {
+          deployment = {
+            targetHost = "185.200.65.158";
+            buildOnTarget = false;
+          };
+          imports = [ ./nixos/greencloud1 ];
+        };
         r5c = { ... }: {
           nixpkgs.system = "aarch64-linux";
           deployment = {
