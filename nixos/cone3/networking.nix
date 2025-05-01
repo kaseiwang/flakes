@@ -71,9 +71,9 @@ with pkgs.lib;
         "10.10.0.21/32"
         "fdcd:ad38:cdc5:3:10:10:0:21"
       ];
-      #postSetup = ''
-      #  tc qdisc add dev wg0 root cake bandwidth 200mbit rtt 200ms diffserv4
-      #'';
+      postSetup = ''
+        tc qdisc add dev wg0 root cake bandwidth 150mbit rtt 170ms diffserv4
+      '';
       privateKeyFile = "${config.sops.secrets.wgkey.path}";
       peers = [
         {
