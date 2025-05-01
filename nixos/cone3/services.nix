@@ -3,7 +3,7 @@
   sops.secrets = {
     singboxpass = { };
     cloudflared = {
-      owner = config.users.users."cloudflared".name;
+      #owner = config.users.users."cloudflared".name;
     };
     vaultwarden = {
       owner = config.users.users."vaultwarden".name;
