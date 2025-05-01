@@ -120,7 +120,8 @@ in
 
   i18n = {
     inputMethod = {
-      enabled = "fcitx5";
+      enable = true;
+      type = "fcitx5";
       fcitx5.addons = with pkgs; [
         fcitx5-chinese-addons
         fcitx5-pinyin-zhwiki
@@ -334,56 +335,62 @@ in
       enable = true;
       # https://github.com/nix-community/home-manager/issues/322
       package = pkgs.vscode.fhsWithPackages (_: [ patched-openssh ]);
-      enableUpdateCheck = false;
-      enableExtensionUpdateCheck = true;
+
       mutableExtensionsDir = true;
-      userSettings = {
-        "editor.fontFamily" = "JetBrains Mono";
-        "editor.minimap.autohide" = true;
-        "editor.rulers" = [ 80 100 120 ];
-        "editor.inlineSuggest.enabled" = true;
-        "editor.renderWhitespace" = "boundary";
-        "window.titleBarStyle" = "custom";
-        "search.exclude" = {
-          "**/.direnv" = true;
-          "**/vendor" = true;
-          "**/result" = true;
+      profiles.default = {
+        enableUpdateCheck = false;
+        enableExtensionUpdateCheck = true;
+        userSettings = {
+          "editor.fontFamily" = "JetBrains Mono";
+          "editor.minimap.autohide" = true;
+          "editor.rulers" = [ 80 100 120 ];
+          "editor.inlineSuggest.enabled" = true;
+          "editor.renderWhitespace" = "boundary";
+          "window.titleBarStyle" = "custom";
+          "search.exclude" = {
+            "**/.direnv" = true;
+            "**/vendor" = true;
+            "**/result" = true;
+          };
+          "ccls.cache.directory" = "${config.xdg.cacheHome}/ccls-cache";
+          "github.copilot.editor.enableAutoCompletions" = true;
+          "git.openRepositoryInParentFolders" = "never"; # stop annoying popup
         };
-        "ccls.cache.directory" = "${config.xdg.cacheHome}/ccls-cache";
-        "github.copilot.editor.enableAutoCompletions" = true;
-        "git.openRepositoryInParentFolders" = "never"; # stop annoying popup
+
+        extensions = with pkgs.vscode-extensions; [
+          #vscodevim.vim
+          bbenoist.nix # nix language
+          yzhang.markdown-all-in-one
+          bierner.markdown-mermaid # mermaid for markdown
+          davidanson.vscode-markdownlint
+          golang.go
+          #ms-vscode.PowerShell
+          rust-lang.rust-analyzer
+          #ms-python.python
+          #ms-vscode-remote.remote-ssh
+          #ms-vscode.makefile-tools
+          #ms-kubernetes-tools.vscode-kubernetes-tools
+          ms-azuretools.vscode-docker
+          redhat.vscode-xml
+          redhat.vscode-yaml
+          #eamodio.gitlens
+          #donjayamanne.githistory
+          waderyan.gitblame
+          github.copilot
+          github.copilot-chat
+          zxh404.vscode-proto3
+          signageos.signageos-vscode-sops
+        ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+          {
+            name = "ccls";
+            publisher = "ccls-project";
+            version = "0.1.29";
+            sha256 = "RjMYBLgbi+lgPqaqN7yh8Q8zr9euvQ+YLEoQaV3RDOA=";
+          }
+        ];
       };
-      extensions = with pkgs.vscode-extensions; [
-        #vscodevim.vim
-        bbenoist.nix # nix language
-        yzhang.markdown-all-in-one
-        bierner.markdown-mermaid # mermaid for markdown
-        davidanson.vscode-markdownlint
-        golang.go
-        #ms-vscode.PowerShell
-        rust-lang.rust-analyzer
-        #ms-python.python
-        #ms-vscode-remote.remote-ssh
-        #ms-vscode.makefile-tools
-        #ms-kubernetes-tools.vscode-kubernetes-tools
-        ms-azuretools.vscode-docker
-        redhat.vscode-xml
-        redhat.vscode-yaml
-        #eamodio.gitlens
-        #donjayamanne.githistory
-        waderyan.gitblame
-        github.copilot
-        github.copilot-chat
-        zxh404.vscode-proto3
-        signageos.signageos-vscode-sops
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-        {
-          name = "ccls";
-          publisher = "ccls-project";
-          version = "0.1.29";
-          sha256 = "RjMYBLgbi+lgPqaqN7yh8Q8zr9euvQ+YLEoQaV3RDOA=";
-        }
-      ];
+
+
     };
 
     beets = {
@@ -408,7 +415,7 @@ in
   services = {
     gpg-agent = {
       enable = true;
-      pinentryPackage = pkgs.pinentry-gnome3;
+      pinentry.package = pkgs.pinentry-gnome3;
       enableSshSupport = true;
       sshKeys = [
         "38F5EA0672B9142C0553809CB86A2CBC04248D72"

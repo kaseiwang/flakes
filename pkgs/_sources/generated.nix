@@ -3,43 +3,43 @@
 {
   aws-lc = {
     pname = "aws-lc";
-    version = "v1.48.1";
+    version = "v1.50.1";
     src = fetchFromGitHub {
       owner = "aws";
       repo = "aws-lc";
-      rev = "v1.48.1";
+      rev = "v1.50.1";
       fetchSubmodules = false;
-      sha256 = "sha256-oUGPIWtjRabMfXVeymlLvlZ9vfkfQJj65HzzYvnAVuM=";
+      sha256 = "sha256-iMNevsOF/6Of2MA2zd5+R9zRkitfhgXRWrKEa5ENSFE=";
     };
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20241218";
+    version = "20250415";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20241218.dict";
-      sha256 = "sha256-9Z+dgicQQdsySn1/xn6w4Q4hOqMv7Rngol615/JxtRk=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250415.dict";
+      sha256 = "sha256-8dFBoP3UcYCl6EYojn14Bp7aYe/Z9cf4drSmeheHbLw=";
     };
   };
   nvidia_gpu_exporter = {
     pname = "nvidia_gpu_exporter";
-    version = "v1.3.0";
+    version = "v1.3.1";
     src = fetchFromGitHub {
       owner = "utkuozdemir";
       repo = "nvidia_gpu_exporter";
-      rev = "v1.3.0";
+      rev = "v1.3.1";
       fetchSubmodules = false;
-      sha256 = "sha256-nBNQqnXomQpEgspC9kmI574Onhkcg7UCXIf7O7XiiH0=";
+      sha256 = "sha256-rZwasPgkplX77y05huyNIdqbpJtLtapYsia5RfTmUEI=";
     };
   };
   qbittorrent-enhanced-nox = {
     pname = "qbittorrent-enhanced-nox";
-    version = "release-5.0.4.10";
+    version = "release-5.0.5.10";
     src = fetchFromGitHub {
       owner = "c0re100";
       repo = "qBittorrent-Enhanced-Edition";
-      rev = "release-5.0.4.10";
+      rev = "release-5.0.5.10";
       fetchSubmodules = false;
-      sha256 = "sha256-qYGDPEg4BZZgHschgFjp23EnmaBtmM+UNoC2Lympt/g=";
+      sha256 = "sha256-wMPzasrWmPG+iOwUBkbswSMQQBJxq03GVlQg5ck54vQ=";
     };
   };
   rabbit-digger-pro = {
@@ -59,15 +59,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "bd89994f8d2b9a0955042824d5a345b79aec7a7c";
+    version = "56d51dc629267d5dac8aa6a021a8fb1b4283f583";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "bd89994f8d2b9a0955042824d5a345b79aec7a7c";
+      rev = "56d51dc629267d5dac8aa6a021a8fb1b4283f583";
       fetchSubmodules = false;
-      sha256 = "sha256-fe9SKq5LcEdQGVog+7NL+dbR/hy33rB8G5erGKbOfDQ=";
+      sha256 = "sha256-tc5biNmK7nTeOuXuUZwjjBKyS8V4HTqHswtXIws8H3Q=";
     };
-    date = "2025-03-08";
+    date = "2025-04-25";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -82,22 +82,22 @@
   };
   vscode-ext-codeium = {
     pname = "vscode-ext-codeium";
-    version = "1.41.2";
+    version = "1.47.1";
     src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.41.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.41.2.zip";
-      sha256 = "sha256-Ki3r4sxF05t3tJGm89L2BvIoyZZWVn8RHBPWVEsG4m0=";
+      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.47.1/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "codeium-1.47.1.zip";
+      sha256 = "sha256-H6n9j+20K5DaSGtGlhqwBKF8AnZ6YLjQgtJ39DyaftE=";
     };
     publisher = "Codeium";
     name = "codeium";
   };
   vscode-ext-sops = {
     pname = "vscode-ext-sops";
-    version = "0.9.1";
+    version = "0.9.2";
     src = fetchurl {
-      url = "https://signageos.gallery.vsassets.io/_apis/public/gallery/publisher/signageos/extension/signageos-vscode-sops/0.9.1/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "signageos-vscode-sops-0.9.1.zip";
-      sha256 = "sha256-b1Gp+tL5/e97xMuqkz4EvN0PxI7cJOObusEkcp+qKfM=";
+      url = "https://signageos.gallery.vsassets.io/_apis/public/gallery/publisher/signageos/extension/signageos-vscode-sops/0.9.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "signageos-vscode-sops-0.9.2.zip";
+      sha256 = "sha256-qlFD8sMvdKpLkXiYT9UybgCvxUJrbXpAcnmPxk91Tbs=";
     };
     publisher = "signageos";
     name = "signageos-vscode-sops";
