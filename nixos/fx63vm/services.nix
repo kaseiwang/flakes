@@ -96,13 +96,13 @@
           ensureDBOwnership = true;
         }
         {
-          name = "${config.services.yarr.user}";
+          name = "yarr";
           ensureDBOwnership = true;
         }
       ];
       ensureDatabases = [
         "${config.services.nextcloud.config.dbname}"
-        "${config.services.yarr.user}"
+        "yarr"
       ];
     };
 
@@ -207,7 +207,7 @@
 
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud30;
+      package = pkgs.nextcloud31;
       home = "/pool0/encrypted/nextcloud";
       hostName = "nextcloud.kasei.im";
       https = true;
@@ -335,7 +335,6 @@
 
     yarr = {
       enable = true;
-      proxy = "socks5://10.10.2.1:1080";
     };
 
     nginx = {
