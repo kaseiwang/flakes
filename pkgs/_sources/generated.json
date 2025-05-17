@@ -13,12 +13,12 @@
             "name": null,
             "owner": "aws",
             "repo": "aws-lc",
-            "rev": "v1.50.1",
-            "sha256": "sha256-iMNevsOF/6Of2MA2zd5+R9zRkitfhgXRWrKEa5ENSFE=",
+            "rev": "v1.51.2",
+            "sha256": "sha256-Of4zXFO2+2uvu5xi4tmzUK9F5pJ+VyKQOrLpdYPvhSA=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v1.50.1"
+        "version": "v1.51.2"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -49,12 +49,12 @@
             "name": null,
             "owner": "utkuozdemir",
             "repo": "nvidia_gpu_exporter",
-            "rev": "v1.3.1",
-            "sha256": "sha256-rZwasPgkplX77y05huyNIdqbpJtLtapYsia5RfTmUEI=",
+            "rev": "v1.3.2",
+            "sha256": "sha256-d5/sWgfb4rGfHHeHOunHkm61F6o9L/z0MLh7iRABEYg=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v1.3.1"
+        "version": "v1.3.2"
     },
     "qbittorrent-enhanced-nox": {
         "cargoLocks": null,
@@ -70,12 +70,12 @@
             "name": null,
             "owner": "c0re100",
             "repo": "qBittorrent-Enhanced-Edition",
-            "rev": "release-5.0.5.10",
-            "sha256": "sha256-wMPzasrWmPG+iOwUBkbswSMQQBJxq03GVlQg5ck54vQ=",
+            "rev": "release-5.1.0.10",
+            "sha256": "sha256-uPvJe7sCf9VCBobf4CNyVjfDhl2/SgGEF3ySRsJcwJ4=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "release-5.0.5.10"
+        "version": "release-5.1.0.10"
     },
     "rabbit-digger-pro": {
         "cargoLocks": null,
@@ -101,7 +101,7 @@
     },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2025-04-25",
+        "date": "2025-05-12",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -113,12 +113,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "56d51dc629267d5dac8aa6a021a8fb1b4283f583",
-            "sha256": "sha256-tc5biNmK7nTeOuXuUZwjjBKyS8V4HTqHswtXIws8H3Q=",
+            "rev": "aacd19eb3453cd4e9383c6a49f4c427b457b704b",
+            "sha256": "sha256-ysDd+4L6T9eURUCkwoXKmkxN6SpB5ycS9gIijhTZC2Y=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "56d51dc629267d5dac8aa6a021a8fb1b4283f583"
+        "version": "aacd19eb3453cd4e9383c6a49f4c427b457b704b"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,

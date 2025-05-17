@@ -3,13 +3,13 @@
 {
   aws-lc = {
     pname = "aws-lc";
-    version = "v1.50.1";
+    version = "v1.51.2";
     src = fetchFromGitHub {
       owner = "aws";
       repo = "aws-lc";
-      rev = "v1.50.1";
+      rev = "v1.51.2";
       fetchSubmodules = false;
-      sha256 = "sha256-iMNevsOF/6Of2MA2zd5+R9zRkitfhgXRWrKEa5ENSFE=";
+      sha256 = "sha256-Of4zXFO2+2uvu5xi4tmzUK9F5pJ+VyKQOrLpdYPvhSA=";
     };
   };
   fcitx5-pinyin-zhwiki = {
@@ -22,24 +22,24 @@
   };
   nvidia_gpu_exporter = {
     pname = "nvidia_gpu_exporter";
-    version = "v1.3.1";
+    version = "v1.3.2";
     src = fetchFromGitHub {
       owner = "utkuozdemir";
       repo = "nvidia_gpu_exporter";
-      rev = "v1.3.1";
+      rev = "v1.3.2";
       fetchSubmodules = false;
-      sha256 = "sha256-rZwasPgkplX77y05huyNIdqbpJtLtapYsia5RfTmUEI=";
+      sha256 = "sha256-d5/sWgfb4rGfHHeHOunHkm61F6o9L/z0MLh7iRABEYg=";
     };
   };
   qbittorrent-enhanced-nox = {
     pname = "qbittorrent-enhanced-nox";
-    version = "release-5.0.5.10";
+    version = "release-5.1.0.10";
     src = fetchFromGitHub {
       owner = "c0re100";
       repo = "qBittorrent-Enhanced-Edition";
-      rev = "release-5.0.5.10";
+      rev = "release-5.1.0.10";
       fetchSubmodules = false;
-      sha256 = "sha256-wMPzasrWmPG+iOwUBkbswSMQQBJxq03GVlQg5ck54vQ=";
+      sha256 = "sha256-uPvJe7sCf9VCBobf4CNyVjfDhl2/SgGEF3ySRsJcwJ4=";
     };
   };
   rabbit-digger-pro = {
@@ -59,15 +59,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "56d51dc629267d5dac8aa6a021a8fb1b4283f583";
+    version = "aacd19eb3453cd4e9383c6a49f4c427b457b704b";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "56d51dc629267d5dac8aa6a021a8fb1b4283f583";
+      rev = "aacd19eb3453cd4e9383c6a49f4c427b457b704b";
       fetchSubmodules = false;
-      sha256 = "sha256-tc5biNmK7nTeOuXuUZwjjBKyS8V4HTqHswtXIws8H3Q=";
+      sha256 = "sha256-ysDd+4L6T9eURUCkwoXKmkxN6SpB5ycS9gIijhTZC2Y=";
     };
-    date = "2025-04-25";
+    date = "2025-05-12";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
