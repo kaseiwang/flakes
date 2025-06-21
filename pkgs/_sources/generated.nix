@@ -3,21 +3,21 @@
 {
   aws-lc = {
     pname = "aws-lc";
-    version = "v1.51.2";
+    version = "v1.53.1";
     src = fetchFromGitHub {
       owner = "aws";
       repo = "aws-lc";
-      rev = "v1.51.2";
+      rev = "v1.53.1";
       fetchSubmodules = false;
-      sha256 = "sha256-Of4zXFO2+2uvu5xi4tmzUK9F5pJ+VyKQOrLpdYPvhSA=";
+      sha256 = "sha256-1liZ1xellboNNsL7D6vqYk9sHFpWN5c0o8B1S9B5Gnc=";
     };
   };
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20250415";
+    version = "20250526";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250415.dict";
-      sha256 = "sha256-8dFBoP3UcYCl6EYojn14Bp7aYe/Z9cf4drSmeheHbLw=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250526.dict";
+      sha256 = "sha256-znHic2/mP0HWJgO1v7sqF2W4Xv2ZhhC8xufaUu87ZzE=";
     };
   };
   nvidia_gpu_exporter = {
@@ -33,13 +33,13 @@
   };
   qbittorrent-enhanced-nox = {
     pname = "qbittorrent-enhanced-nox";
-    version = "release-5.1.0.10";
+    version = "release-5.1.0.11";
     src = fetchFromGitHub {
       owner = "c0re100";
       repo = "qBittorrent-Enhanced-Edition";
-      rev = "release-5.1.0.10";
+      rev = "release-5.1.0.11";
       fetchSubmodules = false;
-      sha256 = "sha256-uPvJe7sCf9VCBobf4CNyVjfDhl2/SgGEF3ySRsJcwJ4=";
+      sha256 = "sha256-LY79Y7sG6EHGOh1hRujAOMRK3MKSAblJ+FFuGlj13iQ=";
     };
   };
   rabbit-digger-pro = {
@@ -59,15 +59,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "aacd19eb3453cd4e9383c6a49f4c427b457b704b";
+    version = "991d1220986559258a1f101da3575dc671a07b60";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "aacd19eb3453cd4e9383c6a49f4c427b457b704b";
+      rev = "991d1220986559258a1f101da3575dc671a07b60";
       fetchSubmodules = false;
-      sha256 = "sha256-ysDd+4L6T9eURUCkwoXKmkxN6SpB5ycS9gIijhTZC2Y=";
+      sha256 = "sha256-vfpiBoLka2lZB6wmDMnr1+NMFPSDtlJWDvJHCiFcDag=";
     };
-    date = "2025-05-12";
+    date = "2025-06-20";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -82,11 +82,11 @@
   };
   vscode-ext-codeium = {
     pname = "vscode-ext-codeium";
-    version = "1.47.1";
+    version = "1.49.2";
     src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.47.1/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.47.1.zip";
-      sha256 = "sha256-H6n9j+20K5DaSGtGlhqwBKF8AnZ6YLjQgtJ39DyaftE=";
+      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.49.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "codeium-1.49.2.zip";
+      sha256 = "sha256-fLDR0Gb8J9DkKTwFm0oMHB1GENKH/Cj2jMb1AsP0ZpQ=";
     };
     publisher = "Codeium";
     name = "codeium";

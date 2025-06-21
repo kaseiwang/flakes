@@ -9,7 +9,7 @@
 buildGoModule rec {
   inherit (source) pname version src;
 
-  vendorHash = "sha256-ev7k4dSu0ymg2Tn28oTVgEDSyUpaK0POg91ikC9G7Gs=";
+  vendorHash = "sha256-kzjaMLPZrjgdeNSLapp3t+b8Y++Q8Cqj1hkU+GVGm88=";
 
   meta = with lib; {
     description = "Nvidia GPU exporter for prometheus using nvidia-smi binary";

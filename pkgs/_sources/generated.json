@@ -13,12 +13,12 @@
             "name": null,
             "owner": "aws",
             "repo": "aws-lc",
-            "rev": "v1.51.2",
-            "sha256": "sha256-Of4zXFO2+2uvu5xi4tmzUK9F5pJ+VyKQOrLpdYPvhSA=",
+            "rev": "v1.53.1",
+            "sha256": "sha256-1liZ1xellboNNsL7D6vqYk9sHFpWN5c0o8B1S9B5Gnc=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v1.51.2"
+        "version": "v1.53.1"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -29,11 +29,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-8dFBoP3UcYCl6EYojn14Bp7aYe/Z9cf4drSmeheHbLw=",
+            "sha256": "sha256-znHic2/mP0HWJgO1v7sqF2W4Xv2ZhhC8xufaUu87ZzE=",
             "type": "url",
-            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250415.dict"
+            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250526.dict"
         },
-        "version": "20250415"
+        "version": "20250526"
     },
     "nvidia_gpu_exporter": {
         "cargoLocks": null,
@@ -70,12 +70,12 @@
             "name": null,
             "owner": "c0re100",
             "repo": "qBittorrent-Enhanced-Edition",
-            "rev": "release-5.1.0.10",
-            "sha256": "sha256-uPvJe7sCf9VCBobf4CNyVjfDhl2/SgGEF3ySRsJcwJ4=",
+            "rev": "release-5.1.0.11",
+            "sha256": "sha256-LY79Y7sG6EHGOh1hRujAOMRK3MKSAblJ+FFuGlj13iQ=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "release-5.1.0.10"
+        "version": "release-5.1.0.11"
     },
     "rabbit-digger-pro": {
         "cargoLocks": null,
@@ -101,7 +101,7 @@
     },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2025-05-12",
+        "date": "2025-06-20",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -113,12 +113,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "aacd19eb3453cd4e9383c6a49f4c427b457b704b",
-            "sha256": "sha256-ysDd+4L6T9eURUCkwoXKmkxN6SpB5ycS9gIijhTZC2Y=",
+            "rev": "991d1220986559258a1f101da3575dc671a07b60",
+            "sha256": "sha256-vfpiBoLka2lZB6wmDMnr1+NMFPSDtlJWDvJHCiFcDag=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "aacd19eb3453cd4e9383c6a49f4c427b457b704b"
+        "version": "991d1220986559258a1f101da3575dc671a07b60"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,
@@ -149,12 +149,12 @@
         },
         "pinned": false,
         "src": {
-            "name": "codeium-1.47.1.zip",
-            "sha256": "sha256-H6n9j+20K5DaSGtGlhqwBKF8AnZ6YLjQgtJ39DyaftE=",
+            "name": "codeium-1.49.2.zip",
+            "sha256": "sha256-fLDR0Gb8J9DkKTwFm0oMHB1GENKH/Cj2jMb1AsP0ZpQ=",
             "type": "url",
-            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.47.1/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
+            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.49.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
         },
-        "version": "1.47.1"
+        "version": "1.49.2"
     },
     "vscode-ext-sops": {
         "cargoLocks": null,
