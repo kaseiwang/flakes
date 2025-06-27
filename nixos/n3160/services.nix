@@ -88,10 +88,10 @@
     enable = true;
   };
 
-  services.miio-exporter = {
-    enable = true;
-    environmentFile = "${config.sops.secrets.miioenv.path}";
-  };
+  #services.miio-exporter = {
+  #  enable = true;
+  #  environmentFile = "${config.sops.secrets.miioenv.path}";
+  #};
 
   security.acme = {
     acceptTerms = true;

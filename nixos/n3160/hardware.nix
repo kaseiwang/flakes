@@ -32,6 +32,8 @@ in
       "net.ipv6.conf.all.forwarding" = true;
       "net.ipv4.conf.default.forwarding" = true;
       "net.ipv6.conf.default.forwarding" = true;
+      "net.core.rps_default_mask" = "f";
+      "net.core.rps_sock_flow_entries" = 32768;
     };
 
     tmp.useTmpfs = true;

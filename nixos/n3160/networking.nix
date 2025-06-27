@@ -561,6 +561,30 @@ in
     wait-online = {
       ignoredInterfaces = [ "cuccppp" "wg0" "ens1" "cucciptv" "tinc.kaseinet" ];
     };
+    links = {
+      "30-ens1" = {
+        matchConfig = {
+          OriginalName = "ens1";
+        };
+        linkConfig = {
+          TCPSegmentationOffload = true;
+          GenericSegmentationOffload = true;
+          GenericReceiveOffload = true;
+          #ReceivePacketSteeringCPUMask = "f"; # 0b1111
+        };
+      };
+      "30-enp1s0" = {
+        matchConfig = {
+          OriginalName = "enp1s0";
+        };
+        linkConfig = {
+          TCPSegmentationOffload = true;
+          GenericSegmentationOffload = true;
+          GenericReceiveOffload = true;
+          #ReceivePacketSteeringCPUMask = "f"; # 0b1111
+        };
+      };
+    };
     networks = {
       "60-ppp0" = {
         matchConfig = {

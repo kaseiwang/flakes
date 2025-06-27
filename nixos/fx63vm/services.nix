@@ -166,12 +166,12 @@
             { targets = [ "localhost:${toString config.services.prometheus.exporters.smartctl.port}" ]; }
           ];
         }
-        {
-          job_name = "miio";
-          static_configs = [
-            { targets = [ "10.10.2.1:9191" ]; }
-          ];
-        }
+        #{
+        #  job_name = "miio";
+        #  static_configs = [
+        #    { targets = [ "10.10.2.1:9191" ]; }
+        #  ];
+        #}
         {
           job_name = "ntpd-rs";
           static_configs = [
