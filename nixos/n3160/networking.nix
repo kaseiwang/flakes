@@ -596,7 +596,7 @@ in
           LLMNR = false;
           IPv6AcceptRA = true;
           IPv6ProxyNDP = false;
-          KeepConfiguration = false;
+          KeepConfiguration = "static";
           DHCPPrefixDelegation = false;
           DefaultRouteOnDevice = true;
         };
@@ -691,7 +691,6 @@ in
         networkConfig = {
           DHCP = "no";
           LinkLocalAddressing = "no";
-          KeepConfiguration = "static";
         };
       };
     };
