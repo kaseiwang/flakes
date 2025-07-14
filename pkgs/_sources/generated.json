@@ -13,12 +13,12 @@
             "name": null,
             "owner": "aws",
             "repo": "aws-lc",
-            "rev": "v1.53.1",
-            "sha256": "sha256-1liZ1xellboNNsL7D6vqYk9sHFpWN5c0o8B1S9B5Gnc=",
+            "rev": "v1.55.0",
+            "sha256": "sha256-Ul+PoOItv7FU7v7NkpaCrZrr/ULnI9FSv6T8ePzTMCs=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v1.53.1"
+        "version": "v1.55.0"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -70,12 +70,12 @@
             "name": null,
             "owner": "c0re100",
             "repo": "qBittorrent-Enhanced-Edition",
-            "rev": "release-5.1.0.11",
-            "sha256": "sha256-LY79Y7sG6EHGOh1hRujAOMRK3MKSAblJ+FFuGlj13iQ=",
+            "rev": "release-5.1.2.10",
+            "sha256": "sha256-Q3gipRgZCzihKUQZZmETT65AUSEUfgj9dFxZFybq258=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "release-5.1.0.11"
+        "version": "release-5.1.2.10"
     },
     "rabbit-digger-pro": {
         "cargoLocks": null,
@@ -101,7 +101,7 @@
     },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2025-06-20",
+        "date": "2025-07-06",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -113,12 +113,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "991d1220986559258a1f101da3575dc671a07b60",
-            "sha256": "sha256-vfpiBoLka2lZB6wmDMnr1+NMFPSDtlJWDvJHCiFcDag=",
+            "rev": "4ee73734f4cf54c4f4773f60d19025c380866e12",
+            "sha256": "sha256-fap15DemMKUSNsDGYEtJHtAPpsdZafFEXlsdPsb0f5U=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "991d1220986559258a1f101da3575dc671a07b60"
+        "version": "4ee73734f4cf54c4f4773f60d19025c380866e12"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,
@@ -209,11 +209,11 @@
             "name": null,
             "owner": "jgkawell",
             "repo": "yarr",
-            "rev": "v3.1.4",
-            "sha256": "sha256-CpshWL4rhhp7YUKreeQiQruT9biUQjzkerJgknmsZ3c=",
+            "rev": "v3.1.6",
+            "sha256": "sha256-RO3kZFpryKmYDlQBDOK/6ujcCuT/F2rg7TyV25Y4PgY=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v3.1.4"
+        "version": "v3.1.6"
     }
 }

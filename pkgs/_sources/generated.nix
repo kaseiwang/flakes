@@ -3,13 +3,13 @@
 {
   aws-lc = {
     pname = "aws-lc";
-    version = "v1.53.1";
+    version = "v1.55.0";
     src = fetchFromGitHub {
       owner = "aws";
       repo = "aws-lc";
-      rev = "v1.53.1";
+      rev = "v1.55.0";
       fetchSubmodules = false;
-      sha256 = "sha256-1liZ1xellboNNsL7D6vqYk9sHFpWN5c0o8B1S9B5Gnc=";
+      sha256 = "sha256-Ul+PoOItv7FU7v7NkpaCrZrr/ULnI9FSv6T8ePzTMCs=";
     };
   };
   fcitx5-pinyin-zhwiki = {
@@ -33,13 +33,13 @@
   };
   qbittorrent-enhanced-nox = {
     pname = "qbittorrent-enhanced-nox";
-    version = "release-5.1.0.11";
+    version = "release-5.1.2.10";
     src = fetchFromGitHub {
       owner = "c0re100";
       repo = "qBittorrent-Enhanced-Edition";
-      rev = "release-5.1.0.11";
+      rev = "release-5.1.2.10";
       fetchSubmodules = false;
-      sha256 = "sha256-LY79Y7sG6EHGOh1hRujAOMRK3MKSAblJ+FFuGlj13iQ=";
+      sha256 = "sha256-Q3gipRgZCzihKUQZZmETT65AUSEUfgj9dFxZFybq258=";
     };
   };
   rabbit-digger-pro = {
@@ -59,15 +59,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "991d1220986559258a1f101da3575dc671a07b60";
+    version = "4ee73734f4cf54c4f4773f60d19025c380866e12";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "991d1220986559258a1f101da3575dc671a07b60";
+      rev = "4ee73734f4cf54c4f4773f60d19025c380866e12";
       fetchSubmodules = false;
-      sha256 = "sha256-vfpiBoLka2lZB6wmDMnr1+NMFPSDtlJWDvJHCiFcDag=";
+      sha256 = "sha256-fap15DemMKUSNsDGYEtJHtAPpsdZafFEXlsdPsb0f5U=";
     };
-    date = "2025-06-20";
+    date = "2025-07-06";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -115,13 +115,13 @@
   };
   yarr-pgsql = {
     pname = "yarr-pgsql";
-    version = "v3.1.4";
+    version = "v3.1.6";
     src = fetchFromGitHub {
       owner = "jgkawell";
       repo = "yarr";
-      rev = "v3.1.4";
+      rev = "v3.1.6";
       fetchSubmodules = false;
-      sha256 = "sha256-CpshWL4rhhp7YUKreeQiQruT9biUQjzkerJgknmsZ3c=";
+      sha256 = "sha256-RO3kZFpryKmYDlQBDOK/6ujcCuT/F2rg7TyV25Y4PgY=";
     };
   };
 }
