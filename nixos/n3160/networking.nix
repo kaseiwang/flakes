@@ -559,7 +559,7 @@ in
   systemd.services.systemd-networkd.environment.SYSTEMD_LOG_LEVEL = "debug";
   systemd.network = {
     wait-online = {
-      ignoredInterfaces = [ "cuccppp" "wg0" "ens1" "cucciptv" "tinc.kaseinet" ];
+      ignoredInterfaces = [ "cuccppp" "wg0" "ens1" "enp1s0" "cucciptv" "tinc.kaseinet" ];
     };
     links = {
       "30-ens1" = {
