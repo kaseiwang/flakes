@@ -25,23 +25,55 @@ in
       band = "5g";
       channel = 36; # mt7922 does not support ACS
 
+      wifi4 = {
+        enable = true;
+        capabilities = [
+          "LDPC"
+          "HT40+"
+          "HT40-"
+          "GF"
+          "SHORT-GI-20"
+          "SHORT-GI-40"
+          "TX-STBC"
+          "RX-STBC1"
+          "MAX-AMSDU-7935"
+        ];
+      };
+
       wifi5 = {
         enable = true;
-        operatingChannelWidth = "80";
+        capabilities = [
+          "MAX-MPDU-11454"
+          "VHT160"
+          "RXLDPC"
+          "SHORT-GI-80"
+          "SHORT-GI-160"
+          "TX-STBC-2BY1"
+          "SU-BEAMFORMEE"
+          "MU-BEAMFORMEE"
+          "RX-ANTENNA-PATTERN"
+          "TX-ANTENNA-PATTERN"
+          "RX-STBC-1"
+          "BF-ANTENNA-4"
+          "MAX-A-MPDU-LEN-EXP7"
+        ];
+        operatingChannelWidth = "20or40";
       };
 
       wifi6 = {
         enable = true;
-        operatingChannelWidth = "80";
+        operatingChannelWidth = "20or40";
       };
 
       settings = {
         bridge = "br-lan";
+        vht_oper_centr_freq_seg0_idx="42";
       };
 
       networks = {
         wlp3s0 = {
           ssid = "kaseitest";
+          logLevel = 1; # debug
           authentication = {
             #wpaPasswordFile = config.sops.secrets.wifipsk.path;
             saePasswordsFile = config.sops.secrets.wifipsk.path;
