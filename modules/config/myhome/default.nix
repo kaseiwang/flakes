@@ -36,7 +36,7 @@ with lib;
       useUserPackages = true;
       sharedModules = [
         inputs.sops-nix.homeManagerModules.sops
-        inputs.nix-index-database.hmModules.nix-index
+        inputs.nix-index-database.homeModules.nix-index
       ];
       users."${cfg.username}" =
         if cfg.gui then {

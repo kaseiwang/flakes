@@ -444,6 +444,7 @@
 
     qbittorrent = {
       enable = true;
+      package = pkgs.qbittorrent-enhanced-nox;
       group = "nas";
       openFilesLimit = 65535;
       # TODO: use module to manage qbittorrent settings
