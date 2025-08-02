@@ -71,36 +71,11 @@ in
         he_oper_centr_freq_seg0_idx = "42"; # channel +6 for 80mhz
 
         he_bss_color = "42";
-
-        he_mu_edca_qos_info_param_count = "0";
-        he_mu_edca_qos_info_q_ack = "0";
-        he_mu_edca_qos_info_queue_request = "0";
-        he_mu_edca_qos_info_txop_request = "0";
-        he_mu_edca_ac_be_aifsn = "8";
-        he_mu_edca_ac_be_aci = "0";
-        he_mu_edca_ac_be_ecwmin = "9";
-        he_mu_edca_ac_be_ecwmax = "10";
-        he_mu_edca_ac_be_timer = "255";
-        he_mu_edca_ac_bk_aifsn = "15";
-        he_mu_edca_ac_bk_aci = "1";
-        he_mu_edca_ac_bk_ecwmin = "9";
-        he_mu_edca_ac_bk_ecwmax = "10";
-        he_mu_edca_ac_bk_timer = "255";
-        he_mu_edca_ac_vi_ecwmin = "5";
-        he_mu_edca_ac_vi_ecwmax = "7";
-        he_mu_edca_ac_vi_aifsn = "5";
-        he_mu_edca_ac_vi_aci = "2";
-        he_mu_edca_ac_vi_timer = "255";
-        he_mu_edca_ac_vo_aifsn = "5";
-        he_mu_edca_ac_vo_aci = "3";
-        he_mu_edca_ac_vo_ecwmin = "5";
-        he_mu_edca_ac_vo_ecwmax = "7";
-        he_mu_edca_ac_vo_timer = "255";
       };
 
       networks = {
         wlp3s0 = {
-          ssid = "kaseitest";
+          ssid = "kaseinet";
           logLevel = 1; # debug
           authentication = {
             #wpaPasswordFile = config.sops.secrets.wifipsk.path;
