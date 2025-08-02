@@ -7,6 +7,7 @@
   };
 
   environment.systemPackages = with pkgs; [
+    iw
     wol
     ethtool
     smartmontools

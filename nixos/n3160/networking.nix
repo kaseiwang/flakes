@@ -3,7 +3,7 @@
 with pkgs.lib;
 let
   wanif = "ppp0";
-  lanif = "ens1";
+  lanif = "br-lan";
 in
 {
   sops.secrets = {
@@ -15,6 +15,40 @@ in
       mode = "600";
     };
     ddns = { };
+    wifipsk = {};
+  };
+
+  services.hostapd = {
+    enable = true;
+    radios.wlp3s0 = {
+      countryCode = "CN";
+      band = "5g";
+      channel = 36; # mt7922 does not support ACS
+
+      wifi5 = {
+        enable = true;
+        operatingChannelWidth = "80";
+      };
+
+      wifi6 = {
+        enable = true;
+        operatingChannelWidth = "80";
+      };
+
+      settings = {
+        bridge = "br-lan";
+      };
+
+      networks = {
+        wlp3s0 = {
+          ssid = "kaseitest";
+          authentication = {
+            #wpaPasswordFile = config.sops.secrets.wifipsk.path;
+            saePasswordsFile = config.sops.secrets.wifipsk.path;
+          };
+        };
+      };
+    };
   };
 
   systemd.services."pppd-ppp0" =
@@ -561,6 +595,14 @@ in
     wait-online = {
       ignoredInterfaces = [ "cuccppp" "wg0" "ens1" "enp1s0" "cucciptv" "tinc.kaseinet" ];
     };
+    netdevs = {
+      "10-br-lan" = {
+        netdevConfig = {
+          Name = "br-lan";
+          Kind = "bridge";
+        };
+      };
+    };
     links = {
       "30-ens1" = {
         matchConfig = {
@@ -586,56 +628,23 @@ in
       };
     };
     networks = {
-      "60-ppp0" = {
+      "40-cuccppp" = {
         matchConfig = {
-          Name = "ppp0";
-          Type = "ppp";
+          Name = "cuccppp";
         };
         networkConfig = {
-          DHCP = "ipv6";
-          LLMNR = false;
-          IPv6AcceptRA = true;
-          IPv6ProxyNDP = false;
-          KeepConfiguration = "static";
-          DHCPPrefixDelegation = false;
-          DefaultRouteOnDevice = true;
+          DHCP = "no";
+          LinkLocalAddressing = "no";
         };
-        dhcpV6Config = {
-          UseAddress = "no";
-          WithoutRA = "solicit";
-          UseDNS = "no";
-          UseNTP = "no";
-          UseDelegatedPrefix = "yes";
-          PrefixDelegationHint = "::/60";
-        };
-        dhcpPrefixDelegationConfig = {
-          UplinkInterface = ":self";
-          Announce = false;
-        };
-        routes = [
-          {
-            Gateway = "::";
-            GatewayOnLink = true;
-          }
-        ];
-        routingPolicyRules = [
-          {
-            Family = "both";
-            FirewallMark = 200;
-            Priority = 200;
-            Table = 254; # main route table
-          }
-          {
-            Family = "both";
-            FirewallMark = 300;
-            Priority = 300;
-            Table = 300;
-          }
-        ];
       };
-      "50-lan" = {
+      "50-ens1" = {
+        matchConfig.Name = "ens1";
+        networkConfig.Bridge = "br-lan";
+        linkConfig.RequiredForOnline = "enslaved";
+      };
+      "60-lan" = {
         matchConfig = {
-          Name = "${lanif}";
+          Name = "br-lan";
         };
         address = [
           "10.10.2.1/24"
@@ -684,14 +693,52 @@ in
           }
         ];
       };
-      "40-cuccppp" = {
+      "70-ppp0" = {
         matchConfig = {
-          Name = "cuccppp";
+          Name = "ppp0";
+          Type = "ppp";
         };
         networkConfig = {
-          DHCP = "no";
-          LinkLocalAddressing = "no";
+          DHCP = "ipv6";
+          LLMNR = false;
+          IPv6AcceptRA = true;
+          IPv6ProxyNDP = false;
+          KeepConfiguration = "static";
+          DHCPPrefixDelegation = false;
+          DefaultRouteOnDevice = true;
         };
+        dhcpV6Config = {
+          UseAddress = "no";
+          WithoutRA = "solicit";
+          UseDNS = "no";
+          UseNTP = "no";
+          UseDelegatedPrefix = "yes";
+          PrefixDelegationHint = "::/60";
+        };
+        dhcpPrefixDelegationConfig = {
+          UplinkInterface = ":self";
+          Announce = false;
+        };
+        routes = [
+          {
+            Gateway = "::";
+            GatewayOnLink = true;
+          }
+        ];
+        routingPolicyRules = [
+          {
+            Family = "both";
+            FirewallMark = 200;
+            Priority = 200;
+            Table = 254; # main route table
+          }
+          {
+            Family = "both";
+            FirewallMark = 300;
+            Priority = 300;
+            Table = 300;
+          }
+        ];
       };
     };
   };

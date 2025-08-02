@@ -18,6 +18,7 @@ in
   powerManagement.cpuFreqGovernor = "powersave";
 
   boot = {
+    kernelPackages = pkgs.linuxPackages_latest;
     kernelParams = [
       "mitigations=off"
       "consoleblank=120"
