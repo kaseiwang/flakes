@@ -1,13 +1,16 @@
 { pkgs, stdenv, ... }:
 
-
 stdenv.mkDerivation rec {
   pname = "wgcf_bpf";
   version = "20230223";
 
   src = ./src;
 
-  buildInputs = with pkgs; [ clang glibc_multi libbpf ];
+  buildInputs = with pkgs; [
+    clang
+    glibc_multi
+    libbpf
+  ];
 
   hardeningDisable = [ "zerocallusedregs" ];
 

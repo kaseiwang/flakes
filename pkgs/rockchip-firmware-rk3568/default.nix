@@ -1,4 +1,9 @@
-{ pkgs, fetchFromGitHub, lib, ... }:
+{
+  pkgs,
+  fetchFromGitHub,
+  lib,
+  ...
+}:
 
 pkgs.stdenv.mkDerivation rec {
   pname = "rockchip-firmware-rk3568";

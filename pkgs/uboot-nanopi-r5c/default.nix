@@ -1,5 +1,10 @@
 # nix build .#packages.aarch64-linux.uboot-nanopi-r5c
-{ pkgs, buildUBoot, fetchurl, ... }:
+{
+  pkgs,
+  buildUBoot,
+  fetchurl,
+  ...
+}:
 let
   plat = pkgs.pkgsCross.aarch64-multiplatform;
   version = "2024.07";
@@ -40,5 +45,9 @@ plat.buildUBoot {
     ./120-clk-scmi-Add-Kconfig-option-for-SPL.patch
     ];
   */
-  filesToInstall = [ "spl/u-boot-spl.bin" "u-boot.itb" "idbloader.img" ];
+  filesToInstall = [
+    "spl/u-boot-spl.bin"
+    "u-boot.itb"
+    "idbloader.img"
+  ];
 }

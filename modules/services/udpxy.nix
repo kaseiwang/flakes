@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.udpxy;
@@ -59,7 +64,10 @@ in
       };
     };
 
-    users.groups =
-      mkIf (cfg.group == "udpxy") { udpxy = { gid = null; }; };
+    users.groups = mkIf (cfg.group == "udpxy") {
+      udpxy = {
+        gid = null;
+      };
+    };
   };
 }

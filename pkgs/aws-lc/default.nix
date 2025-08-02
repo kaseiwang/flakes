@@ -1,12 +1,13 @@
-{ source
-, lib
-, pkgs
-, stdenv
-, fetchFromGitHub
-, cmake
-, ninja
-, perl
-, buildGoModule
+{
+  source,
+  lib,
+  pkgs,
+  stdenv,
+  fetchFromGitHub,
+  cmake,
+  ninja,
+  perl,
+  buildGoModule,
 }:
 
 buildGoModule {
@@ -23,20 +24,27 @@ buildGoModule {
 
   preBuild = ''
     cmakeConfigurePhase
-  '' + lib.optionalString (stdenv.buildPlatform != stdenv.hostPlatform) ''
+  ''
+  + lib.optionalString (stdenv.buildPlatform != stdenv.hostPlatform) ''
     export GOARCH=$(go env GOHOSTARCH)
   '';
 
-  env.NIX_CFLAGS_COMPILE = toString (lib.optionals stdenv.cc.isGNU [
-    # Needed with GCC 12 but breaks on darwin (with clang)
-    "-Wno-error=stringop-overflow"
-  ]);
+  env.NIX_CFLAGS_COMPILE = toString (
+    lib.optionals stdenv.cc.isGNU [
+      # Needed with GCC 12 but breaks on darwin (with clang)
+      "-Wno-error=stringop-overflow"
+    ]
+  );
 
   buildPhase = ''
     ninjaBuildPhase
   '';
 
-  cmakeFlags = [ "-GNinja" "-DBUILD_SHARED_LIBS=ON" ] ++ lib.optionals (stdenv.hostPlatform.isLinux) [ "-DCMAKE_OSX_ARCHITECTURES=" ];
+  cmakeFlags = [
+    "-GNinja"
+    "-DBUILD_SHARED_LIBS=ON"
+  ]
+  ++ lib.optionals (stdenv.hostPlatform.isLinux) [ "-DCMAKE_OSX_ARCHITECTURES=" ];
 
   installPhase = ''
     mkdir -p $bin/bin $dev $out/lib
@@ -49,7 +57,11 @@ buildGoModule {
     mv ../include $dev
   '';
 
-  outputs = [ "out" "bin" "dev" ];
+  outputs = [
+    "out"
+    "bin"
+    "dev"
+  ];
 
   meta = with lib; {
     description = "AWS-LC is a general-purpose cryptographic library maintained by the AWS Cryptography team for AWS and their customers. It іs based on code from the Google BoringSSL project and the OpenSSL project.";

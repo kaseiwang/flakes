@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.kaseinet;
@@ -100,18 +105,64 @@ in
       mtu = 1400;
       useDHCP = false;
 
-      ipv4.addresses = [{ address = cfg.v4addr; prefixLength = 32; }];
-      ipv6.addresses = [{ address = cfg.v6addr; prefixLength = 128; }];
+      ipv4.addresses = [
+        {
+          address = cfg.v4addr;
+          prefixLength = 32;
+        }
+      ];
+      ipv6.addresses = [
+        {
+          address = cfg.v6addr;
+          prefixLength = 128;
+        }
+      ];
 
       ipv4.routes = [
-        { address = "10.10.0.0"; prefixLength = 24; options = { ${metricOptionName} = "${toString routeMetric}"; }; }
-        { address = "10.10.2.0"; prefixLength = 24; options = { ${metricOptionName} = "${toString routeMetric}"; }; }
-        { address = "10.10.3.0"; prefixLength = 24; options = { ${metricOptionName} = "${toString routeMetric}"; }; }
+        {
+          address = "10.10.0.0";
+          prefixLength = 24;
+          options = {
+            ${metricOptionName} = "${toString routeMetric}";
+          };
+        }
+        {
+          address = "10.10.2.0";
+          prefixLength = 24;
+          options = {
+            ${metricOptionName} = "${toString routeMetric}";
+          };
+        }
+        {
+          address = "10.10.3.0";
+          prefixLength = 24;
+          options = {
+            ${metricOptionName} = "${toString routeMetric}";
+          };
+        }
       ];
       ipv6.routes = [
-        { address = "fdcd:ad38:cdc5:1::"; prefixLength = 64; options = { ${metricOptionName} = "${toString routeMetric}"; }; }
-        { address = "fdcd:ad38:cdc5:2::"; prefixLength = 64; options = { ${metricOptionName} = "${toString routeMetric}"; }; }
-        { address = "fdcd:ad38:cdc5:3::"; prefixLength = 64; options = { ${metricOptionName} = "${toString routeMetric}"; }; }
+        {
+          address = "fdcd:ad38:cdc5:1::";
+          prefixLength = 64;
+          options = {
+            ${metricOptionName} = "${toString routeMetric}";
+          };
+        }
+        {
+          address = "fdcd:ad38:cdc5:2::";
+          prefixLength = 64;
+          options = {
+            ${metricOptionName} = "${toString routeMetric}";
+          };
+        }
+        {
+          address = "fdcd:ad38:cdc5:3::";
+          prefixLength = 64;
+          options = {
+            ${metricOptionName} = "${toString routeMetric}";
+          };
+        }
       ];
     };
   };

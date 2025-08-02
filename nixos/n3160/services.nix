@@ -33,13 +33,14 @@
     desktopManager = {
       kodi = {
         enable = true;
-        package = pkgs.kodi.withPackages
-          (p: with p; [
+        package = pkgs.kodi.withPackages (
+          p: with p; [
             jellyfin
             youtube
             pvr-iptvsimple
             vfs-sftp
-          ]);
+          ]
+        );
       };
     };
   };
@@ -106,7 +107,10 @@
     certs = {
       "kasei.im" = {
         domain = "kasei.im";
-        extraDomainNames = [ "*.kasei.im" "*.i.kasei.im" ];
+        extraDomainNames = [
+          "*.kasei.im"
+          "*.i.kasei.im"
+        ];
         keyType = "ec256";
       };
     };
@@ -126,14 +130,17 @@
     '';
     virtualHosts =
       let
-        mkVirtualHosts = input: input // {
-          onlySSL = true;
-          sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-          extraConfig = ''
-            add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-          '';
-        };
+        mkVirtualHosts =
+          input:
+          input
+          // {
+            onlySSL = true;
+            sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
+            sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
+            extraConfig = ''
+              add_header Alt-Svc 'h3=":$server_port"; ma=86400';
+            '';
+          };
       in
       {
         "default" = {

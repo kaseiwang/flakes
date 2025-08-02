@@ -1,4 +1,11 @@
-{ config, lib, pkgs, inputs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  modulesPath,
+  ...
+}:
 let
   crossPkgs = import pkgs.path {
     localSystem.system = "x86_64-linux";

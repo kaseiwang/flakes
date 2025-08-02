@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.sozu;
@@ -99,7 +104,10 @@ in
       };
     };
 
-    users.groups =
-      mkIf (cfg.group == "sozu") { sozu = { gid = null; }; };
+    users.groups = mkIf (cfg.group == "sozu") {
+      sozu = {
+        gid = null;
+      };
+    };
   };
 }

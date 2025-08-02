@@ -50,13 +50,21 @@ with pkgs.lib;
     interfaces."${wanif}" = {
       useDHCP = false;
       ipv4 = {
-        addresses = [{ address = "185.200.65.158"; prefixLength = 24; }];
+        addresses = [
+          {
+            address = "185.200.65.158";
+            prefixLength = 24;
+          }
+        ];
       };
       ipv6 = {
         addresses = [
           #{ address = "2607:f130:0:179::47ec:e8aa"; prefixLength = 64; }
           #{ address = "2607:f130:0:179::84dc:6698"; prefixLength = 64; }
-          { address = "2a12:a304:4:34e::84dc:6698"; prefixLength = 64; }
+          {
+            address = "2a12:a304:4:34e::84dc:6698";
+            prefixLength = 64;
+          }
         ];
       };
     };

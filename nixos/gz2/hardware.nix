@@ -1,4 +1,10 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 let
   rootfs = "/dev/disk/by-uuid/961c4e66-a37f-4441-b31f-4b4cfaa0c54e";
   rootopts = [
@@ -19,7 +25,11 @@ in
     "/" = {
       device = "none";
       fsType = "tmpfs";
-      options = [ "defaults" "size=1G" "mode=755" ];
+      options = [
+        "defaults"
+        "size=1G"
+        "mode=755"
+      ];
     };
     "/boot" = {
       fsType = "btrfs";

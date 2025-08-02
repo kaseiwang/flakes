@@ -1,4 +1,11 @@
-{ config, pkgs, lib, modulesPath, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  modulesPath,
+  inputs,
+  ...
+}:
 let
   rootopts = [
     "relatime"
@@ -11,7 +18,10 @@ in
     fileSystems = lib.mkForce {
       "/" = {
         fsType = "ext4";
-        options = [ "relatime" "data=writeback" ];
+        options = [
+          "relatime"
+          "data=writeback"
+        ];
         label = "NIXOS";
       };
     };
@@ -21,18 +31,17 @@ in
     system.build.rootfsImage =
       pkgs.callPackage
         (
-          { callPackage
-          , lib
-          , populateCommands
-          ,
+          {
+            callPackage,
+            lib,
+            populateCommands,
           }:
           callPackage "${inputs.nixpkgs}/nixos/lib/make-ext4-fs.nix" ({
             storePaths = config.system.build.toplevel;
             compressImage = false;
             populateImageCommands = populateCommands;
             volumeLabel = config.fileSystems."/".label;
-          }
-          )
+          })
         )
         {
           populateCommands = ''

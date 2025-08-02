@@ -1,9 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 let
-  patched-openssh =
-    pkgs.openssh.overrideAttrs (prev: {
-      patches = (prev.patches or [ ]) ++ [ ./openssh-home-config-permission.patch ];
-    });
+  patched-openssh = pkgs.openssh.overrideAttrs (prev: {
+    patches = (prev.patches or [ ]) ++ [ ./openssh-home-config-permission.patch ];
+  });
 in
 {
   home.packages = with pkgs; [
@@ -111,9 +115,18 @@ in
     fontconfig = {
       enable = true;
       defaultFonts = {
-        serif = [ "Noto Serif CJK SC" "Noto Serif" ];
-        sansSerif = [ "Noto Sans CJK SC" "Noto Sans" ];
-        monospace = [ "Noto Sans Mono" "Noto Sans Mono CJK SC" ];
+        serif = [
+          "Noto Serif CJK SC"
+          "Noto Serif"
+        ];
+        sansSerif = [
+          "Noto Sans CJK SC"
+          "Noto Sans"
+        ];
+        monospace = [
+          "Noto Sans Mono"
+          "Noto Sans Mono CJK SC"
+        ];
         emoji = [ "Noto Color Emoji" ];
       };
     };
@@ -172,7 +185,11 @@ in
         key = "BF2B11D0";
         signByDefault = true;
       };
-      ignores = [ ".envrc" "shell.nix" ".direnv/" ];
+      ignores = [
+        ".envrc"
+        "shell.nix"
+        ".direnv/"
+      ];
       extraConfig = {
         merge.tool = "vimdiff";
         pull.ffonly = true;
@@ -344,7 +361,11 @@ in
         userSettings = {
           "editor.fontFamily" = "JetBrains Mono";
           "editor.minimap.autohide" = true;
-          "editor.rulers" = [ 80 100 120 ];
+          "editor.rulers" = [
+            80
+            100
+            120
+          ];
           "editor.inlineSuggest.enabled" = true;
           "editor.renderWhitespace" = "boundary";
           "window.titleBarStyle" = "custom";
@@ -358,39 +379,41 @@ in
           "git.openRepositoryInParentFolders" = "never"; # stop annoying popup
         };
 
-        extensions = with pkgs.vscode-extensions; [
-          #vscodevim.vim
-          bbenoist.nix # nix language
-          yzhang.markdown-all-in-one
-          bierner.markdown-mermaid # mermaid for markdown
-          davidanson.vscode-markdownlint
-          golang.go
-          #ms-vscode.PowerShell
-          rust-lang.rust-analyzer
-          #ms-python.python
-          #ms-vscode-remote.remote-ssh
-          #ms-vscode.makefile-tools
-          #ms-kubernetes-tools.vscode-kubernetes-tools
-          ms-azuretools.vscode-docker
-          redhat.vscode-xml
-          redhat.vscode-yaml
-          #eamodio.gitlens
-          #donjayamanne.githistory
-          waderyan.gitblame
-          github.copilot
-          github.copilot-chat
-          zxh404.vscode-proto3
-          signageos.signageos-vscode-sops
-        ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-          {
-            name = "ccls";
-            publisher = "ccls-project";
-            version = "0.1.29";
-            sha256 = "RjMYBLgbi+lgPqaqN7yh8Q8zr9euvQ+YLEoQaV3RDOA=";
-          }
-        ];
+        extensions =
+          with pkgs.vscode-extensions;
+          [
+            #vscodevim.vim
+            bbenoist.nix # nix language
+            yzhang.markdown-all-in-one
+            bierner.markdown-mermaid # mermaid for markdown
+            davidanson.vscode-markdownlint
+            golang.go
+            #ms-vscode.PowerShell
+            rust-lang.rust-analyzer
+            #ms-python.python
+            #ms-vscode-remote.remote-ssh
+            #ms-vscode.makefile-tools
+            #ms-kubernetes-tools.vscode-kubernetes-tools
+            ms-azuretools.vscode-docker
+            redhat.vscode-xml
+            redhat.vscode-yaml
+            #eamodio.gitlens
+            #donjayamanne.githistory
+            waderyan.gitblame
+            github.copilot
+            github.copilot-chat
+            zxh404.vscode-proto3
+            signageos.signageos-vscode-sops
+          ]
+          ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+            {
+              name = "ccls";
+              publisher = "ccls-project";
+              version = "0.1.29";
+              sha256 = "RjMYBLgbi+lgPqaqN7yh8Q8zr9euvQ+YLEoQaV3RDOA=";
+            }
+          ];
       };
-
 
     };
 
@@ -401,7 +424,12 @@ in
         enableUpdate = true;
       };
       settings = {
-        plugins = [ "badfiles" "chroma" "acousticbrainz" "duplicates" ];
+        plugins = [
+          "badfiles"
+          "chroma"
+          "acousticbrainz"
+          "duplicates"
+        ];
         chroma = {
           auto = "yes";
         };

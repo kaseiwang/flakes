@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.nvidia_gpu_exporter;
@@ -19,12 +24,14 @@ in
     };
   };
 
-
   config = mkIf cfg.enable {
     systemd.services."nvidia_gpu_exporter" = {
       description = "Nvidia GPU exporter";
       wantedBy = [ "multi-user.target" ];
-      path = [ pkgs.nvidia_gpu_exporter config.boot.kernelPackages.nvidia_x11 ];
+      path = [
+        pkgs.nvidia_gpu_exporter
+        config.boot.kernelPackages.nvidia_x11
+      ];
       serviceConfig = {
         DynamicUser = true;
         StandardOutput = "journal";

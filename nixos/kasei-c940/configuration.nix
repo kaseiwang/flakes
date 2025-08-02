@@ -1,4 +1,9 @@
-{ config, pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 {
   environment.baseline.enable = true;
 
@@ -22,7 +27,9 @@
     };
     defaultSopsFile = ./secrets.yaml;
     secrets = {
-      u2f-keys = { mode = "0444"; };
+      u2f-keys = {
+        mode = "0444";
+      };
       btrbk-sshkey = {
         owner = config.users.users."btrbk".name;
       };
@@ -62,7 +69,12 @@
   services.dbus.implementation = "broker";
 
   users.users.kasei = {
-    extraGroups = [ "docker" "fuse" "adbusers" "wireshark" ];
+    extraGroups = [
+      "docker"
+      "fuse"
+      "adbusers"
+      "wireshark"
+    ];
   };
 
   virtualisation = {

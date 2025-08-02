@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.ddns;
@@ -30,7 +35,16 @@ in
       serviceConfig = {
         StandardOutput = "journal";
         StandardError = "journal";
-        ExecStart = "${pkgs.python3.withPackages (ps: with ps;[ pyyaml pyroute2 requests systemd])}/bin/python ${script} -c ${cfg.configFile}";
+        ExecStart = "${
+          pkgs.python3.withPackages (
+            ps: with ps; [
+              pyyaml
+              pyroute2
+              requests
+              systemd
+            ]
+          )
+        }/bin/python ${script} -c ${cfg.configFile}";
         Restart = "always";
         RestartSec = 3;
       };

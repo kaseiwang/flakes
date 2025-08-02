@@ -64,26 +64,38 @@
     certs = {
       "kasei.im" = {
         domain = "kasei.im";
-        extraDomainNames = [ "*.kasei.im" "*.i.kasei.im" ];
+        extraDomainNames = [
+          "*.kasei.im"
+          "*.i.kasei.im"
+        ];
         keyType = "ec256";
       };
     };
   };
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "nvidia-x11"
-    "nvidia-persistenced"
-    "libXNVCtrl"
-  ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (pkgs.lib.getName pkg) [
+      "nvidia-x11"
+      "nvidia-persistenced"
+      "libXNVCtrl"
+    ];
 
   users = {
     users = {
       kasei.extraGroups = [ "qbittorrent" ];
-      nginx.extraGroups = [ "acme" "grafana" ];
+      nginx.extraGroups = [
+        "acme"
+        "grafana"
+      ];
       nextcloud.extraGroups = [ "redis-nextcloud" ];
     };
     groups."nas" = {
-      members = [ "kasei" "qbittorrent" "nextcloud" ];
+      members = [
+        "kasei"
+        "qbittorrent"
+        "nextcloud"
+      ];
     };
   };
 

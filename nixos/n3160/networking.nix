@@ -15,7 +15,7 @@ in
       mode = "600";
     };
     ddns = { };
-    wifipsk = {};
+    wifipsk = { };
   };
 
   services.hostapd = {
@@ -57,17 +57,45 @@ in
           "BF-ANTENNA-4"
           "MAX-A-MPDU-LEN-EXP7"
         ];
-        operatingChannelWidth = "20or40";
+        operatingChannelWidth = "80";
       };
 
       wifi6 = {
         enable = true;
-        operatingChannelWidth = "20or40";
+        operatingChannelWidth = "80";
       };
 
       settings = {
         bridge = "br-lan";
-        vht_oper_centr_freq_seg0_idx="42";
+        vht_oper_centr_freq_seg0_idx = "42";
+        he_oper_centr_freq_seg0_idx = "42"; # channel +6 for 80mhz
+
+        he_bss_color = "42";
+
+        he_mu_edca_qos_info_param_count = "0";
+        he_mu_edca_qos_info_q_ack = "0";
+        he_mu_edca_qos_info_queue_request = "0";
+        he_mu_edca_qos_info_txop_request = "0";
+        he_mu_edca_ac_be_aifsn = "8";
+        he_mu_edca_ac_be_aci = "0";
+        he_mu_edca_ac_be_ecwmin = "9";
+        he_mu_edca_ac_be_ecwmax = "10";
+        he_mu_edca_ac_be_timer = "255";
+        he_mu_edca_ac_bk_aifsn = "15";
+        he_mu_edca_ac_bk_aci = "1";
+        he_mu_edca_ac_bk_ecwmin = "9";
+        he_mu_edca_ac_bk_ecwmax = "10";
+        he_mu_edca_ac_bk_timer = "255";
+        he_mu_edca_ac_vi_ecwmin = "5";
+        he_mu_edca_ac_vi_ecwmax = "7";
+        he_mu_edca_ac_vi_aifsn = "5";
+        he_mu_edca_ac_vi_aci = "2";
+        he_mu_edca_ac_vi_timer = "255";
+        he_mu_edca_ac_vo_aifsn = "5";
+        he_mu_edca_ac_vo_aci = "3";
+        he_mu_edca_ac_vo_ecwmin = "5";
+        he_mu_edca_ac_vo_ecwmax = "7";
+        he_mu_edca_ac_vo_timer = "255";
       };
 
       networks = {
@@ -90,7 +118,10 @@ in
     {
       before = [ "network.target" ];
       wants = [ "network.target" ];
-      after = [ "network-pre.target" "sops-nix.service" ];
+      after = [
+        "network-pre.target"
+        "sops-nix.service"
+      ];
       environment = {
         # pppd likes to write directly into /var/run. This is rude
         # on a modern system, so we use libredirect to transparently
@@ -276,11 +307,16 @@ in
             detour = "direct";
           }
         ];
-        rules = [{
-          rule_set = [ "geosite-cn" "geoip-cn" ];
-          server = "tencent";
-          outbound = "direct";
-        }];
+        rules = [
+          {
+            rule_set = [
+              "geosite-cn"
+              "geoip-cn"
+            ];
+            server = "tencent";
+            outbound = "direct";
+          }
+        ];
         final = "cloudflare";
       };
       inbounds = [
@@ -300,7 +336,9 @@ in
           sniff = true;
           sniff_override_destination = true;
           method = "2022-blake3-aes-128-gcm";
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           multiplex = {
             enabled = true;
           };
@@ -313,7 +351,9 @@ in
           tag = "tls-cone3";
           type = "shadowtls";
           version = 3;
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           tls = {
             enabled = true;
             server_name = "kasei.im";
@@ -329,7 +369,9 @@ in
           server = "2607:f130:0:179::2f6b:52ea";
           server_port = 9555;
           method = "2022-blake3-aes-128-gcm";
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           detour = "tls-cone3";
           multiplex = {
             enabled = true;
@@ -342,7 +384,9 @@ in
           tag = "tls-cone2";
           type = "shadowtls";
           version = 3;
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           tls = {
             enabled = true;
             server_name = "kasei.im";
@@ -358,7 +402,9 @@ in
           server = "74.48.96.113";
           server_port = 9555;
           method = "2022-blake3-aes-128-gcm";
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           detour = "tls-cone2";
           multiplex = {
             enabled = true;
@@ -368,7 +414,10 @@ in
         {
           type = "selector";
           tag = "select";
-          outbounds = [ "ss-cone3" "ss-cone2" ];
+          outbounds = [
+            "ss-cone3"
+            "ss-cone2"
+          ];
         }
         {
           type = "direct";
@@ -569,10 +618,19 @@ in
     interfaces.enp1s0 = {
       useDHCP = false;
       ipv4.addresses = [
-        { address = "192.168.1.2"; prefixLength = 24; }
+        {
+          address = "192.168.1.2";
+          prefixLength = 24;
+        }
       ];
       ipv4.routes = [
-        { address = "192.168.1.1"; prefixLength = 24; options = { Metric = "100"; }; }
+        {
+          address = "192.168.1.1";
+          prefixLength = 24;
+          options = {
+            Metric = "100";
+          };
+        }
       ];
     };
 
@@ -614,7 +672,12 @@ in
         {
           publicKey = "c1OdyFkvCBz7DvuCNCIxUQH4kLxGocOOILodtSnmwRk=";
           endpoint = "[2607:f130:0:179::2f6b:52ea]:2480";
-          allowedIPs = [ "0.0.0.0/0" "::/0" "10.10.0.21/32" "fdcd:ad38:cdc5:3:10:10:0:21/128" ];
+          allowedIPs = [
+            "0.0.0.0/0"
+            "::/0"
+            "10.10.0.21/32"
+            "fdcd:ad38:cdc5:3:10:10:0:21/128"
+          ];
           persistentKeepalive = 60;
           dynamicEndpointRefreshSeconds = 60;
         }
@@ -625,7 +688,14 @@ in
   systemd.services.systemd-networkd.environment.SYSTEMD_LOG_LEVEL = "debug";
   systemd.network = {
     wait-online = {
-      ignoredInterfaces = [ "cuccppp" "wg0" "ens1" "enp1s0" "cucciptv" "tinc.kaseinet" ];
+      ignoredInterfaces = [
+        "cuccppp"
+        "wg0"
+        "ens1"
+        "enp1s0"
+        "cucciptv"
+        "tinc.kaseinet"
+      ];
     };
     netdevs = {
       "10-br-lan" = {
@@ -703,7 +773,10 @@ in
           SendOption = "15:string:i.kasei.im";
         };
         dhcpServerStaticLeases = [
-          { MACAddress = "4c:c6:4c:bd:41:bd"; Address = "10.10.2.10"; } # ax6000
+          {
+            MACAddress = "4c:c6:4c:bd:41:bd";
+            Address = "10.10.2.10";
+          } # ax6000
         ];
         ipv6SendRAConfig = {
           Managed = false;
@@ -775,6 +848,3 @@ in
     };
   };
 }
-
-
-

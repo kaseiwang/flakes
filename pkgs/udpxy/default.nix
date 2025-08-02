@@ -1,4 +1,9 @@
-{ pkgs, stdenv, fetchFromGitHub, ... }:
+{
+  pkgs,
+  stdenv,
+  fetchFromGitHub,
+  ...
+}:
 
 stdenv.mkDerivation rec {
   pname = "udpxy";

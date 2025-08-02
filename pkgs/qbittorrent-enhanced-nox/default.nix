@@ -1,12 +1,13 @@
-{ source
-, lib
-, pkgs
-, stdenv
-, fetchFromGitHub
-, boost
-, cmake
-, trackerSearch ? true
-, webuiSupport ? true
+{
+  source,
+  lib,
+  pkgs,
+  stdenv,
+  fetchFromGitHub,
+  boost,
+  cmake,
+  trackerSearch ? true,
+  webuiSupport ? true,
 }:
 
 let
@@ -22,26 +23,32 @@ stdenv.mkDerivation rec {
     qt6.wrapQtAppsHook
   ];
 
-  buildInputs = with pkgs; [
-    boost
-    libtorrent-rasterbar
-    qt6.qtbase
-    qt6.qtsvg
-    qt6.qttools
-  ] ++ lib.optionals stdenv.isDarwin [
-    Cocoa
-  ] ++ lib.optionals trackerSearch [
-    python3
-  ];
+  buildInputs =
+    with pkgs;
+    [
+      boost
+      libtorrent-rasterbar
+      qt6.qtbase
+      qt6.qtsvg
+      qt6.qttools
+    ]
+    ++ lib.optionals stdenv.isDarwin [
+      Cocoa
+    ]
+    ++ lib.optionals trackerSearch [
+      python3
+    ];
 
-  cmakeFlags = lib.optionals (qtVersion == "6") [
-    "-DQT6=ON"
-    "-DGUI=OFF"
-    "-DSYSTEMD=ON"
-    "-DSYSTEMD_SERVICES_INSTALL_DIR=${placeholder "out"}/lib/systemd/system"
-  ] ++ lib.optionals (!webuiSupport) [
-    "-DWEBUI=OFF"
-  ];
+  cmakeFlags =
+    lib.optionals (qtVersion == "6") [
+      "-DQT6=ON"
+      "-DGUI=OFF"
+      "-DSYSTEMD=ON"
+      "-DSYSTEMD_SERVICES_INSTALL_DIR=${placeholder "out"}/lib/systemd/system"
+    ]
+    ++ lib.optionals (!webuiSupport) [
+      "-DWEBUI=OFF"
+    ];
 
   qtWrapperArgs = lib.optionals trackerSearch [
     "--prefix PATH : ${lib.makeBinPath [ pkgs.python3 ]}"

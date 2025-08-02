@@ -1,4 +1,10 @@
-{ config, self, nixpkgs, inputs, ... }:
+{
+  config,
+  self,
+  nixpkgs,
+  inputs,
+  ...
+}:
 {
   imports = [
     self.nixosModules.default

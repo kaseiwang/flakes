@@ -1,4 +1,11 @@
-{ config, pkgs, lib, modulesPath, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  modulesPath,
+  inputs,
+  ...
+}:
 let
   cfg = config.environment.baseline_cloud;
 in

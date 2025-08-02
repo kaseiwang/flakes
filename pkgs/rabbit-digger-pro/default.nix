@@ -1,4 +1,11 @@
-{ source, stdenv, rustPlatform, fetchFromGitHub, pkgs, lib }:
+{
+  source,
+  stdenv,
+  rustPlatform,
+  fetchFromGitHub,
+  pkgs,
+  lib,
+}:
 
 rustPlatform.buildRustPackage rec {
   inherit (source) pname version src;

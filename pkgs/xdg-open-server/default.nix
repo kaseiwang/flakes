@@ -1,4 +1,10 @@
-{ source, stdenv, fetchFromGitHub, pkgs, lib }:
+{
+  source,
+  stdenv,
+  fetchFromGitHub,
+  pkgs,
+  lib,
+}:
 
 stdenv.mkDerivation rec {
   inherit (source) pname version src;

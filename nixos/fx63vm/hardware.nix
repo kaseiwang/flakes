@@ -1,4 +1,10 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 let
   dev_boot = "/dev/disk/by-partlabel/BOOT";
   dev_nixos = "/dev/disk/by-partlabel/NIXOS";
@@ -42,7 +48,10 @@ in
       "zfs.zfs_arc_max=10737418240" # 10GB
     ];
 
-    supportedFilesystems = [ "btrfs" "zfs" ];
+    supportedFilesystems = [
+      "btrfs"
+      "zfs"
+    ];
 
     zfs = {
       forceImportRoot = false;
@@ -54,7 +63,11 @@ in
   fileSystems."/" = {
     device = "none";
     fsType = "tmpfs";
-    options = [ "defaults" "size=2G" "mode=755" ];
+    options = [
+      "defaults"
+      "size=2G"
+      "mode=755"
+    ];
   };
 
   fileSystems."/boot" = {

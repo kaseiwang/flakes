@@ -1,4 +1,10 @@
-{ config, lib, pkgs, utils, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  utils,
+  ...
+}:
 with lib;
 let
   cfg = config.services.alist;
@@ -93,7 +99,10 @@ in
       };
     };
 
-    users.groups =
-      mkIf (cfg.group == "alist") { alist = { gid = null; }; };
+    users.groups = mkIf (cfg.group == "alist") {
+      alist = {
+        gid = null;
+      };
+    };
   };
 }

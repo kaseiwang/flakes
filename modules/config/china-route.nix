@@ -1,5 +1,10 @@
 # origin: <https://github.com/KireinaHoro/flakes/blob/master/modules/china-route.nix>
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 with lib;
 let
   cfg = config.services.chinaRoute;
@@ -43,41 +48,89 @@ in
         ${if cfg.enableV6 then ''include "${pkgs.chnroute}/chnroute-v6"'' else ""}
 
         table inet china-route {
-          ${if cfg.enableV4 then ''
-            set chnv4 {
-              type ipv4_addr; flags constant, interval
-              elements = $chnv4_whitelist
-            }
-          '' else ""}
-          ${if cfg.enableV6 then ''
-            set chnv6 {
-              type ipv6_addr; flags constant, interval
-              elements = $chnv6_whitelist
-            }
-          '' else ""}
-          ${if haveV4Whitelist then ''
-            set chnv4-nonat {
-              type ipv4_addr; flags constant, interval
-              elements = { ${toString (map (s: "${s},") cfg.whitelistV4)} }
-            }
-          '' else ""}
-          ${if haveV6Whitelist then ''
-            set chnv6-nonat {
-              type ipv6_addr; flags constant, interval
-              elements = { ${toString (map (s: "${s},") cfg.whitelistV6)} }
-            }
-          '' else ""}
+          ${
+            if cfg.enableV4 then
+              ''
+                set chnv4 {
+                  type ipv4_addr; flags constant, interval
+                  elements = $chnv4_whitelist
+                }
+              ''
+            else
+              ""
+          }
+          ${
+            if cfg.enableV6 then
+              ''
+                set chnv6 {
+                  type ipv6_addr; flags constant, interval
+                  elements = $chnv6_whitelist
+                }
+              ''
+            else
+              ""
+          }
+          ${
+            if haveV4Whitelist then
+              ''
+                set chnv4-nonat {
+                  type ipv4_addr; flags constant, interval
+                  elements = { ${toString (map (s: "${s},") cfg.whitelistV4)} }
+                }
+              ''
+            else
+              ""
+          }
+          ${
+            if haveV6Whitelist then
+              ''
+                set chnv6-nonat {
+                  type ipv6_addr; flags constant, interval
+                  elements = { ${toString (map (s: "${s},") cfg.whitelistV6)} }
+                }
+              ''
+            else
+              ""
+          }
 
           chain prerouting {
             type filter hook prerouting priority mangle;
-            ${if cfg.enableV4 then ''ip daddr @chnv4 ${if haveV4Whitelist then "ip daddr != @chnv4-nonat" else ""} mark set ${toString cfg.fwmark} '' else ""}
-            ${if cfg.enableV6 then ''ip6 daddr @chnv6 ${if haveV6Whitelist then "ip6 daddr != @chnv6-nonat" else ""} mark set ${toString cfg.fwmark} '' else ""}
+            ${
+              if cfg.enableV4 then
+                ''ip daddr @chnv4 ${
+                  if haveV4Whitelist then "ip daddr != @chnv4-nonat" else ""
+                } mark set ${toString cfg.fwmark} ''
+              else
+                ""
+            }
+            ${
+              if cfg.enableV6 then
+                ''ip6 daddr @chnv6 ${
+                  if haveV6Whitelist then "ip6 daddr != @chnv6-nonat" else ""
+                } mark set ${toString cfg.fwmark} ''
+              else
+                ""
+            }
           }
 
           chain output {
             type filter hook output priority mangle;
-            ${if cfg.enableV4 then ''ip daddr @chnv4 ${if haveV4Whitelist then "ip daddr != @chnv4-nonat" else ""} mark set ${toString cfg.fwmark} '' else ""}
-            ${if cfg.enableV6 then ''ip6 daddr @chnv6 ${if haveV6Whitelist then "ip6 daddr != @chnv6-nonat" else ""} mark set ${toString cfg.fwmark} '' else ""}
+            ${
+              if cfg.enableV4 then
+                ''ip daddr @chnv4 ${
+                  if haveV4Whitelist then "ip daddr != @chnv4-nonat" else ""
+                } mark set ${toString cfg.fwmark} ''
+              else
+                ""
+            }
+            ${
+              if cfg.enableV6 then
+                ''ip6 daddr @chnv6 ${
+                  if haveV6Whitelist then "ip6 daddr != @chnv6-nonat" else ""
+                } mark set ${toString cfg.fwmark} ''
+              else
+                ""
+            }
           }
         }
       '';

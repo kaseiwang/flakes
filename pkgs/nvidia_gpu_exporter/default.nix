@@ -1,9 +1,10 @@
-{ source
-, lib
-, pkgs
-, stdenv
-, fetchFromGitHub
-, buildGoModule
+{
+  source,
+  lib,
+  pkgs,
+  stdenv,
+  fetchFromGitHub,
+  buildGoModule,
 }:
 
 buildGoModule rec {

@@ -30,44 +30,67 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, flake-utils, ... }:
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      flake-utils,
+      ...
+    }:
     let
       this = import ./pkgs;
       lib = inputs.nixpkgs.lib;
     in
-    flake-utils.lib.eachSystem [ "aarch64-linux" "aarch64-darwin" "x86_64-linux" ]
-      (
-        system:
-        let
-          pkgs = import nixpkgs
-            {
-              inherit system;
-              overlays = [
-                self.overlays.default
-                inputs.colmena.overlay
-              ];
-              config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    flake-utils.lib.eachSystem [ "aarch64-linux" "aarch64-darwin" "x86_64-linux" ] (
+      system:
+      let
+        pkgs =
+          import nixpkgs {
+            inherit system;
+            overlays = [
+              self.overlays.default
+              inputs.colmena.overlay
+            ];
+            config.allowUnfreePredicate =
+              pkg:
+              builtins.elem (lib.getName pkg) [
                 "rockchip-firmware-rk3568"
               ];
-            } // { outPath = inputs.nixpkgs.outPath; };
-        in
-        {
-          packages = this.packages pkgs // {
-            inherit (pkgs);
+          }
+          // {
+            outPath = inputs.nixpkgs.outPath;
           };
-          legacyPackages = pkgs;
-          formatter = pkgs.nixpkgs-fmt;
-          devShells.default = with pkgs; mkShellNoCC {
-            packages = [ colmena sops cachix e2fsprogs nvfetcher ripsecrets ];
+      in
+      {
+        packages = this.packages pkgs // {
+          inherit (pkgs) ;
+        };
+        legacyPackages = pkgs;
+        formatter = pkgs.nixfmt-tree;
+        devShells.default =
+          with pkgs;
+          mkShellNoCC {
+            packages = [
+              colmena
+              sops
+              cachix
+              e2fsprogs
+              nvfetcher
+              ripsecrets
+            ];
           };
-        }
-      ) //
-    {
+      }
+    )
+    // {
       nixosModules = import ./modules;
       overlays.default = this.overlay;
       nixosConfigurations = {
-        kasei-c940 = import ./nixos/kasei-c940 { system = "x86_64-linux"; inherit self inputs nixpkgs; };
-      } // self.colmenaHive.nodes;
+        kasei-c940 = import ./nixos/kasei-c940 {
+          system = "x86_64-linux";
+          inherit self inputs nixpkgs;
+        };
+      }
+      // self.colmenaHive.nodes;
 
       colmenaHive = inputs.colmena.lib.makeHive ({
         meta = {
@@ -78,56 +101,70 @@
             inherit self inputs nixpkgs;
           };
         };
-        gz2 = { ... }: {
-          deployment = {
-            targetHost = "gz2.kasei.im";
-            buildOnTarget = false;
+        gz2 =
+          { ... }:
+          {
+            deployment = {
+              targetHost = "gz2.kasei.im";
+              buildOnTarget = false;
+            };
+            imports = [ ./nixos/gz2 ];
           };
-          imports = [ ./nixos/gz2 ];
-        };
-        n3160 = { ... }: {
-          deployment = {
-            targetHost = "n3160.i.kasei.im";
-            buildOnTarget = false;
+        n3160 =
+          { ... }:
+          {
+            deployment = {
+              targetHost = "n3160.i.kasei.im";
+              buildOnTarget = false;
+            };
+            imports = [ ./nixos/n3160 ];
           };
-          imports = [ ./nixos/n3160 ];
-        };
-        fx63vm = { ... }: {
-          deployment = {
-            targetHost = "nas0.i.kasei.im";
-            buildOnTarget = false;
+        fx63vm =
+          { ... }:
+          {
+            deployment = {
+              targetHost = "nas0.i.kasei.im";
+              buildOnTarget = false;
+            };
+            imports = [ ./nixos/fx63vm ];
           };
-          imports = [ ./nixos/fx63vm ];
-        };
-        cone2 = { ... }: {
-          deployment = {
-            targetHost = "74.48.96.113";
-            buildOnTarget = false;
+        cone2 =
+          { ... }:
+          {
+            deployment = {
+              targetHost = "74.48.96.113";
+              buildOnTarget = false;
+            };
+            imports = [ ./nixos/cone2 ];
           };
-          imports = [ ./nixos/cone2 ];
-        };
-        cone3 = { ... }: {
-          deployment = {
-            targetHost = "66.103.210.62";
-            buildOnTarget = false;
+        cone3 =
+          { ... }:
+          {
+            deployment = {
+              targetHost = "66.103.210.62";
+              buildOnTarget = false;
+            };
+            imports = [ ./nixos/cone3 ];
           };
-          imports = [ ./nixos/cone3 ];
-        };
-        greencloud1 = { ... }: {
-          deployment = {
-            targetHost = "185.200.65.158";
-            buildOnTarget = false;
+        greencloud1 =
+          { ... }:
+          {
+            deployment = {
+              targetHost = "185.200.65.158";
+              buildOnTarget = false;
+            };
+            imports = [ ./nixos/greencloud1 ];
           };
-          imports = [ ./nixos/greencloud1 ];
-        };
-        r5c = { ... }: {
-          nixpkgs.system = "aarch64-linux";
-          deployment = {
-            targetHost = "ne.kasei.im";
-            buildOnTarget = false;
+        r5c =
+          { ... }:
+          {
+            nixpkgs.system = "aarch64-linux";
+            deployment = {
+              targetHost = "ne.kasei.im";
+              buildOnTarget = false;
+            };
+            imports = [ ./nixos/r5c ];
           };
-          imports = [ ./nixos/r5c ];
-        };
       });
     };
 }

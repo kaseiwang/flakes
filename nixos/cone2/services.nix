@@ -4,21 +4,20 @@
     singboxpass = { };
   };
 
-  services.nginx =
-    {
-      enable = true;
-      virtualHosts = {
-        "dcdn-origin2-test.kasei.im" = {
-          default = true;
-          reuseport = true;
-          locations = {
-            "/" = {
-              return = 200;
-            };
+  services.nginx = {
+    enable = true;
+    virtualHosts = {
+      "dcdn-origin2-test.kasei.im" = {
+        default = true;
+        reuseport = true;
+        locations = {
+          "/" = {
+            return = 200;
           };
         };
       };
     };
+  };
 
   services.sing-box = {
     enable = true;
@@ -40,7 +39,9 @@
           tag = "ss-in";
           type = "shadowsocks";
           method = "2022-blake3-aes-128-gcm";
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           multiplex = {
             enabled = true;
           };
@@ -55,7 +56,9 @@
           users = [
             {
               name = "singbox";
-              password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+              password = {
+                _secret = "${config.sops.secrets.singboxpass.path}";
+              };
             }
           ];
           handshake = {

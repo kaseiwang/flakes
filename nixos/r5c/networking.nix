@@ -155,7 +155,10 @@
     };
 
     bridges = {
-      "wanbr".interfaces = [ "wan0" "lan100" ];
+      "wanbr".interfaces = [
+        "wan0"
+        "lan100"
+      ];
     };
   };
 
@@ -196,7 +199,10 @@
         ];
         routes = [
           { Destination = "10.10.3.0/24"; }
-          { Destination = "10.10.3.0/24"; Table = "300"; }
+          {
+            Destination = "10.10.3.0/24";
+            Table = "300";
+          }
         ];
         networkConfig = {
           DHCP = "no";
@@ -212,7 +218,10 @@
           Timezone = "Asia/Shanghai";
         };
         dhcpServerStaticLeases = [
-          { MACAddress = "2c:f0:5d:e7:e2:a6"; Address = "10.10.3.11"; } # desktop
+          {
+            MACAddress = "2c:f0:5d:e7:e2:a6";
+            Address = "10.10.3.11";
+          } # desktop
         ];
         routingPolicyRules = [
           {

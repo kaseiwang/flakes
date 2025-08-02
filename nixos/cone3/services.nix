@@ -57,7 +57,9 @@
             tag = "ss-in";
             type = "shadowsocks";
             method = "2022-blake3-aes-128-gcm";
-            password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+            password = {
+              _secret = "${config.sops.secrets.singboxpass.path}";
+            };
             multiplex = {
               enabled = true;
             };
@@ -72,7 +74,9 @@
             users = [
               {
                 name = "singbox";
-                password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+                password = {
+                  _secret = "${config.sops.secrets.singboxpass.path}";
+                };
               }
             ];
             handshake = {

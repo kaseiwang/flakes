@@ -9,7 +9,10 @@ pkgs.stdenv.mkDerivation rec {
     sha256 = "sha256-F0dkIoC+MfsiNEh+7SEKRhrDD9ET7USu4LtbQoza3Po=";
   };
 
-  buildInputs = [ pkgs.gawk pkgs.gzip ];
+  buildInputs = [
+    pkgs.gawk
+    pkgs.gzip
+  ];
 
   dontUnpack = true;
   buildPhase = ''

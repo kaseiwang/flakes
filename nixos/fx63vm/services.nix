@@ -67,7 +67,10 @@
     btrfs = {
       autoScrub = {
         enable = true;
-        fileSystems = [ "/mnt/bareroot" "/mnt/backup_disk" ];
+        fileSystems = [
+          "/mnt/bareroot"
+          "/mnt/backup_disk"
+        ];
         interval = "monthly";
       };
     };
@@ -357,16 +360,19 @@
       '';
       virtualHosts =
         let
-          mkVirtualHosts = input: input // {
-            quic = true;
-            http3 = true;
-            onlySSL = true;
-            sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-            sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-            extraConfig = ''
-              add_header Alt-Svc 'h3=":$server_port"; ma=86400';
-            '';
-          };
+          mkVirtualHosts =
+            input:
+            input
+            // {
+              quic = true;
+              http3 = true;
+              onlySSL = true;
+              sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
+              sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
+              extraConfig = ''
+                add_header Alt-Svc 'h3=":$server_port"; ma=86400';
+              '';
+            };
         in
         {
           "default" = {
@@ -473,11 +479,21 @@
           };
         };
       };
-      sshAccess = [{
-        # public key for ssh access
-        key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGYS314z/+xrO5qjNWmTDLPo9OSk+mHQYPz8J0WOYbbQ";
-        roles = [ "source" "info" "target" "delete" "snapshot" "send" "receive" ];
-      }];
+      sshAccess = [
+        {
+          # public key for ssh access
+          key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGYS314z/+xrO5qjNWmTDLPo9OSk+mHQYPz8J0WOYbbQ";
+          roles = [
+            "source"
+            "info"
+            "target"
+            "delete"
+            "snapshot"
+            "send"
+            "receive"
+          ];
+        }
+      ];
     };
   };
 }

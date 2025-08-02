@@ -1,8 +1,18 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   cfg = config.services.miio-exporter;
-  scriptBin = pkgs.python3.withPackages (ps: with ps;[ python-miio prometheus-client ]);
+  scriptBin = pkgs.python3.withPackages (
+    ps: with ps; [
+      python-miio
+      prometheus-client
+    ]
+  );
   scriptText = pkgs.writeText "miio-prometheus-exporter.py" ''
     #!/usr/bin/env python3
 
@@ -33,8 +43,7 @@ let
         while True:
             time.sleep(15)
             update_status()
-  ''
-  ;
+  '';
 in
 {
   options.services.miio-exporter = {
@@ -55,10 +64,12 @@ in
       serviceConfig = {
         DynamicUser = true;
         StandardOutput = "journal";
-        ExecStart = ''${scriptBin}/bin/python ${scriptText}
+        ExecStart = ''
+          ${scriptBin}/bin/python ${scriptText}
         '';
         Restart = "always";
-      } // optionalAttrs (cfg.environmentFile != null) {
+      }
+      // optionalAttrs (cfg.environmentFile != null) {
         EnvironmentFile = cfg.environmentFile;
       };
     };

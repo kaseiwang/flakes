@@ -1,5 +1,10 @@
 # on stateless server env
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   programs = {
     nix-index.enable = true;
@@ -51,14 +56,21 @@
     fish = {
       enable = true;
       interactiveShellInit = ''
-        ${lib.optionalString (config.services.gpg-agent.enable)
-          "set -xg SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)"
-        }
+        ${lib.optionalString (config.services.gpg-agent.enable) "set -xg SSH_AUTH_SOCK (gpgconf --list-dirs agent-ssh-socket)"}
       '';
       plugins = [
-        { name = "tide"; src = pkgs.fishPlugins.tide.src; }
-        { name = "fzf"; src = pkgs.fishPlugins.fzf-fish.src; }
-        { name = "forgit"; src = pkgs.fishPlugins.forgit.src; }
+        {
+          name = "tide";
+          src = pkgs.fishPlugins.tide.src;
+        }
+        {
+          name = "fzf";
+          src = pkgs.fishPlugins.fzf-fish.src;
+        }
+        {
+          name = "forgit";
+          src = pkgs.fishPlugins.forgit.src;
+        }
       ];
     };
 

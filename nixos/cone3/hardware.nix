@@ -1,4 +1,10 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 let
   rootopts = [
     "relatime"
@@ -38,7 +44,10 @@ in
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = [ "fmask=0077" "dmask=0077" ];
+                mountOptions = [
+                  "fmask=0077"
+                  "dmask=0077"
+                ];
               };
             };
             root = {
@@ -74,7 +83,10 @@ in
       nodev = {
         "/" = {
           fsType = "tmpfs";
-          mountOptions = [ "defaults" "mode=755" ];
+          mountOptions = [
+            "defaults"
+            "mode=755"
+          ];
         };
       };
     };

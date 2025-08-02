@@ -28,13 +28,27 @@ with pkgs.lib;
     interfaces.enp0s3 = {
       useDHCP = false;
       ipv4 = {
-        addresses = [{ address = "74.48.96.113"; prefixLength = 26; }];
+        addresses = [
+          {
+            address = "74.48.96.113";
+            prefixLength = 26;
+          }
+        ];
       };
       ipv6 = {
         addresses = [
-          { address = "2607:f130:0:17e::dda0:52ae"; prefixLength = 64; }
-          { address = "2607:f130:0:17e::c65b:e023"; prefixLength = 64; }
-          { address = "2607:f130:0:17e::1fd0:62b6"; prefixLength = 64; }
+          {
+            address = "2607:f130:0:17e::dda0:52ae";
+            prefixLength = 64;
+          }
+          {
+            address = "2607:f130:0:17e::c65b:e023";
+            prefixLength = 64;
+          }
+          {
+            address = "2607:f130:0:17e::1fd0:62b6";
+            prefixLength = 64;
+          }
         ];
       };
     };

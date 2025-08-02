@@ -31,9 +31,11 @@
   # bug on first boot
   nix.gc.automatic = pkgs.lib.mkForce false;
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (pkgs.lib.getName pkg) [
-    "rockchip-firmware-rk3568"
-  ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (pkgs.lib.getName pkg) [
+      "rockchip-firmware-rk3568"
+    ];
 
   services.openssh.settings.PasswordAuthentication = pkgs.lib.mkForce true;
 

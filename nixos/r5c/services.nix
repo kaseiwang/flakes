@@ -39,7 +39,11 @@
       exporters = {
         node = {
           enable = true;
-          enabledCollectors = [ "systemd" "ethtool" "interrupts" ];
+          enabledCollectors = [
+            "systemd"
+            "ethtool"
+            "interrupts"
+          ];
         };
       };
     };

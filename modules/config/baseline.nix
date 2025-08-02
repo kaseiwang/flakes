@@ -1,4 +1,10 @@
-{ config, pkgs, lib, inputs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
 let
   cfg = config.environment.baseline;
 in
@@ -47,7 +53,12 @@ with lib;
         auto-allocate-uids = true;
         use-cgroups = true;
         trusted-users = [ "kasei" ];
-        experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" "cgroups" ];
+        experimental-features = [
+          "nix-command"
+          "flakes"
+          "auto-allocate-uids"
+          "cgroups"
+        ];
       };
       channel.enable = false;
       gc = {

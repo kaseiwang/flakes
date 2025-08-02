@@ -57,7 +57,10 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/mutter/keybindings" = {
-      switch-monitor = [ "<Super><Alt>p" "XF86Display" ];
+      switch-monitor = [
+        "<Super><Alt>p"
+        "XF86Display"
+      ];
     };
 
     "org/gnome/shell" = {
@@ -86,7 +89,9 @@ with lib.hm.gvariant;
 
     "org/gnome/settings-daemon/plugins/media-keys" = {
       active = false;
-      custom-keybindings = [ "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/" ];
+      custom-keybindings = [
+        "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+      ];
     };
 
     "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {

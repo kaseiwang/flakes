@@ -1,4 +1,10 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 let
   dev_boot = "/dev/disk/by-partlabel/BOOT";
   dev_nixos = "/dev/disk/by-partlabel/NIXOS";
@@ -43,7 +49,11 @@ in
   fileSystems."/" = {
     device = "none";
     fsType = "tmpfs";
-    options = [ "defaults" "size=2G" "mode=755" ];
+    options = [
+      "defaults"
+      "size=2G"
+      "mode=755"
+    ];
   };
 
   fileSystems."/boot" = {

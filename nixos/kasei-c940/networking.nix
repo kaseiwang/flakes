@@ -231,11 +231,16 @@ with pkgs.lib;
             detour = "direct";
           }
         ];
-        rules = [{
-          rule_set = [ "geosite-cn" "geoip-cn" ];
-          server = "tencent";
-          outbound = "direct";
-        }];
+        rules = [
+          {
+            rule_set = [
+              "geosite-cn"
+              "geoip-cn"
+            ];
+            server = "tencent";
+            outbound = "direct";
+          }
+        ];
         final = "cloudflare";
       };
       inbounds = [
@@ -263,7 +268,9 @@ with pkgs.lib;
           tag = "tls-cone3";
           type = "shadowtls";
           version = 3;
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           tls = {
             enabled = true;
             server_name = "kasei.im";
@@ -279,7 +286,9 @@ with pkgs.lib;
           server = "66.103.210.62";
           server_port = 9555;
           method = "2022-blake3-aes-128-gcm";
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           detour = "tls-cone3";
           multiplex = {
             enabled = true;
@@ -292,7 +301,9 @@ with pkgs.lib;
           tag = "tls-cone2";
           type = "shadowtls";
           version = 3;
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           tls = {
             enabled = true;
             server_name = "kasei.im";
@@ -308,7 +319,9 @@ with pkgs.lib;
           server = "74.48.96.113";
           server_port = 9555;
           method = "2022-blake3-aes-128-gcm";
-          password = { _secret = "${config.sops.secrets.singboxpass.path}"; };
+          password = {
+            _secret = "${config.sops.secrets.singboxpass.path}";
+          };
           detour = "tls-cone2";
           multiplex = {
             enabled = true;
@@ -318,7 +331,10 @@ with pkgs.lib;
         {
           type = "selector";
           tag = "select";
-          outbounds = [ "ss-cone3" "ss-cone2" ];
+          outbounds = [
+            "ss-cone3"
+            "ss-cone2"
+          ];
         }
         {
           type = "direct";
