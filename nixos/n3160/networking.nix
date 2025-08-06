@@ -741,17 +741,64 @@ in
           LinkLocalAddressing = "no";
         };
       };
-      "50-ens1" = {
+      "50-ppp0" = {
+        matchConfig = {
+          Name = "ppp0";
+          Type = "ppp";
+        };
+        networkConfig = {
+          DHCP = "ipv6";
+          LLMNR = false;
+          IPv6AcceptRA = true;
+          IPv6ProxyNDP = false;
+          KeepConfiguration = "static";
+          DHCPPrefixDelegation = false;
+          DefaultRouteOnDevice = true;
+        };
+        dhcpV6Config = {
+          UseAddress = "no";
+          WithoutRA = "solicit";
+          UseDNS = "no";
+          UseNTP = "no";
+          UseDelegatedPrefix = "yes";
+          PrefixDelegationHint = "::/60";
+        };
+        dhcpPrefixDelegationConfig = {
+          UplinkInterface = ":self";
+          Announce = false;
+        };
+        routes = [
+          {
+            Gateway = "::";
+            GatewayOnLink = true;
+          }
+        ];
+        routingPolicyRules = [
+          {
+            Family = "both";
+            FirewallMark = 200;
+            Priority = 200;
+            Table = 254; # main route table
+          }
+          {
+            Family = "both";
+            FirewallMark = 300;
+            Priority = 300;
+            Table = 300;
+          }
+        ];
+      };
+      "60-ens1" = {
         matchConfig.Name = "ens1";
         networkConfig.Bridge = "br-lan";
         linkConfig.RequiredForOnline = "enslaved";
       };
-      "50-wlp3s0" = {
+      "60-wlp3s0" = {
         matchConfig.Name = "wlp3s0";
         networkConfig.Bridge = "br-lan";
         linkConfig.RequiredForOnline = "enslaved";
       };
-      "60-lan" = {
+      "70-lan" = {
         matchConfig = {
           Name = "br-lan";
         };
@@ -802,53 +849,6 @@ in
             AddressAutoconfiguration = true;
             Prefix = "fdcd:ad38:cdc5:1::/64";
             Assign = true;
-          }
-        ];
-      };
-      "70-ppp0" = {
-        matchConfig = {
-          Name = "ppp0";
-          Type = "ppp";
-        };
-        networkConfig = {
-          DHCP = "ipv6";
-          LLMNR = false;
-          IPv6AcceptRA = true;
-          IPv6ProxyNDP = false;
-          KeepConfiguration = "static";
-          DHCPPrefixDelegation = false;
-          DefaultRouteOnDevice = true;
-        };
-        dhcpV6Config = {
-          UseAddress = "no";
-          WithoutRA = "solicit";
-          UseDNS = "no";
-          UseNTP = "no";
-          UseDelegatedPrefix = "yes";
-          PrefixDelegationHint = "::/60";
-        };
-        dhcpPrefixDelegationConfig = {
-          UplinkInterface = ":self";
-          Announce = false;
-        };
-        routes = [
-          {
-            Gateway = "::";
-            GatewayOnLink = true;
-          }
-        ];
-        routingPolicyRules = [
-          {
-            Family = "both";
-            FirewallMark = 200;
-            Priority = 200;
-            Table = 254; # main route table
-          }
-          {
-            Family = "both";
-            FirewallMark = 300;
-            Priority = 300;
-            Table = 300;
           }
         ];
       };
