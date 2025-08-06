@@ -746,6 +746,11 @@ in
         networkConfig.Bridge = "br-lan";
         linkConfig.RequiredForOnline = "enslaved";
       };
+      "50-wlp3s0" = {
+        matchConfig.Name = "wlp3s0";
+        networkConfig.Bridge = "br-lan";
+        linkConfig.RequiredForOnline = "enslaved";
+      };
       "60-lan" = {
         matchConfig = {
           Name = "br-lan";
