@@ -18,33 +18,6 @@
     miioenv = { };
   };
 
-  services.cage = {
-    enable = true;
-    user = "kodi";
-    program = "${pkgs.kodi-wayland}/bin/kodi-standalone";
-  };
-
-  services.xserver = {
-    enable = true;
-    displayManager = {
-      lightdm.greeter.enable = false;
-      autoLogin.user = "kodi";
-    };
-    desktopManager = {
-      kodi = {
-        enable = true;
-        package = pkgs.kodi.withPackages (
-          p: with p; [
-            jellyfin
-            youtube
-            pvr-iptvsimple
-            vfs-sftp
-          ]
-        );
-      };
-    };
-  };
-
   services.vaultwarden = {
     enable = true;
     dbBackend = "sqlite";
