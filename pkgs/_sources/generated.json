@@ -13,12 +13,12 @@
             "name": null,
             "owner": "aws",
             "repo": "aws-lc",
-            "rev": "v1.55.0",
-            "sha256": "sha256-Ul+PoOItv7FU7v7NkpaCrZrr/ULnI9FSv6T8ePzTMCs=",
+            "rev": "v1.58.1",
+            "sha256": "sha256-g8UFXixWO7PAjiHaMQsHh3OmaoZcqKt6JPVjhlzfXqM=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v1.55.0"
+        "version": "v1.58.1"
     },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
@@ -29,11 +29,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-znHic2/mP0HWJgO1v7sqF2W4Xv2ZhhC8xufaUu87ZzE=",
+            "sha256": "sha256-cD0FKxPvdQfcrfR/Fh4aNb+pK/IFiFLyvg8LhnYI+vs=",
             "type": "url",
-            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250526.dict"
+            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250823.dict"
         },
-        "version": "20250526"
+        "version": "20250823"
     },
     "nvidia_gpu_exporter": {
         "cargoLocks": null,
@@ -79,9 +79,9 @@
     },
     "rabbit-digger-pro": {
         "cargoLocks": null,
-        "date": "2025-02-11",
+        "date": "2025-08-09",
         "extract": {
-            "Cargo.lock": "./rabbit-digger-pro-b212e32730c6fedfc1c74efac3eb7a4e6491f6cc/Cargo.lock"
+            "Cargo.lock": "./rabbit-digger-pro-c356f58eaa82c6770de5402fcff1726938a02cde/Cargo.lock"
         },
         "name": "rabbit-digger-pro",
         "passthru": null,
@@ -91,17 +91,17 @@
             "fetchSubmodules": true,
             "leaveDotGit": false,
             "name": null,
-            "rev": "b212e32730c6fedfc1c74efac3eb7a4e6491f6cc",
-            "sha256": "sha256-5XallQUyyN/NPhQDdFGJt5wap7bxpwEiRsN56PeLhJQ=",
+            "rev": "c356f58eaa82c6770de5402fcff1726938a02cde",
+            "sha256": "sha256-BBscXZetO1mIvIzap6F6ArdaaeqeFhwNGWHqqykVcEs=",
             "sparseCheckout": [],
             "type": "git",
             "url": "https://github.com/rabbit-digger/rabbit-digger-pro"
         },
-        "version": "b212e32730c6fedfc1c74efac3eb7a4e6491f6cc"
+        "version": "c356f58eaa82c6770de5402fcff1726938a02cde"
     },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2025-07-06",
+        "date": "2025-08-06",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -113,12 +113,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "4ee73734f4cf54c4f4773f60d19025c380866e12",
-            "sha256": "sha256-fap15DemMKUSNsDGYEtJHtAPpsdZafFEXlsdPsb0f5U=",
+            "rev": "36753c08b02f58a7b7d8cbdd12540a5402ff3f15",
+            "sha256": "sha256-3J3gC9dJFJqgkEj6zOLIUXmXzDpZjg5u0WNZjJEUz8A=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "4ee73734f4cf54c4f4773f60d19025c380866e12"
+        "version": "36753c08b02f58a7b7d8cbdd12540a5402ff3f15"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,
