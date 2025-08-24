@@ -11,6 +11,7 @@
     wol
     ethtool
     smartmontools
+    wireguard-tools
   ];
 
   # for cloudflared

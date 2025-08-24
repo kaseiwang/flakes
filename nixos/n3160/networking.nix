@@ -7,7 +7,9 @@ let
 in
 {
   sops.secrets = {
-    wgkey = { };
+    wgkey = {
+      owner = "systemd-network";
+    };
     ddns-token = { };
     singboxpass = { };
     ppp0-config = {
@@ -658,33 +660,6 @@ in
     interfaces."cuccppp" = {
       useDHCP = false;
     };
-
-    wireguard.useNetworkd = false;
-    wireguard.interfaces."wg0" = {
-      table = "300";
-      fwMark = "0xc8"; # 200
-      listenPort = 2480;
-      mtu = 1400;
-      ips = [
-        "10.10.0.20/32"
-        "fdcd:ad38:cdc5:3:10:10:0:20/128"
-      ];
-      privateKeyFile = "${config.sops.secrets.wgkey.path}";
-      peers = [
-        {
-          publicKey = "c1OdyFkvCBz7DvuCNCIxUQH4kLxGocOOILodtSnmwRk=";
-          endpoint = "[2607:f130:0:179::2f6b:52ea]:2480";
-          allowedIPs = [
-            "0.0.0.0/0"
-            "::/0"
-            "10.10.0.21/32"
-            "fdcd:ad38:cdc5:3:10:10:0:21/128"
-          ];
-          persistentKeepalive = 60;
-          dynamicEndpointRefreshSeconds = 60;
-        }
-      ];
-    };
   };
 
   systemd.services.systemd-networkd.environment.SYSTEMD_LOG_LEVEL = "debug";
@@ -706,6 +681,32 @@ in
           Kind = "bridge";
         };
       };
+      "20-wg0" = {
+        netdevConfig = {
+          Name = "wg0";
+          Kind = "wireguard";
+          MTUBytes = 1408; # round down to 16bytes
+        };
+        wireguardConfig = {
+          ListenPort = 2480;
+          FirewallMark = 200; # go underlay
+          PrivateKeyFile = "${config.sops.secrets.wgkey.path}";
+          RouteTable = 300;
+        };
+        wireguardPeers = [
+          {
+            PublicKey = "c1OdyFkvCBz7DvuCNCIxUQH4kLxGocOOILodtSnmwRk=";
+            Endpoint = "[2607:f130:0:179::2f6b:52ea]:2480";
+            PersistentKeepalive = 60;
+            AllowedIPs = [
+              "0.0.0.0/0"
+              "::/0"
+              "10.10.0.21/32"
+              "fdcd:ad38:cdc5:3:10:10:0:21/128"
+            ];
+          }
+        ];
+      };
     };
     links = {
       "30-ens1" = {
@@ -719,7 +720,7 @@ in
           #ReceivePacketSteeringCPUMask = "f"; # 0b1111
         };
       };
-      "30-enp1s0" = {
+      "31-enp1s0" = {
         matchConfig = {
           OriginalName = "enp1s0";
         };
@@ -851,6 +852,22 @@ in
             Assign = true;
           }
         ];
+      };
+      "75-wg0" = {
+        matchConfig = {
+          Name = "wg0";
+        };
+        address = [
+          "10.10.0.20/32"
+          "fdcd:ad38:cdc5:3:10:10:0:20/128"
+        ];
+        routes = [
+          { Destination = "10.10.0.21/32"; }
+          { Destination = "fdcd:ad38:cdc5:3:10:10:0:21/128"; }
+        ];
+        networkConfig = {
+          DHCP = false;
+        };
       };
     };
   };
