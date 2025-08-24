@@ -680,6 +680,9 @@ in
           Name = "br-lan";
           Kind = "bridge";
         };
+        bridgeConfig = {
+          MulticastSnooping = false;
+        };
       };
       "20-wg0" = {
         netdevConfig = {
