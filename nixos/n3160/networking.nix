@@ -433,6 +433,7 @@ in
         {
           type = "direct";
           tag = "direct";
+          routing_mark = 200;
         }
       ];
       route = {
