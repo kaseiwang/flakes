@@ -74,7 +74,7 @@ with pkgs.lib;
       #table = "300";
       fwMark = "0xc8"; # 200
       listenPort = 2480;
-      mtu = 1400;
+      mtu = 1408;
       ips = [
         "10.10.0.21/32"
         "fdcd:ad38:cdc5:3:10:10:0:21"
