@@ -333,6 +333,13 @@ in
           sniff_override_destination = true;
         }
         {
+          type = "mixed";
+          tag = "golocal";
+          listen = "::";
+          listen_port = 1070;
+          sniff = false;
+        }
+        {
           listen = "::";
           listen_port = 8688;
           tag = "ss-in";
@@ -431,6 +438,10 @@ in
       route = {
         default_mark = 200;
         rules = [
+          {
+            inbound = "golocal";
+            outbound = "direct";
+          }
           {
             ip_is_private = true;
             outbound = "direct";
