@@ -1,25 +1,4 @@
 {
-    "aws-lc": {
-        "cargoLocks": null,
-        "date": null,
-        "extract": null,
-        "name": "aws-lc",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "aws",
-            "repo": "aws-lc",
-            "rev": "v1.58.1",
-            "sha256": "sha256-g8UFXixWO7PAjiHaMQsHh3OmaoZcqKt6JPVjhlzfXqM=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "v1.58.1"
-    },
     "fcitx5-pinyin-zhwiki": {
         "cargoLocks": null,
         "date": null,
@@ -77,31 +56,9 @@
         },
         "version": "release-5.1.2.10"
     },
-    "rabbit-digger-pro": {
-        "cargoLocks": null,
-        "date": "2025-08-09",
-        "extract": {
-            "Cargo.lock": "./rabbit-digger-pro-c356f58eaa82c6770de5402fcff1726938a02cde/Cargo.lock"
-        },
-        "name": "rabbit-digger-pro",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": true,
-            "leaveDotGit": false,
-            "name": null,
-            "rev": "c356f58eaa82c6770de5402fcff1726938a02cde",
-            "sha256": "sha256-BBscXZetO1mIvIzap6F6ArdaaeqeFhwNGWHqqykVcEs=",
-            "sparseCheckout": [],
-            "type": "git",
-            "url": "https://github.com/rabbit-digger/rabbit-digger-pro"
-        },
-        "version": "c356f58eaa82c6770de5402fcff1726938a02cde"
-    },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2025-08-06",
+        "date": "2025-09-12",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -113,12 +70,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "36753c08b02f58a7b7d8cbdd12540a5402ff3f15",
-            "sha256": "sha256-3J3gC9dJFJqgkEj6zOLIUXmXzDpZjg5u0WNZjJEUz8A=",
+            "rev": "3b8395d15b718edd265d2eb560b98f2e0ae334bf",
+            "sha256": "sha256-qJA7lNOKKGxrEJ8iqNljfJzGCAmzoTwcEb6p6isgA/k=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "36753c08b02f58a7b7d8cbdd12540a5402ff3f15"
+        "version": "3b8395d15b718edd265d2eb560b98f2e0ae334bf"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,

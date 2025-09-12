@@ -11,12 +11,6 @@ fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/downlo
 src.github_tag = "kitsunyan/xdg-open-server"
 fetch.github = "kitsunyan/xdg-open-server"
 
-[rabbit-digger-pro]
-src.git= "https://github.com/rabbit-digger/rabbit-digger-pro"
-fetch.git= "https://github.com/rabbit-digger/rabbit-digger-pro"
-git.fetchSubmodules = true
-extract = ["Cargo.lock"]
-
 [vscode-ext-sops]
 src.vsmarketplace = "signageos.signageos-vscode-sops"
 fetch.vsmarketplace = "signageos.signageos-vscode-sops"
@@ -44,7 +38,3 @@ fetch.github = "utkuozdemir/nvidia_gpu_exporter"
 [yarr-pgsql]
 src.github_tag = "jgkawell/yarr"
 fetch.github = "jgkawell/yarr"
-
-[aws-lc]
-src.github_tag = "aws/aws-lc"
-fetch.github = "aws/aws-lc"
