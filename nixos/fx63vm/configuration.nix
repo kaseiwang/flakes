@@ -37,8 +37,12 @@
   };
 
   services.logind = {
-    lidSwitch = "ignore";
-    lidSwitchExternalPower = "ignore";
+    settings = {
+      Login = {
+        HandleLidSwitch = "ignore";
+        HandleLidSwitchExternalPower = "ignore";
+      };
+    };
   };
 
   environment.systemPackages = with pkgs; [
