@@ -20,21 +20,6 @@
 
   virtualisation = {
     oci-containers.containers = {
-      "alist" = {
-        image = "xhofe/alist:v3.37.1";
-        environment = {
-          PUID = "0";
-          PGID = "0";
-          UMASK = "022";
-        };
-        volumes = [
-          "alist:/opt/alist/data"
-          #"/pool0/samba-share:/mnt/samba"
-          "/pool0/encrypted/media/samba:/mnt/samba"
-          "/pool0/encrypted/media/qbittorrent/.config/qBittorrent/downloads:/mnt/qbittorrent"
-        ];
-        ports = [ "127.0.0.1:5244:5244" ];
-      };
       "chatgpt-next-web" = {
         image = "yidadaa/chatgpt-next-web:v2.15.6";
         ports = [ "127.0.0.1:3000:3000" ];
@@ -45,7 +30,7 @@
         };
       };
       "peerbanhelper" = {
-        image = "ghostchu/peerbanhelper:v7.0.0";
+        image = "ghostchu/peerbanhelper:v8.0.12";
         ports = [ "127.0.0.1:9898:9898" ];
         volumes = [
           "peerbanhelper:/app/data"
