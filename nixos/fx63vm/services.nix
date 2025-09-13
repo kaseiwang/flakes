@@ -332,7 +332,6 @@
       recommendedOptimisation = true;
       recommendedProxySettings = true;
       recommendedGzipSettings = false;
-      recommendedZstdSettings = false;
       sslProtocols = "TLSv1.2 TLSv1.3";
       appendConfig = ''
         worker_processes auto;
@@ -401,7 +400,7 @@
             serverName = "bt.kasei.im";
             basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
             locations."/" = {
-              proxyPass = "http://localhost:${toString config.services.qbittorrent.port}";
+              proxyPass = "http://localhost:${toString config.services.qbittorrent.webuiPort}";
               extraConfig = ''proxy_cookie_path / "/; Secure";'';
             };
           };
@@ -437,7 +436,8 @@
       enable = true;
       package = pkgs.qbittorrent-enhanced-nox;
       group = "nas";
-      openFilesLimit = 65535;
+      profileDir = "/var/lib/qbittorrent/.config";
+      #openFilesLimit = 65535;
       # TODO: use module to manage qbittorrent settings
       #dataDir = "/pool0/media/qbittorrent";
     };

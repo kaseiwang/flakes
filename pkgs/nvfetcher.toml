@@ -26,11 +26,6 @@ src.vsmarketplace = "Codeium.codeium"
 fetch.vsmarketplace = "Codeium.codeium"
 passthru = { publisher = "Codeium", name = "codeium" }
 
-[qbittorrent-enhanced-nox]
-src.github = "c0re100/qBittorrent-Enhanced-Edition"
-#src.manual = "release-4.6.7.10"
-fetch.github = "c0re100/qBittorrent-Enhanced-Edition"
-
 [nvidia_gpu_exporter]
 src.github = "utkuozdemir/nvidia_gpu_exporter"
 fetch.github = "utkuozdemir/nvidia_gpu_exporter"
