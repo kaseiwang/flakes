@@ -22,13 +22,9 @@ in
 
     graphics = {
       enable = true;
-      extraPackages = [ pkgs.amdvlk ];
     };
     amdgpu = {
       initrd.enable = true;
-      amdvlk = {
-        enable = true;
-      };
     };
   };
 

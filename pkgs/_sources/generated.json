@@ -35,30 +35,9 @@
         },
         "version": "v1.3.2"
     },
-    "qbittorrent-enhanced-nox": {
-        "cargoLocks": null,
-        "date": null,
-        "extract": null,
-        "name": "qbittorrent-enhanced-nox",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "c0re100",
-            "repo": "qBittorrent-Enhanced-Edition",
-            "rev": "release-5.1.2.10",
-            "sha256": "sha256-Q3gipRgZCzihKUQZZmETT65AUSEUfgj9dFxZFybq258=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "release-5.1.2.10"
-    },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2025-09-12",
+        "date": "2025-09-27",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -70,12 +49,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "3b8395d15b718edd265d2eb560b98f2e0ae334bf",
-            "sha256": "sha256-qJA7lNOKKGxrEJ8iqNljfJzGCAmzoTwcEb6p6isgA/k=",
+            "rev": "95828c90e297d6ad5acdae7c7a509f642660e042",
+            "sha256": "sha256-e58QrP8lNrM0VbKuMkWTenPbFXd9Xwyk/EGPiugdrs4=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "3b8395d15b718edd265d2eb560b98f2e0ae334bf"
+        "version": "95828c90e297d6ad5acdae7c7a509f642660e042"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,

@@ -20,28 +20,17 @@
       sha256 = "sha256-d5/sWgfb4rGfHHeHOunHkm61F6o9L/z0MLh7iRABEYg=";
     };
   };
-  qbittorrent-enhanced-nox = {
-    pname = "qbittorrent-enhanced-nox";
-    version = "release-5.1.2.10";
-    src = fetchFromGitHub {
-      owner = "c0re100";
-      repo = "qBittorrent-Enhanced-Edition";
-      rev = "release-5.1.2.10";
-      fetchSubmodules = false;
-      sha256 = "sha256-Q3gipRgZCzihKUQZZmETT65AUSEUfgj9dFxZFybq258=";
-    };
-  };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "3b8395d15b718edd265d2eb560b98f2e0ae334bf";
+    version = "95828c90e297d6ad5acdae7c7a509f642660e042";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "3b8395d15b718edd265d2eb560b98f2e0ae334bf";
+      rev = "95828c90e297d6ad5acdae7c7a509f642660e042";
       fetchSubmodules = false;
-      sha256 = "sha256-qJA7lNOKKGxrEJ8iqNljfJzGCAmzoTwcEb6p6isgA/k=";
+      sha256 = "sha256-e58QrP8lNrM0VbKuMkWTenPbFXd9Xwyk/EGPiugdrs4=";
     };
-    date = "2025-09-12";
+    date = "2025-09-27";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";

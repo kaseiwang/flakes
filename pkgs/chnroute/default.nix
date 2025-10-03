@@ -2,11 +2,11 @@
 
 pkgs.stdenv.mkDerivation rec {
   pname = "chnroute";
-  version = "20250430";
+  version = "20251001";
 
   src = pkgs.fetchurl {
     url = "https://ftp.apnic.net/stats/apnic/2025/delegated-apnic-${version}.gz";
-    sha256 = "sha256-F0dkIoC+MfsiNEh+7SEKRhrDD9ET7USu4LtbQoza3Po=";
+    sha256 = "sha256-PAQspwZNC5rSn29A7a2rcYVkXo1jZv5WJfIBvRBm+v0=";
   };
 
   buildInputs = [

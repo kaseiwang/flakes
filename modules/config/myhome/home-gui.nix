@@ -160,9 +160,12 @@ in
 
     ssh = {
       enable = true;
-      forwardAgent = true;
-      serverAliveInterval = 42;
+      enableDefaultConfig = false;
       matchBlocks = {
+        "*" = {
+          forwardAgent = true;
+          serverAliveInterval = 42;
+        };
         "10.10.*.*" = {
           user = "kasei";
         };
@@ -208,8 +211,10 @@ in
 
     go = {
       enable = true;
-      goPath = ".cache/go";
-      goBin = ".local/bin.go";
+      env = {
+        GOBIN = ".local/bin.go";
+        GOPATH = ".cache/go";
+      };
     };
 
     gpg = {
