@@ -303,6 +303,7 @@ in
             tag = "cloudflare";
             address = "tls://[2606:4700:4700::1111]";
             strategy = "prefer_ipv6";
+            detour = "select";
           }
           {
             tag = "tencent";
@@ -368,10 +369,6 @@ in
           tls = {
             enabled = true;
             server_name = "kasei.im";
-            utls = {
-              enabled = true;
-              fingerprint = "chrome";
-            };
           };
         }
         {
@@ -401,10 +398,6 @@ in
           tls = {
             enabled = true;
             server_name = "kasei.im";
-            utls = {
-              enabled = true;
-              fingerprint = "chrome";
-            };
           };
         }
         {
