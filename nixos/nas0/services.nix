@@ -60,18 +60,18 @@
       };
     };
 
-    undervolt = {
-      enable = true;
-      coreOffset = -70;
-      p1 = {
-        limit = 25;
-        window = 28;
-      };
-      p2 = {
-        limit = 35;
-        window = 0.0025;
-      };
-    };
+    #undervolt = {
+    #  enable = true;
+    #  coreOffset = -70;
+    #  p1 = {
+    #    limit = 25;
+    #    window = 28;
+    #  };
+    #  p2 = {
+    #    limit = 35;
+    #    window = 0.0025;
+    #  };
+    #};
 
     postgresql = {
       enable = true;
@@ -185,7 +185,7 @@
 
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud31;
+      package = pkgs.nextcloud32;
       home = "/pool0/encrypted/nextcloud";
       hostName = "nextcloud.kasei.im";
       https = true;
