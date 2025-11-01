@@ -11,26 +11,26 @@
   };
   nvidia_gpu_exporter = {
     pname = "nvidia_gpu_exporter";
-    version = "v1.3.2";
+    version = "v1.4.1";
     src = fetchFromGitHub {
       owner = "utkuozdemir";
       repo = "nvidia_gpu_exporter";
-      rev = "v1.3.2";
+      rev = "v1.4.1";
       fetchSubmodules = false;
-      sha256 = "sha256-d5/sWgfb4rGfHHeHOunHkm61F6o9L/z0MLh7iRABEYg=";
+      sha256 = "sha256-+sXlQQUs8tmxtaqKUCBTfEZlL8fqBlhzcDFbX8Catsk=";
     };
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "95828c90e297d6ad5acdae7c7a509f642660e042";
+    version = "b524f7faa31c43359eab372c80870581508124a1";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "95828c90e297d6ad5acdae7c7a509f642660e042";
+      rev = "b524f7faa31c43359eab372c80870581508124a1";
       fetchSubmodules = false;
-      sha256 = "sha256-e58QrP8lNrM0VbKuMkWTenPbFXd9Xwyk/EGPiugdrs4=";
+      sha256 = "sha256-31uV1m2m4ExbiIwsXfIzH35mgidn0QAuTdAWA7m+EJY=";
     };
-    date = "2025-09-27";
+    date = "2025-10-26";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -56,11 +56,11 @@
   };
   vscode-ext-sops = {
     pname = "vscode-ext-sops";
-    version = "0.9.2";
+    version = "0.9.3";
     src = fetchurl {
-      url = "https://signageos.gallery.vsassets.io/_apis/public/gallery/publisher/signageos/extension/signageos-vscode-sops/0.9.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "signageos-vscode-sops-0.9.2.zip";
-      sha256 = "sha256-qlFD8sMvdKpLkXiYT9UybgCvxUJrbXpAcnmPxk91Tbs=";
+      url = "https://signageos.gallery.vsassets.io/_apis/public/gallery/publisher/signageos/extension/signageos-vscode-sops/0.9.3/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "signageos-vscode-sops-0.9.3.zip";
+      sha256 = "sha256-fOSLlszr6yLkRC9gy+MCnL+Y/1TXrmVWAWavpvXHj4U=";
     };
     publisher = "signageos";
     name = "signageos-vscode-sops";

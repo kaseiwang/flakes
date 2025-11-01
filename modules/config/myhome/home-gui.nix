@@ -20,7 +20,7 @@ in
     noto-fonts
     noto-fonts-cjk-sans
     noto-fonts-cjk-serif
-    noto-fonts-emoji
+    noto-fonts-color-emoji
     wqy_microhei
     jetbrains-mono
 
@@ -53,7 +53,7 @@ in
     rustup
     smartmontools
     #(spotify.override {deviceScaleFactor = 2;})
-    tdesktop
+    telegram-desktop
     unzip
     wireshark
     xdg-open-server # xdp proxy for app in docker
@@ -137,7 +137,7 @@ in
       enable = true;
       type = "fcitx5";
       fcitx5.addons = with pkgs; [
-        fcitx5-chinese-addons
+        qt6Packages.fcitx5-chinese-addons
         fcitx5-pinyin-zhwiki
         fcitx5-pinyin-custom-pinyin-dictionary
       ];
@@ -182,8 +182,12 @@ in
 
     git = {
       enable = true;
-      userName = "Kasei Wang";
-      userEmail = "kasei@kasei.im";
+      settings = {
+        user.name = "Kasei Wang";
+        user.email = "kasei@kasei.im";
+        merge.tool = "vimdiff";
+        pull.ffonly = true;
+      };
       signing = {
         key = "BF2B11D0";
         signByDefault = true;
@@ -193,11 +197,6 @@ in
         "shell.nix"
         ".direnv/"
       ];
-      extraConfig = {
-        merge.tool = "vimdiff";
-        pull.ffonly = true;
-      };
-
       includes = [
         {
           condition = "gitdir:~/netease/";

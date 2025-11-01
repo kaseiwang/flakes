@@ -27,8 +27,10 @@
 
     git = {
       enable = true;
-      userName = "Kasei Wang";
-      userEmail = "kasei@kasei.im";
+      settings = {
+        user.name = "Kasei Wang";
+        user.email = "kasei@kasei.im";
+      };
     };
 
     neovim = {
