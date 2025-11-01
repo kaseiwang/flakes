@@ -17,17 +17,13 @@
     useDHCP = true;
     useNetworkd = true;
 
-    wireless = {
-      enable = true;
-      secretsFile = "${config.sops.secrets.wireless.path}";
-      networks = {
-        kaseinet.pskRaw = "ext:psk_kaseinet";
-      };
-    };
-
-    interfaces."enp2s0" = {
-      useDHCP = true;
-    };
+    #wireless = {
+    #  enable = true;
+    #  secretsFile = "${config.sops.secrets.wireless.path}";
+    #  networks = {
+    #    kaseinet.pskRaw = "ext:psk_kaseinet";
+    #  };
+    #};
 
     nftables = {
       enable = true;

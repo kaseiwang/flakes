@@ -18,16 +18,6 @@ in
   hardware = {
     enableRedistributableFirmware = lib.mkDefault true;
     cpu.intel.updateMicrocode = true;
-    nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
-      nvidiaSettings = false;
-      open = false; # nvidia-open doesn't support GTX1060
-      powerManagement = {
-        enable = false; # not supported by GTX1060
-      };
-      dynamicBoost.enable = false; # not supported by GTX1060
-      nvidiaPersistenced = true; # for power management
-    };
     graphics.enable = false;
   };
 

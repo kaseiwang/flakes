@@ -166,17 +166,7 @@
             { targets = [ "10.10.2.1:9975" ]; }
           ];
         }
-        {
-          job_name = "nvidia_gpu";
-          static_configs = [
-            { targets = [ "localhost:9835" ]; }
-          ];
-        }
       ];
-    };
-
-    nvidia_gpu_exporter = {
-      enable = true;
     };
 
     redis = {

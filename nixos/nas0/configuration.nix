@@ -53,8 +53,6 @@
 
   programs.fuse.userAllowOther = true;
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-
   security.acme = {
     acceptTerms = true;
     defaults = {
@@ -76,14 +74,6 @@
       };
     };
   };
-
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (pkgs.lib.getName pkg) [
-      "nvidia-x11"
-      "nvidia-persistenced"
-      "libXNVCtrl"
-    ];
 
   users = {
     users = {

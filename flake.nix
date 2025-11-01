@@ -124,14 +124,14 @@
             };
             imports = [ ./nixos/n3160 ];
           };
-        fx63vm =
+        nas0 =
           { ... }:
           {
             deployment = {
               targetHost = "nas0.i.kasei.im";
               buildOnTarget = false;
             };
-            imports = [ ./nixos/fx63vm ];
+            imports = [ ./nixos/nas0 ];
           };
         cone2 =
           { ... }:
