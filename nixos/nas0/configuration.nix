@@ -49,6 +49,7 @@
     config.boot.kernelPackages.cpupower
     smartmontools
     rclone
+    wireguard-tools
   ];
 
   programs.fuse.userAllowOther = true;
