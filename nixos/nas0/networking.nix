@@ -683,6 +683,7 @@ in
         };
         address = [
           "10.10.2.1/24"
+          "fdcd:ad38:cdc5:1::2"
         ];
         routes = [
           { Destination = "10.10.2.0/24"; }
