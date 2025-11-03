@@ -3,8 +3,8 @@ with pkgs.lib;
 let
   wanif = "ppp0";
   wanif-phy = "enp8s0";
-  lanif-phy = "enp7s0";
-  lanif = "br-lan";
+  #lanif-phy = "enp7s0";
+  lanif = "enp7s0";
 in
 {
   sops.secrets = {
@@ -579,15 +579,6 @@ in
       ];
     };
     netdevs = {
-      "10-br-lan" = {
-        netdevConfig = {
-          Name = "br-lan";
-          Kind = "bridge";
-        };
-        bridgeConfig = {
-          MulticastSnooping = false;
-        };
-      };
       "20-wg0" = {
         netdevConfig = {
           Name = "wg0";
@@ -672,14 +663,9 @@ in
           }
         ];
       };
-      "60-${lanif-phy}" = {
-        matchConfig.Name = "${lanif-phy}";
-        networkConfig.Bridge = "br-lan";
-        linkConfig.RequiredForOnline = "enslaved";
-      };
       "70-lan" = {
         matchConfig = {
-          Name = "br-lan";
+          Name = "${lanif}";
         };
         address = [
           "10.10.2.1/24"
