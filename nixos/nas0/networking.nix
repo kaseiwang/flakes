@@ -636,7 +636,7 @@ in
           UseDNS = "no";
           UseNTP = "no";
           UseDelegatedPrefix = "yes";
-          PrefixDelegationHint = "::/60";
+          PrefixDelegationHint = "::/64";
         };
         dhcpPrefixDelegationConfig = {
           UplinkInterface = ":self";
