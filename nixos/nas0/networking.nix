@@ -475,6 +475,9 @@ in
 
               meta l4proto {icmp, icmpv6, igmp} accept;
 
+              # dhcpv6
+              iifname ${wanif} udp dport 546 accept;
+
               # 22, ssh
               # 2480, wireguard
               # 8688, proxy
@@ -631,16 +634,12 @@ in
           DefaultRouteOnDevice = true;
         };
         dhcpV6Config = {
-          UseAddress = "no";
+          UseAddress = "yes";
           WithoutRA = "solicit";
           UseDNS = "no";
           UseNTP = "no";
           UseDelegatedPrefix = "yes";
-          PrefixDelegationHint = "::/64";
-        };
-        dhcpPrefixDelegationConfig = {
-          UplinkInterface = ":self";
-          Announce = false;
+          PrefixDelegationHint = "::/60";
         };
         routes = [
           {
