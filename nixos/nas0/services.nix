@@ -14,6 +14,7 @@
       owner = config.users.users."grafana".name;
     };
     zfs-key = { };
+    cloudflared = { };
   };
 
   systemd.services.grafana.serviceConfig.EnvironmentFile = "${config.sops.secrets.grafana-envs.path}";
@@ -313,6 +314,24 @@
 
     yarr = {
       enable = true;
+    };
+
+    vlmcsd = {
+      enable = true;
+    };
+
+    cloudflared = {
+      enable = true;
+      tunnels."71d3c820-b722-45d5-810f-7185d0c6b54c" = {
+        originRequest = {
+          #originServerName = "kasei.im";
+        };
+        ingress = {
+          "grafana.kasei.im" = "https://nas0.i.kasei.im:443";
+        };
+        default = "http_status:404";
+        credentialsFile = "${config.sops.secrets.cloudflared.path}";
+      };
     };
 
     nginx = {
