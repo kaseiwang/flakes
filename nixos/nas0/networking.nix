@@ -699,7 +699,7 @@ in
         ];
         ipv6SendRAConfig = {
           Managed = false;
-          OtherInformation = true;
+          OtherInformation = false;
           EmitDNS = true;
           DNS = "_link_local";
           EmitDomains = true;
