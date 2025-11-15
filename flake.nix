@@ -89,6 +89,10 @@
           system = "x86_64-linux";
           inherit self inputs nixpkgs;
         };
+        workstation = import ./nixos/workstation {
+          system = "x86_64-linux";
+          inherit self inputs nixpkgs;
+        };
       }
       // self.colmenaHive.nodes;
 
