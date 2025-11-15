@@ -495,7 +495,6 @@ in
               ct state established,related counter accept;
 
               tcp flags syn tcp option maxseg size set rt mtu;
-              iifname "wg0" tcp flags syn tcp option maxseg size set 1360;
 
               # 12526, qbitorrent
               meta l4proto {icmp, icmpv6, igmp} accept;
@@ -509,7 +508,6 @@ in
             chain output {
               type filter hook output priority filter; policy accept;
               tcp flags syn tcp option maxseg size set rt mtu;
-              iifname "wg0" tcp flags syn tcp option maxseg size set 1360;
             }
           '';
         };
