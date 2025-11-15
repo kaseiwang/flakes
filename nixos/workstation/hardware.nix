@@ -26,6 +26,7 @@ in
 
     nvidia = {
       open = true;
+      nvidiaSettings = true;
       modesetting.enable = true;
       powerManagement.enable = true;
     };

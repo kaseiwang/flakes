@@ -12,6 +12,10 @@ let
     builtins.elem (pkgs.lib.getName pkg) [
       "feishu"
       "code"
+      "steam"
+      "steam-unwrapped"
+      "nvidia-x11"
+      "nvidia-settings"
       "vscode"
       "vscode-extension-ms-vscode-remote-remote-ssh"
       "vscode-extension-github-copilot"

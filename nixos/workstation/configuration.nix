@@ -1,6 +1,7 @@
 {
   config,
   pkgs,
+  lib,
   inputs,
   ...
 }:
@@ -64,9 +65,17 @@
     adb.enable = true;
     wireshark.enable = true;
     fuse.userAllowOther = true;
-  };
 
-  services.dbus.implementation = "broker";
+    steam = {
+      enable = true;
+      #gamescopeSession.enable = true;
+      #protontricks.enable = true;
+      #extest.enable = true;
+      fontPackages = [
+        pkgs.wqy_zenhei # Need by steam for Chinese
+      ];
+    };
+  };
 
   users.users.kasei = {
     extraGroups = [
