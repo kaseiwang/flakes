@@ -22,7 +22,6 @@ in
   };
 
   powerManagement = {
-    #cpufreq.max = 2500000; # max of i5-7300HQ is 3.5GHz
     cpuFreqGovernor = "powersave";
   };
 
@@ -103,7 +102,4 @@ in
     ];
     neededForBoot = false;
   };
-
-  swapDevices = [
-  ];
 }

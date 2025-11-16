@@ -19,29 +19,6 @@
 
   systemd.services.grafana.serviceConfig.EnvironmentFile = "${config.sops.secrets.grafana-envs.path}";
 
-  virtualisation = {
-    oci-containers.containers = {
-      "chatgpt-next-web" = {
-        image = "yidadaa/chatgpt-next-web:v2.15.6";
-        ports = [ "127.0.0.1:3000:3000" ];
-        environmentFiles = [ "${config.sops.secrets.chatgpt-envs.path}" ];
-        environment = {
-          PROXY_URL = "http://10.10.2.1:1080/";
-          HOSTNAME = "0.0.0.0";
-        };
-      };
-      "peerbanhelper" = {
-        image = "ghostchu/peerbanhelper:v8.0.12";
-        ports = [ "127.0.0.1:9898:9898" ];
-        volumes = [
-          "peerbanhelper:/app/data"
-          "peerbanhelper-tmpfs:/tmp"
-          "/etc/localtime:/etc/localtime,read-only=true"
-        ];
-      };
-    };
-  };
-
   services = {
     zfs = {
       autoScrub = {
