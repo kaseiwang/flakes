@@ -339,6 +339,9 @@ in
               "clngaa.com"
               "steamcontent.com"
               "pphimalayanrt.com"
+              # kaspersky
+              "kaspersky.com"
+              "kaspersky-labs.com"
             ];
             outbound = "direct";
           }
@@ -431,9 +434,7 @@ in
             chain route-mark {
               ip daddr @localnet meta mark set 200
               ip daddr @kaseiserversv4 meta mark set 200
-              ip dscp lephb meta mark set 200
               ip6 daddr @localnetv6 meta mark set 200
-              ip6 dscp lephb meta mark set 200
 
               meta mark 0 meta mark set 300
               meta mark 200 counter
@@ -527,8 +528,7 @@ in
           content = ''
             chain output {
               type filter hook output priority filter; policy accept;
-              skuid ${config.services.qbittorrent.user} ip dscp set lephb counter
-              skuid ${config.services.qbittorrent.user} ip6 dscp set lephb counter
+              skuid ${config.services.qbittorrent.user} meta mark 200 counter
             }
           '';
         };
