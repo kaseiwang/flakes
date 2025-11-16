@@ -41,7 +41,7 @@ in
               pyyaml
               pyroute2
               requests
-              systemd
+              systemd-python
             ]
           )
         }/bin/python ${script} -c ${cfg.configFile}";
