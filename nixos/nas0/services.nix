@@ -178,12 +178,6 @@
       };
     };
 
-    memcached = {
-      enable = true;
-      enableUnixSocket = true;
-      maxMemory = 512;
-    };
-
     nextcloud = {
       enable = true;
       package = pkgs.nextcloud32;
