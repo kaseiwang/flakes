@@ -13,93 +13,36 @@ in
     };
     ddns-token = { };
     singboxpass = { };
-    ppp0-config = {
-      path = "/etc/ppp/peers/ppp0";
-      mode = "600";
+    ppp0-secrtes = {
+      path = "/etc/ppp/options";
+      mode = "400";
     };
     ddns = { };
     wifipsk = { };
   };
 
-  systemd.services."pppd-ppp0" =
-    let
-      name = "ppp0";
-    in
-    {
-      before = [ "network.target" ];
-      wants = [ "network.target" ];
-      after = [
-        "network-pre.target"
-        "sops-nix.service"
-      ];
-      environment = {
-        # pppd likes to write directly into /var/run. This is rude
-        # on a modern system, so we use libredirect to transparently
-        # move those files into /run/pppd.
-        LD_PRELOAD = "${pkgs.libredirect}/lib/libredirect.so";
-        NIX_REDIRECTS = "/var/run=/run/pppd";
+  services.pppd = {
+    enable = true;
+    peers = {
+      ppp0 = {
+        config = ''
+          updetach
+          plugin pppoe.so cuccppp
+          debug
+
+          noauth
+          defaultroute
+          maxfail "5"
+
+          lcp-echo-interval "3"
+          lcp-echo-failure "20"
+
+          mru 1492
+          mtu 1492
+        '';
       };
-      serviceConfig =
-        let
-          capabilities = [
-            "CAP_BPF"
-            "CAP_SYS_TTY_CONFIG"
-            "CAP_NET_ADMIN"
-            "CAP_NET_RAW"
-          ];
-        in
-        {
-          ExecStart = "${pkgs.ppp}/sbin/pppd call ${name} nodetach nolog";
-          Restart = "always";
-          RestartSec = 5;
-
-          AmbientCapabilities = capabilities;
-          CapabilityBoundingSet = capabilities;
-          KeyringMode = "private";
-          LockPersonality = true;
-          MemoryDenyWriteExecute = true;
-          NoNewPrivileges = true;
-          PrivateMounts = true;
-          PrivateTmp = true;
-          ProtectControlGroups = true;
-          ProtectHome = true;
-          ProtectHostname = true;
-          ProtectKernelModules = true;
-          # pppd can be configured to tweak kernel settings.
-          ProtectKernelTunables = false;
-          ProtectSystem = "strict";
-          RemoveIPC = true;
-          RestrictAddressFamilies = [
-            "AF_ATMPVC"
-            "AF_ATMSVC"
-            "AF_INET"
-            "AF_INET6"
-            "AF_IPX"
-            "AF_NETLINK"
-            "AF_PACKET"
-            "AF_PPPOX"
-            "AF_UNIX"
-          ];
-          RestrictNamespaces = true;
-          RestrictRealtime = true;
-          RestrictSUIDSGID = true;
-          SecureBits = "no-setuid-fixup-locked noroot-locked";
-          SystemCallFilter = "@system-service";
-          SystemCallArchitectures = "native";
-
-          # All pppd instances on a system must share a runtime
-          # directory in order for PPP multilink to work correctly. So
-          # we give all instances the same /run/pppd directory to store
-          # things in.
-          #
-          # For the same reason, we can't set PrivateUsers=true, because
-          # all instances need to run as the same user to access the
-          # multilink database.
-          RuntimeDirectory = "pppd";
-          RuntimeDirectoryPreserve = true;
-        };
-      wantedBy = [ "multi-user.target" ];
     };
+  };
 
   services.smartdns = {
     enable = true;
@@ -149,7 +92,6 @@ in
 
   services.resolved.enable = false;
 
-  
   services.ddns = {
     enable = true;
     configFile = config.sops.secrets.ddns.path;
