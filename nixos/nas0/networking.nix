@@ -5,6 +5,9 @@ let
   wanif-phy = "enp8s0";
   #lanif-phy = "enp7s0";
   lanif = "enp7s0";
+  localRouteMark = 200;
+  overlayRouteMark = 300;
+  overlayRouteTable = 300;
 in
 {
   sops.secrets = {
@@ -21,104 +24,106 @@ in
     wifipsk = { };
   };
 
-  services.pppd = {
-    enable = true;
-    peers = {
-      ppp0 = {
-        config = ''
-          updetach
-          plugin pppoe.so cuccppp
-          debug
+  services = {
+    pppd = {
+      enable = true;
+      peers = {
+        ppp0 = {
+          config = ''
+            updetach
+            plugin pppoe.so cuccppp
+            debug
 
-          noauth
-          defaultroute
-          maxfail "5"
+            noauth
+            defaultroute
+            maxfail "5"
 
-          lcp-echo-interval "3"
-          lcp-echo-failure "20"
+            lcp-echo-interval "3"
+            lcp-echo-failure "20"
 
-          mru 1492
-          mtu 1492
-        '';
+            mru 1492
+            mtu 1492
+          '';
+        };
       };
     };
-  };
 
-  services.smartdns = {
-    enable = true;
-    settings = {
-      bind = "[::]:53";
-      bind-tcp = "[::]:53";
-      cache-size = 262144; # 128MB
-      cache-persist = false;
-      #resolv-hostname = true;
-      prefetch-domain = false;
-      dualstack-ip-selection = false;
-      log-console = true;
-      log-size = "0";
-      audit-enable = true;
-      audit-console = true;
-      audit-num = "0";
-      conf-file = [
-        "${pkgs.smartdns-china-list}/accelerated-domains.china.smartdns.conf"
-        "${pkgs.smartdns-china-list}/apple.china.smartdns.conf"
-        "${pkgs.smartdns-china-list}/google.china.smartdns.conf"
-      ];
-      server-tls = [
-        # bootstrap
-        "223.5.5.5 -tls-host-verify *.alidns.com -group bootstrap-dns-cn -exclude-default-group -set-mark 200"
-        "223.6.6.6 -tls-host-verify *.alidns.com -group bootstrap-dns-cn -exclude-default-group -set-mark 200"
-        "1.1.1.1 -tls-host-verify cloudflare-dns.com -group bootstrap-dns-global -exclude-default-group -set-mark 300"
-        "1.0.0.1 -tls-host-verify cloudflare-dns.com -group bootstrap-dns-global -exclude-default-group -set-mark 300"
-        # oversea
-        "one.one.one.one -set-mark 300"
-        "dns.google -set-mark 300"
-        # china
-        "dot.pub -group china -exclude-default-group -set-mark 200"
-        "dns.alidns.com -group china -exclude-default-group -set-mark 200"
-      ];
-      nameserver = [
-        # dot bootstrap
-        "/dot.pub/bootstrap-dns-cn"
-        "/dns.alidns.com/bootstrap-dns-cn"
-        "/one.one.one.one/bootstrap-dns-global"
-        "/dns.google/bootstrap-dns-global"
-        # extra china rules
-        "/steamcontent.com/china"
-      ];
-      speed-check-mode = "none";
+    smartdns = {
+      enable = true;
+      settings = {
+        bind = "[::]:53";
+        bind-tcp = "[::]:53";
+        cache-size = 262144; # 128MB
+        cache-persist = false;
+        #resolv-hostname = true;
+        prefetch-domain = false;
+        dualstack-ip-selection = false;
+        log-console = true;
+        log-size = "0";
+        audit-enable = true;
+        audit-console = true;
+        audit-num = "0";
+        conf-file = [
+          "${pkgs.smartdns-china-list}/accelerated-domains.china.smartdns.conf"
+          "${pkgs.smartdns-china-list}/apple.china.smartdns.conf"
+          "${pkgs.smartdns-china-list}/google.china.smartdns.conf"
+        ];
+        server-tls = [
+          # bootstrap
+          "223.5.5.5 -tls-host-verify *.alidns.com -group bootstrap-dns-cn -exclude-default-group -set-mark ${toString localRouteMark}"
+          "223.6.6.6 -tls-host-verify *.alidns.com -group bootstrap-dns-cn -exclude-default-group -set-mark ${toString localRouteMark}"
+          "1.1.1.1 -tls-host-verify cloudflare-dns.com -group bootstrap-dns-global -exclude-default-group -set-mark ${toString overlayRouteMark}"
+          "1.0.0.1 -tls-host-verify cloudflare-dns.com -group bootstrap-dns-global -exclude-default-group -set-mark ${toString overlayRouteMark}"
+          # oversea
+          "one.one.one.one -set-mark ${toString overlayRouteMark}"
+          "dns.google -set-mark ${toString overlayRouteMark}"
+          # china
+          "dot.pub -group china -exclude-default-group -set-mark ${toString localRouteMark}"
+          "dns.alidns.com -group china -exclude-default-group -set-mark ${toString localRouteMark}"
+        ];
+        nameserver = [
+          # dot bootstrap
+          "/dot.pub/bootstrap-dns-cn"
+          "/dns.alidns.com/bootstrap-dns-cn"
+          "/one.one.one.one/bootstrap-dns-global"
+          "/dns.google/bootstrap-dns-global"
+          # extra china rules
+          "/steamcontent.com/china"
+        ];
+        speed-check-mode = "none";
+      };
     };
-  };
 
-  services.resolved.enable = false;
+    resolved.enable = false;
 
-  services.ddns = {
-    enable = true;
-    configFile = config.sops.secrets.ddns.path;
-    environment = {
-      "HTTP_PROXY" = "127.0.0.1:1080";
+    ddns = {
+      enable = true;
+      configFile = config.sops.secrets.ddns.path;
+      environment = {
+        "HTTP_PROXY" = "127.0.0.1:1080";
+      };
     };
-  };
 
-  services.ntpd-rs = {
-    enable = true;
-    metrics.enable = true;
-    settings = {
-      server = [
-        { listen = "[::]:123"; }
-      ];
+    ntpd-rs = {
+      enable = true;
+      metrics.enable = true;
+      settings = {
+        server = [
+          { listen = "[::]:123"; }
+        ];
+      };
     };
-  };
 
-  services.singbox-client = {
-    enable = true;
-    sercretPath = config.sops.secrets.singboxpass.path;
-  };
+    singbox-client = {
+      enable = true;
+      sercretPath = config.sops.secrets.singboxpass.path;
+    };
 
-  services.chinaRoute = {
-    fwmark = 200;
-    enableV4 = true;
-    enableV6 = true;
+    chinaRoute = {
+      fwmark = localRouteMark;
+      enableV4 = true;
+      enableV6 = true;
+    };
   };
 
   networking = {
@@ -182,13 +187,13 @@ in
             }
 
             chain route-mark {
-              ip daddr @localnet meta mark set 200
-              ip daddr @kaseiserversv4 meta mark set 200
-              ip6 daddr @localnetv6 meta mark set 200
+              ip daddr @localnet meta mark set ${toString localRouteMark}
+              ip daddr @kaseiserversv4 meta mark set ${toString localRouteMark}
+              ip6 daddr @localnetv6 meta mark set ${toString localRouteMark}
 
-              meta mark 0 meta mark set 300
-              meta mark 200 counter
-              meta mark 300 counter
+              meta mark 0 meta mark set ${toString overlayRouteMark}
+              meta mark ${toString localRouteMark} counter
+              meta mark ${toString overlayRouteMark} counter
             }
 
             chain prerouting {
@@ -278,7 +283,7 @@ in
           content = ''
             chain output {
               type filter hook output priority filter; policy accept;
-              skuid ${config.services.qbittorrent.user} meta mark 200 counter
+              skuid ${config.services.qbittorrent.user} meta mark ${toString localRouteMark} counter
             }
           '';
         };
@@ -338,9 +343,9 @@ in
         };
         wireguardConfig = {
           ListenPort = 2480;
-          FirewallMark = 200; # go underlay
+          FirewallMark = localRouteMark; # go underlay
           PrivateKeyFile = "${config.sops.secrets.wgkey.path}";
-          RouteTable = 300;
+          RouteTable = overlayRouteTable;
         };
         wireguardPeers = [
           {
@@ -398,15 +403,15 @@ in
         routingPolicyRules = [
           {
             Family = "both";
-            FirewallMark = 200;
+            FirewallMark = localRouteMark;
             Priority = 200;
             Table = 254; # main route table
           }
           {
             Family = "both";
-            FirewallMark = 300;
+            FirewallMark = overlayRouteMark;
             Priority = 300;
-            Table = 300;
+            Table = overlayRouteTable;
           }
         ];
       };
