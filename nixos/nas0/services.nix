@@ -307,7 +307,6 @@
 
     nginx = {
       enable = true;
-      package = pkgs.nginxQuic;
       enableQuicBPF = true;
       recommendedOptimisation = true;
       recommendedProxySettings = true;
