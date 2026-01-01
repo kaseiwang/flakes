@@ -8,11 +8,11 @@
         "pinned": false,
         "src": {
             "name": null,
-            "sha256": "sha256-cD0FKxPvdQfcrfR/Fh4aNb+pK/IFiFLyvg8LhnYI+vs=",
+            "sha256": "sha256-1/KKfeRhor1LGYBrOHqLvxfK9Byv3AplzqVX3lRO50Y=",
             "type": "url",
-            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.2.5/zhwiki-20250823.dict"
+            "url": "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.3.0/zhwiki-20251223.dict"
         },
-        "version": "20250823"
+        "version": "20251223"
     },
     "nvidia_gpu_exporter": {
         "cargoLocks": null,
@@ -37,7 +37,7 @@
     },
     "smartdns-china-list": {
         "cargoLocks": null,
-        "date": "2025-10-26",
+        "date": "2025-12-30",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -49,12 +49,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "b524f7faa31c43359eab372c80870581508124a1",
-            "sha256": "sha256-31uV1m2m4ExbiIwsXfIzH35mgidn0QAuTdAWA7m+EJY=",
+            "rev": "90e77e94e3184645cad516bc528717b624547917",
+            "sha256": "sha256-cHd7uoSUILbE61pQh2kAFIBC4zDaOLuM025NJbDu0OY=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "b524f7faa31c43359eab372c80870581508124a1"
+        "version": "90e77e94e3184645cad516bc528717b624547917"
     },
     "vscode-ext-ccls": {
         "cargoLocks": null,

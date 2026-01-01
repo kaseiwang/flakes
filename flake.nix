@@ -127,7 +127,7 @@
           { ... }:
           {
             deployment = {
-              targetHost = "nas0.i.kasei.im";
+              targetHost = "10.10.2.1";
               buildOnTarget = false;
             };
             imports = [ ./nixos/nas0 ];

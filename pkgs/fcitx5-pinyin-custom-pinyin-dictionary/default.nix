@@ -1,20 +1,15 @@
 { pkgs, ... }:
 pkgs.stdenv.mkDerivation rec {
   pname = "fcitx5-pinyin-custom-pinyin-dictionary";
-  version = "20250101";
+  version = "20260101";
 
   src = pkgs.fetchurl {
-    url = "https://github.com/wuhgit/CustomPinyinDictionary/releases/download/assets/CustomPinyinDictionary_Fcitx_${version}.tar.gz";
-    sha256 = "sha256-3LQmbfRfmS5sfmhKBovtis9aXJGf4L9ahHKhepqRreU=";
+    url = "https://github.com/wuhgit/CustomPinyinDictionary/releases/download/assets/CustomPinyinDictionary_Fcitx.dict";
+    sha256 = "sha256-Y2d7DhvNknbo7u9BVTq1Mr9gYSeFWNnvo2KbDr6INuU=";
   };
 
-  unpackPhase = ''
-    runHook preUnpack
+  phases = [ "buildPhase" "installPhase" "fixupPhase" ];
 
-    tar -xf $src
-
-    runHook postUnpack
-  '';
   installPhase = ''
     install -Dm644 $src $out/share/fcitx5/pinyin/dictionaries/CustomPinyinDictionary_Fcitx.dict
   '';
