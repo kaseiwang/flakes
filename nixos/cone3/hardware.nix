@@ -69,14 +69,6 @@ in
                 };
               };
             };
-            encryptedSwap = {
-              size = "10M";
-              priority = 3;
-              content = {
-                type = "swap";
-                randomEncryption = true;
-              };
-            };
           };
         };
       };
