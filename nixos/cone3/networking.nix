@@ -17,7 +17,7 @@ with pkgs.lib;
       enable = true;
       allowedTCPPorts = [
         443
-        9555
+        8688
       ];
       allowedUDPPorts = [
         2480

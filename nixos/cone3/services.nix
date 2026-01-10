@@ -44,16 +44,17 @@
           servers = [
             {
               tag = "cloudflare";
-              address = "https://[2606:4700:4700::1111]/dns-query";
-              strategy = "prefer_ipv6";
+              type = "tls";
+              server = "2606:4700:4700::1111";
             }
           ];
+          strategy = "prefer_ipv6";
           final = "cloudflare";
         };
         inbounds = [
           {
             listen = "::";
-            listen_port = 9555;
+            listen_port = 8688;
             tag = "ss-in";
             type = "shadowsocks";
             method = "2022-blake3-aes-128-gcm";
@@ -65,23 +66,13 @@
             };
           }
           {
-            listen = "::";
-            listen_port = 443;
-            tag = "tls-in";
-            type = "shadowtls";
-            detour = "ss-in";
-            version = 3;
-            users = [
-              {
-                name = "singbox";
-                password = {
-                  _secret = "${config.sops.secrets.singboxpass.path}";
-                };
-              }
-            ];
-            handshake = {
-              server = "kasei.im";
-              server_port = 443;
+            listen = "10.10.0.21";
+            listen_port = 8680;
+            tag = "overwg-in";
+            type = "shadowsocks";
+            method = "none";
+            multiplex = {
+              enabled = true;
             };
           }
         ];

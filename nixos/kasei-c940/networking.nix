@@ -263,24 +263,6 @@ with pkgs.lib;
       ];
       outbounds = [
         {
-          server = "66.103.210.62";
-          server_port = 443;
-          tag = "tls-cone3";
-          type = "shadowtls";
-          version = 3;
-          password = {
-            _secret = "${config.sops.secrets.singboxpass.path}";
-          };
-          tls = {
-            enabled = true;
-            server_name = "kasei.im";
-            utls = {
-              enabled = true;
-              fingerprint = "chrome";
-            };
-          };
-        }
-        {
           type = "shadowsocks";
           tag = "ss-cone3";
           server = "66.103.210.62";
@@ -293,24 +275,6 @@ with pkgs.lib;
           multiplex = {
             enabled = true;
             protocol = "h2mux";
-          };
-        }
-        {
-          server = "74.48.96.113";
-          server_port = 443;
-          tag = "tls-cone2";
-          type = "shadowtls";
-          version = 3;
-          password = {
-            _secret = "${config.sops.secrets.singboxpass.path}";
-          };
-          tls = {
-            enabled = true;
-            server_name = "kasei.im";
-            utls = {
-              enabled = true;
-              fingerprint = "chrome";
-            };
           };
         }
         {

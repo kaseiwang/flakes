@@ -84,58 +84,28 @@ in
         ];
         outbounds = [
           {
-            server = "2607:f130:0:179::2f6b:52ea";
-            server_port = 443;
-            tag = "tls-cone3";
-            type = "shadowtls";
-            version = 3;
-            password = {
-              _secret = "${cfg.sercretPath}";
-            };
-            tls = {
-              enabled = true;
-              server_name = "kasei.im";
-            };
-          }
-          {
             type = "shadowsocks";
             tag = "ss-cone3";
             server = "2607:f130:0:179::2f6b:52ea";
-            server_port = 9555;
+            server_port = 8688;
             method = "2022-blake3-aes-128-gcm";
             password = {
               _secret = "${cfg.sercretPath}";
             };
-            detour = "tls-cone3";
             multiplex = {
               enabled = true;
               protocol = "h2mux";
             };
           }
           {
-            server = "74.48.96.113";
-            server_port = 443;
-            tag = "tls-cone2";
-            type = "shadowtls";
-            version = 3;
-            password = {
-              _secret = "${cfg.sercretPath}";
-            };
-            tls = {
-              enabled = true;
-              server_name = "kasei.im";
-            };
-          }
-          {
             type = "shadowsocks";
             tag = "ss-cone2";
             server = "74.48.96.113";
-            server_port = 9555;
+            server_port = 8688;
             method = "2022-blake3-aes-128-gcm";
             password = {
               _secret = "${cfg.sercretPath}";
             };
-            detour = "tls-cone2";
             multiplex = {
               enabled = true;
               protocol = "h2mux";
