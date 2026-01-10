@@ -61,7 +61,6 @@
 
   programs = {
     dconf.enable = true;
-    adb.enable = true;
     wireshark.enable = true;
     fuse.userAllowOther = true;
   };
@@ -99,7 +98,7 @@
 
   environment = {
     systemPackages = with pkgs; [
-      amdgpu_top
+      android-tools
       config.boot.kernelPackages.cpupower
       man-pages
       man-pages-posix
