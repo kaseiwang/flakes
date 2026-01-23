@@ -364,7 +364,7 @@ in
         enableExtensionUpdateCheck = true;
         userSettings = {
           "editor.fontFamily" = "JetBrains Mono";
-          "editor.minimap.autohide" = true;
+          "editor.minimap.autohide" = "mouseover";
           "editor.rulers" = [
             80
             100
