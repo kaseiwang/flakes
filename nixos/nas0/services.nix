@@ -15,6 +15,9 @@
     };
     zfs-key = { };
     cloudflared = { };
+    vaultwarden = {
+      owner = config.users.users."vaultwarden".name;
+    };
   };
 
   systemd.services.grafana.serviceConfig.EnvironmentFile = "${config.sops.secrets.grafana-envs.path}";
@@ -375,6 +378,13 @@
               proxyWebsockets = true;
             };
           };
+          "bitwarden.kasei.im" = mkVirtualHosts {
+            serverName = "bitwarden.kasei.im";
+            locations."/" = {
+              proxyPass = "http://localhost:${toString config.services.vaultwarden.config.rocketPort}";
+              proxyWebsockets = true;
+            };
+          };
           "bt.kasei.im" = mkVirtualHosts {
             serverName = "bt.kasei.im";
             basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
@@ -409,6 +419,21 @@
             };
           };
         };
+    };
+
+    vaultwarden = {
+      enable = true;
+      dbBackend = "sqlite";
+      backupDir = "/var/backup/vaultwarden";
+      environmentFile = "${config.sops.secrets.vaultwarden.path}";
+      config = {
+        domain = "https://bitwarden.kasei.im/";
+        rocketAddress = "127.0.0.1";
+        rocketPort = 8000;
+        signupsAllowed = false;
+        webVaultEnabled = true;
+        websocketEnabled = false;
+      };
     };
 
     qbittorrent = {
