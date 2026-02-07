@@ -52,7 +52,7 @@ in
             };
             root = {
               label = "NIXOS_ROOT";
-              end = "-10M";
+              size = "100%";
               priority = 2;
               content = {
                 type = "btrfs";
