@@ -5,7 +5,9 @@ in
 with pkgs.lib;
 {
   sops.secrets = {
-    wgkey = { };
+    wgkey = {
+      owner = "systemd-network";
+    };
   };
   networking = {
     hostName = "cone3";
@@ -69,35 +71,6 @@ with pkgs.lib;
         ];
       };
     };
-
-    wireguard.useNetworkd = false;
-    wireguard.interfaces."wg0" = {
-      #table = "300";
-      fwMark = "0xc8"; # 200
-      listenPort = 2480;
-      mtu = 1408;
-      ips = [
-        "10.10.0.21/32"
-        "fdcd:ad38:cdc5:3:10:10:0:21"
-      ];
-      #postSetup = ''
-      #  tc qdisc add dev wg0 root cake bandwidth 150mbit rtt 170ms diffserv4
-      #'';
-      privateKeyFile = "${config.sops.secrets.wgkey.path}";
-      peers = [
-        {
-          publicKey = "1xUgYLXcalz8s224Nfn2SP8/exaL8D8cp7VWTWIp1g0=";
-          allowedIPs = [
-            "10.10.0.20/32"
-            "fdcd:ad38:cdc5:3:10:10:0:20"
-            "10.10.2.0/24"
-            "fdcd:ad38:cdc5:1::/64"
-            "2408:8206::/34"
-            "2408:8207::/34"
-          ];
-        }
-      ];
-    };
   };
 
   systemd.network = {
@@ -136,6 +109,54 @@ with pkgs.lib;
             FirewallMark = 200;
             Priority = 200;
             Table = 200;
+          }
+        ];
+      };
+      "75-wg0" = {
+        matchConfig = {
+          Name = "wg0";
+        };
+        address = [
+          "10.10.0.21/32"
+          "fdcd:ad38:cdc5:3:10:10:0:21"
+        ];
+        routes = [
+          { Destination = "10.10.0.20/32"; }
+          { Destination = "fdcd:ad38:cdc5:3:10:10:0:20"; }
+          { Destination = "10.10.2.0/24"; }
+          { Destination = "fdcd:ad38:cdc5:1::/64"; }
+          { Destination = "2408:8206::/34"; }
+          { Destination = "2408:8207::/34"; }
+        ];
+        networkConfig = {
+          DHCP = false;
+        };
+      };
+    };
+
+    netdevs = {
+      "20-wg0" = {
+        netdevConfig = {
+          Name = "wg0";
+          Kind = "wireguard";
+          MTUBytes = 1408; # round down to 16bytes
+        };
+        wireguardConfig = {
+          ListenPort = 2480;
+          FirewallMark = 200; # go underlay
+          PrivateKeyFile = "${config.sops.secrets.wgkey.path}";
+        };
+        wireguardPeers = [
+          {
+            PublicKey = "1xUgYLXcalz8s224Nfn2SP8/exaL8D8cp7VWTWIp1g0=";
+            AllowedIPs = [
+              "10.10.0.20/32"
+              "fdcd:ad38:cdc5:3:10:10:0:20"
+              "10.10.2.0/24"
+              "fdcd:ad38:cdc5:1::/64"
+              "2408:8206::/34"
+              "2408:8207::/34"
+            ];
           }
         ];
       };
