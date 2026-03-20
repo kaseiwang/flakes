@@ -318,8 +318,8 @@
               quic = true;
               http3 = true;
               onlySSL = true;
-              sslCertificate = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
-              sslCertificateKey = ''${config.security.acme.certs."kasei.im".directory}/full.pem'';
+              sslCertificate = "${config.security.acme.certs."kasei.im".directory}/full.pem";
+              sslCertificateKey = "${config.security.acme.certs."kasei.im".directory}/full.pem";
               extraConfig = ''
                 add_header Alt-Svc 'h3=":$server_port"; ma=86400';
               '';

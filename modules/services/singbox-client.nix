@@ -34,25 +34,15 @@ in
           servers = [
             {
               tag = "cloudflare";
-              address = "tls://[2606:4700:4700::1111]";
-              strategy = "prefer_ipv6";
+              type = "tls";
+              server = "2606:4700:4700::1111";
               detour = "select";
             }
             {
               tag = "tencent";
-              address = "tls://120.53.53.53";
-              strategy = "prefer_ipv6";
+              type = "tls";
+              server = "120.53.53.53";
               detour = "direct";
-            }
-          ];
-          rules = [
-            {
-              rule_set = [
-                "geosite-cn"
-                "geoip-cn"
-              ];
-              server = "tencent";
-              outbound = "direct";
             }
           ];
           final = "cloudflare";
@@ -122,24 +112,18 @@ in
           {
             type = "direct";
             tag = "direct";
+            domain_resolver = {
+              server = "tencent";
+            };
             routing_mark = cfg.localRouteMark;
           }
         ];
         route = {
           default_mark = cfg.localRouteMark;
+          default_domain_resolver = {
+            server = "cloudflare";
+          };
           rules = [
-            {
-              ip_is_private = true;
-              outbound = "direct";
-            }
-            {
-              rule_set = "geoip-cn";
-              outbound = "direct";
-            }
-            {
-              rule_set = "geosite-cn";
-              outbound = "direct";
-            }
             {
               domain = [
                 "bt.kasei.im"
@@ -156,6 +140,11 @@ in
                 # kaspersky
                 ".kaspersky.com"
                 ".kaspersky-labs.com"
+              ];
+              ip_is_private = true;
+              rule_set = [
+                "geoip-cn"
+                "geosite-cn"
               ];
               outbound = "direct";
             }

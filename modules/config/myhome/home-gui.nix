@@ -457,7 +457,7 @@ in
 
     mpd = {
       enable = true;
-      musicDirectory = ''${config.xdg.userDirs.music}'';
+      musicDirectory = "${config.xdg.userDirs.music}";
       extraConfig = ''
         audio_output {
           type     "pipewire"

@@ -8,7 +8,11 @@ pkgs.stdenv.mkDerivation rec {
     sha256 = "sha256-Y2d7DhvNknbo7u9BVTq1Mr9gYSeFWNnvo2KbDr6INuU=";
   };
 
-  phases = [ "buildPhase" "installPhase" "fixupPhase" ];
+  phases = [
+    "buildPhase"
+    "installPhase"
+    "fixupPhase"
+  ];
 
   installPhase = ''
     install -Dm644 $src $out/share/fcitx5/pinyin/dictionaries/CustomPinyinDictionary_Fcitx.dict

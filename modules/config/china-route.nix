@@ -97,17 +97,17 @@ in
             type filter hook prerouting priority mangle;
             ${
               if cfg.enableV4 then
-                ''ip daddr @chnv4 ${
+                "ip daddr @chnv4 ${
                   if haveV4Whitelist then "ip daddr != @chnv4-nonat" else ""
-                } mark set ${toString cfg.fwmark} ''
+                } mark set ${toString cfg.fwmark} "
               else
                 ""
             }
             ${
               if cfg.enableV6 then
-                ''ip6 daddr @chnv6 ${
+                "ip6 daddr @chnv6 ${
                   if haveV6Whitelist then "ip6 daddr != @chnv6-nonat" else ""
-                } mark set ${toString cfg.fwmark} ''
+                } mark set ${toString cfg.fwmark} "
               else
                 ""
             }
@@ -117,17 +117,17 @@ in
             type filter hook output priority mangle;
             ${
               if cfg.enableV4 then
-                ''ip daddr @chnv4 ${
+                "ip daddr @chnv4 ${
                   if haveV4Whitelist then "ip daddr != @chnv4-nonat" else ""
-                } mark set ${toString cfg.fwmark} ''
+                } mark set ${toString cfg.fwmark} "
               else
                 ""
             }
             ${
               if cfg.enableV6 then
-                ''ip6 daddr @chnv6 ${
+                "ip6 daddr @chnv6 ${
                   if haveV6Whitelist then "ip6 daddr != @chnv6-nonat" else ""
-                } mark set ${toString cfg.fwmark} ''
+                } mark set ${toString cfg.fwmark} "
               else
                 ""
             }
