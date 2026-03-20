@@ -1,6 +1,6 @@
 {
     "fcitx5-pinyin-zhwiki": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "fcitx5-pinyin-zhwiki",
@@ -15,7 +15,7 @@
         "version": "20251223"
     },
     "nvidia_gpu_exporter": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "nvidia_gpu_exporter",
@@ -36,8 +36,8 @@
         "version": "v1.4.1"
     },
     "smartdns-china-list": {
-        "cargoLocks": null,
-        "date": "2025-12-30",
+        "cargoLock": null,
+        "date": "2026-03-08",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -49,15 +49,15 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "90e77e94e3184645cad516bc528717b624547917",
-            "sha256": "sha256-cHd7uoSUILbE61pQh2kAFIBC4zDaOLuM025NJbDu0OY=",
+            "rev": "7da1a5a5885c3f19dd000aa76a25e457352dd696",
+            "sha256": "sha256-2H2gmeuMdBrsliZPmARhv/0xaz4u7YDBJGkOEYrKrxE=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "90e77e94e3184645cad516bc528717b624547917"
+        "version": "7da1a5a5885c3f19dd000aa76a25e457352dd696"
     },
     "vscode-ext-ccls": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "vscode-ext-ccls",
@@ -75,7 +75,7 @@
         "version": "0.1.32"
     },
     "vscode-ext-codeium": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "vscode-ext-codeium",
@@ -93,7 +93,7 @@
         "version": "1.49.2"
     },
     "vscode-ext-sops": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "vscode-ext-sops",
@@ -111,7 +111,7 @@
         "version": "0.9.3"
     },
     "xdg-open-server": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "xdg-open-server",
@@ -132,7 +132,7 @@
         "version": "v1.3"
     },
     "yarr-pgsql": {
-        "cargoLocks": null,
+        "cargoLock": null,
         "date": null,
         "extract": null,
         "name": "yarr-pgsql",
