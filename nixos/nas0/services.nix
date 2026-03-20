@@ -10,7 +10,7 @@
       owner = config.users.users."nginx".name;
     };
     chatgpt-envs = { };
-    grafana-envs = {
+    grafana = {
       owner = config.users.users."grafana".name;
     };
     zfs-key = { };
@@ -19,8 +19,6 @@
       owner = config.users.users."vaultwarden".name;
     };
   };
-
-  systemd.services.grafana.serviceConfig.EnvironmentFile = "${config.sops.secrets.grafana-envs.path}";
 
   services = {
     zfs = {
@@ -204,6 +202,7 @@
           domain = "grafana.kasei.im";
           root_url = "https://grafana.kasei.im";
         };
+        security.secret_key = "$__file{${config.sops.secrets.grafana.path}}";
         users = {
           allow_sign_up = false;
         };
