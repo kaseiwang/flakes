@@ -115,8 +115,7 @@
             {
               targets = [
                 "localhost:${toString config.services.prometheus.exporters.node.port}"
-                "10.10.3.1:${toString config.services.prometheus.exporters.node.port}"
-                "10.10.2.1:${toString config.services.prometheus.exporters.node.port}"
+                "10.10.0.21:${toString config.services.prometheus.exporters.node.port}"
               ];
             }
           ];
