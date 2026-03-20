@@ -147,7 +147,7 @@
         {
           job_name = "ntpd-rs";
           static_configs = [
-            { targets = [ "10.10.2.1:9975" ]; }
+            { targets = [ "localhost:9975" ]; }
           ];
         }
       ];

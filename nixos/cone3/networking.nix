@@ -15,6 +15,7 @@ with pkgs.lib;
 
     firewall = {
       enable = true;
+      trustedInterfaces = [ "wg0" ];
       allowedTCPPorts = [
         443
         8688
