@@ -14,7 +14,7 @@
       owner = config.users.users."grafana".name;
     };
     zfs-key = { };
-    cloudflared = { };
+    #cloudflared = { };
     vaultwarden = {
       owner = config.users.users."vaultwarden".name;
     };
@@ -158,7 +158,7 @@
 
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud32;
+      package = pkgs.nextcloud33;
       home = "/pool0/encrypted/nextcloud";
       hostName = "nextcloud.kasei.im";
       https = true;
@@ -291,20 +291,6 @@
 
     vlmcsd = {
       enable = true;
-    };
-
-    cloudflared = {
-      enable = true;
-      tunnels."71d3c820-b722-45d5-810f-7185d0c6b54c" = {
-        originRequest = {
-          #originServerName = "kasei.im";
-        };
-        ingress = {
-          "grafana.kasei.im" = "https://nas0.i.kasei.im:443";
-        };
-        default = "http_status:404";
-        credentialsFile = "${config.sops.secrets.cloudflared.path}";
-      };
     };
 
     nginx = {
