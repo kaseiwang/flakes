@@ -13,12 +13,18 @@
     grafana = {
       owner = config.users.users."grafana".name;
     };
+    grafana-envs = {
+      owner = config.users.users."grafana".name;
+    };
     zfs-key = { };
     #cloudflared = { };
     vaultwarden = {
       owner = config.users.users."vaultwarden".name;
     };
   };
+
+  # provide prometheus key
+  systemd.services.grafana.serviceConfig.EnvironmentFile = "${config.sops.secrets.grafana-envs.path}";
 
   services = {
     zfs = {
