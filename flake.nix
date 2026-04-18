@@ -114,15 +114,6 @@
             };
             imports = [ ./nixos/gz2 ];
           };
-        n3160 =
-          { ... }:
-          {
-            deployment = {
-              targetHost = "n3160.i.kasei.im";
-              buildOnTarget = false;
-            };
-            imports = [ ./nixos/n3160 ];
-          };
         nas0 =
           { ... }:
           {
