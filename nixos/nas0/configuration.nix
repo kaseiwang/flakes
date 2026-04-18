@@ -72,6 +72,7 @@
           "*.i.kasei.im"
         ];
         keyType = "ec256";
+        profile = "shortlived";
       };
     };
   };
