@@ -102,11 +102,6 @@ with lib;
       sudo-rs = {
         enable = true;
       };
-      # I want to use the ECDSA Root
-      acme.defaults = {
-        extraLegoRunFlags = [ "--preferred-chain=ISRG Root X2" ];
-        extraLegoRenewFlags = [ "--preferred-chain=ISRG Root X2" ];
-      };
     };
 
     systemd.network.enable = true;
