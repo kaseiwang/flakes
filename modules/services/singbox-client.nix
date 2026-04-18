@@ -49,20 +49,16 @@ in
         };
         inbounds = [
           {
-            type = "mixed";
-            tag = "inbound";
             listen = "::";
             listen_port = 1080;
-            sniff = true;
-            sniff_override_destination = true;
+            type = "mixed";
+            tag = "in";
           }
           {
             listen = "::";
             listen_port = 8688;
-            tag = "ss-in";
             type = "shadowsocks";
-            sniff = true;
-            sniff_override_destination = true;
+            tag = "ss-in";
             method = "2022-blake3-aes-128-gcm";
             password = {
               _secret = "${cfg.sercretPath}";
@@ -124,6 +120,14 @@ in
             server = "cloudflare";
           };
           rules = [
+            {
+              inbound = [
+                "in"
+                "ss-in"
+              ];
+              action = "sniff";
+              timeout = "3s";
+            }
             {
               domain = [
                 "bt.kasei.im"
