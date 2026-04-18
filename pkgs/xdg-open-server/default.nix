@@ -10,7 +10,7 @@ stdenv.mkDerivation rec {
   inherit (source) pname version src;
 
   nativeBuildInputs = [ ];
-  buildInputs = [ pkgs.xorg.libX11 ];
+  buildInputs = [ pkgs.libx11 ];
 
   installPhase = ''
     make install PREFIX=$out

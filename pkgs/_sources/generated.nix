@@ -8,10 +8,10 @@
 {
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20251223";
+    version = "20260416";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.3.0/zhwiki-20251223.dict";
-      sha256 = "sha256-1/KKfeRhor1LGYBrOHqLvxfK9Byv3AplzqVX3lRO50Y=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.3.0/zhwiki-20260416.dict";
+      sha256 = "sha256-m7b9A/A1DMEzQOw0/1n2lb336w8U22rPE8HryR+Jgjs=";
     };
   };
   nvidia_gpu_exporter = {
@@ -27,15 +27,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "7da1a5a5885c3f19dd000aa76a25e457352dd696";
+    version = "cb98e6eca3dda917a98c74ab52f82e89838d00cd";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "7da1a5a5885c3f19dd000aa76a25e457352dd696";
+      rev = "cb98e6eca3dda917a98c74ab52f82e89838d00cd";
       fetchSubmodules = false;
-      sha256 = "sha256-2H2gmeuMdBrsliZPmARhv/0xaz4u7YDBJGkOEYrKrxE=";
+      sha256 = "sha256-HtEpEfSs9uvSy7/M0Rcg6w2Tw4/ZBA6D99PsPQeR9pU=";
     };
-    date = "2026-03-08";
+    date = "2026-04-14";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -61,11 +61,11 @@
   };
   vscode-ext-sops = {
     pname = "vscode-ext-sops";
-    version = "0.9.3";
+    version = "0.9.4";
     src = fetchurl {
-      url = "https://signageos.gallery.vsassets.io/_apis/public/gallery/publisher/signageos/extension/signageos-vscode-sops/0.9.3/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "signageos-vscode-sops-0.9.3.zip";
-      sha256 = "sha256-fOSLlszr6yLkRC9gy+MCnL+Y/1TXrmVWAWavpvXHj4U=";
+      url = "https://signageos.gallery.vsassets.io/_apis/public/gallery/publisher/signageos/extension/signageos-vscode-sops/0.9.4/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
+      name = "signageos-vscode-sops-0.9.4.zip";
+      sha256 = "sha256-SH+hmxFQAXcL0MP9WToGmvdBjn/l2TWxF/YL30FwXes=";
     };
     publisher = "signageos";
     name = "signageos-vscode-sops";

@@ -9,6 +9,7 @@ with pkgs.lib;
       owner = "systemd-network";
     };
   };
+
   networking = {
     hostName = "cone3";
     useDHCP = false;

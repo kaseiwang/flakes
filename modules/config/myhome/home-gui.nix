@@ -57,7 +57,7 @@ in
     unzip
     wireshark
     xdg-open-server # xdp proxy for app in docker
-    xorg.xhost
+    xhost
     yubikey-manager
   ];
 
@@ -101,7 +101,9 @@ in
       name = "Noto Sans";
       size = 12;
     };
+    gtk4.theme = null;
   };
+
   qt = {
     enable = true;
     platformTheme.name = "adwaita";
@@ -479,6 +481,7 @@ in
     enable = true;
     userDirs = {
       enable = true;
+      setSessionVariables = false;
     };
     configFile = {
       "fontconfig/conf.d/20-my-fonts.conf".text = ''

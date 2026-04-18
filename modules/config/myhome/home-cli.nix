@@ -27,6 +27,7 @@
 
     git = {
       enable = true;
+      signing.format = "openpgp";
       settings = {
         user.name = "Kasei Wang";
         user.email = "kasei@kasei.im";
@@ -38,6 +39,8 @@
       vimAlias = true;
       vimdiffAlias = true;
       defaultEditor = true;
+      withRuby = false;
+      withPython3 = true;
       plugins = with pkgs.vimPlugins; [
         nvim-lspconfig
         nvim-cmp
