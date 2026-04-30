@@ -334,6 +334,7 @@ in
 
     firefox = {
       enable = true;
+      configPath = "${config.xdg.configHome}/mozilla/firefox";
       policies = {
         PasswordManagerEnabled = false;
         DisablePocket = true;
