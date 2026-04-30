@@ -42,7 +42,6 @@ in
     joplin-desktop
     jq # json query
     mercurial
-    mpv
     nil # nix lsp server
     nix-tree # nix space usage
     offlineimap
@@ -441,6 +440,11 @@ in
           auto = "yes";
         };
       };
+    };
+
+    mpv = {
+      enable = true;
+      package = pkgs.mpv.override { youtubeSupport = false; };
     };
 
     ncmpcpp = {
