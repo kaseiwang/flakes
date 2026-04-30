@@ -353,15 +353,15 @@
         ]
       },
       "locked": {
-        "lastModified": 1743838271,
-        "narHash": "sha256-FnUKJpMvc64IfeuWQbK/F9NPeDEaZWjoh17B09GtAxU=",
-        "owner": "kaseiwang",
+        "lastModified": 1777338324,
+        "narHash": "sha256-bc+ZZCmOTNq86/svGnw0tVpH7vJaLYvGLLKFYP08Q8E=",
+        "owner": "mic92",
         "repo": "sops-nix",
-        "rev": "65a9abd479156da8b9fd8e59857a58a3b90cc056",
+        "rev": "8eaee5c45428b28b8c47a83e4c09dccec5f279b5",
         "type": "github"
       },
       "original": {
-        "owner": "kaseiwang",
+        "owner": "mic92",
         "repo": "sops-nix",
         "type": "github"
       }
