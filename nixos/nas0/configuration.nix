@@ -61,7 +61,7 @@
       email = "kasei@kasei.im";
       dnsProvider = "cloudflare";
       dnsResolver = "119.29.29.29:53";
-      credentialsFile = "${config.sops.secrets.acme-cloudflare.path}";
+      environmentFile = "${config.sops.secrets.acme-cloudflare.path}";
       reloadServices = [ "nginx" ];
     };
     certs = {
