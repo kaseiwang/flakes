@@ -39,9 +39,9 @@
 
   systemd.coredump = {
     enable = true;
-    extraConfig = ''
-      Storage=none
-    '';
+    settings.Coredump = {
+      Storage = "none";
+    };
   };
 
   nix = {
