@@ -30,7 +30,7 @@ with pkgs.lib;
 
     defaultGateway = {
       interface = "${wanif}";
-      address = "66.103.210.1";
+      address = "163.47.135.1";
     };
     defaultGateway6 = {
       interface = "${wanif}";
@@ -56,7 +56,7 @@ with pkgs.lib;
       ipv4 = {
         addresses = [
           {
-            address = "66.103.210.62";
+            address = "163.47.135.141";
             prefixLength = 24;
           }
         ];
@@ -86,7 +86,7 @@ with pkgs.lib;
         };
         routes = [
           {
-            Gateway = "66.103.210.1";
+            Gateway = "163.47.135.1";
             Table = 200;
           }
           {
