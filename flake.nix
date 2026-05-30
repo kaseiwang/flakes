@@ -8,7 +8,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     sops-nix = {
-      url = "github:mic92/sops-nix";
+      url = "github:kaseiwang/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     colmena = {
