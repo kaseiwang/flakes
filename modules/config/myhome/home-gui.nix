@@ -354,6 +354,10 @@ in
       enable = true;
     };
 
+    codex = {
+      enable = true;
+    };
+
     vscode = {
       enable = true;
       # https://github.com/nix-community/home-manager/issues/322
