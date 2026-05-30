@@ -37,7 +37,7 @@
     },
     "smartdns-china-list": {
         "cargoLock": null,
-        "date": "2026-05-16",
+        "date": "2026-05-27",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -49,12 +49,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "95c28897cbabfc143b27648999e70f57248907be",
-            "sha256": "sha256-FwEpHnXKxdbrSp0/2BXdBgESwzw40F+G+DpelxUzb70=",
+            "rev": "3dcbc231722ab41c84e9f93eb759e0682155d55a",
+            "sha256": "sha256-YJt6LzRBA26UhBFDWx26eTSgJ0HJxEVZIGeOKbFPfek=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "95c28897cbabfc143b27648999e70f57248907be"
+        "version": "3dcbc231722ab41c84e9f93eb759e0682155d55a"
     },
     "vscode-ext-ccls": {
         "cargoLock": null,
