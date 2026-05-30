@@ -213,7 +213,6 @@ in
       enable = true;
       env = {
         GOBIN = ".local/bin.go";
-        GOPATH = ".cache/go";
       };
     };
 
