@@ -11,7 +11,7 @@ with pkgs.lib;
 
     defaultGateway = {
       interface = "enp0s3";
-      address = "74.48.96.65";
+      address = "117.55.237.1";
     };
     defaultGateway6 = {
       interface = "enp0s3";
@@ -30,8 +30,8 @@ with pkgs.lib;
       ipv4 = {
         addresses = [
           {
-            address = "74.48.96.113";
-            prefixLength = 26;
+            address = "117.55.237.3";
+            prefixLength = 24;
           }
         ];
       };
