@@ -21,10 +21,6 @@
       flags = [ "--disable-up-arrow" ];
     };
 
-    eza = {
-      enable = true;
-    };
-
     git = {
       enable = true;
       signing.format = "openpgp";
