@@ -191,7 +191,7 @@ in
               ip daddr @kaseiserversv4 meta mark set ${toString localRouteMark}
               ip6 daddr @localnetv6 meta mark set ${toString localRouteMark}
 
-              meta mark 0 meta mark set ${toString overlayRouteMark}
+              # meta mark 0 meta mark set ${toString overlayRouteMark}
               meta mark ${toString localRouteMark} counter
               meta mark ${toString overlayRouteMark} counter
             }
