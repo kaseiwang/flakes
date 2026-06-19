@@ -23,7 +23,7 @@ with pkgs.lib;
                 172.16.0.0/12,
                 192.168.0.0/16,
                 74.48.96.113/32, # cone
-                66.103.210.62/32, # cone
+                163.47.135.141/32, # cone
                 81.71.146.69/32, # gz2
               }
             }
@@ -265,7 +265,7 @@ with pkgs.lib;
         {
           type = "shadowsocks";
           tag = "ss-cone3";
-          server = "66.103.210.62";
+          server = "163.47.135.141";
           server_port = 9555;
           method = "2022-blake3-aes-128-gcm";
           password = {

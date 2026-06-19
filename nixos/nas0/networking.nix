@@ -163,7 +163,7 @@ in
               flags constant, interval
               elements = {
                 74.48.96.113/32, # cone
-                66.103.210.62/32, # cone
+                163.47.135.141/32, # cone
                 81.71.146.69/32, # gz2
               }
             }

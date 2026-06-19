@@ -136,7 +136,7 @@
           { ... }:
           {
             deployment = {
-              targetHost = "66.103.210.62";
+              targetHost = "163.47.135.141";
               buildOnTarget = false;
             };
             imports = [ ./nixos/cone3 ];
