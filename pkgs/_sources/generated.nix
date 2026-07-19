@@ -16,26 +16,26 @@
   };
   nvidia_gpu_exporter = {
     pname = "nvidia_gpu_exporter";
-    version = "v1.4.1";
+    version = "v1.12.0";
     src = fetchFromGitHub {
       owner = "utkuozdemir";
       repo = "nvidia_gpu_exporter";
-      rev = "v1.4.1";
+      rev = "v1.12.0";
       fetchSubmodules = false;
-      sha256 = "sha256-+sXlQQUs8tmxtaqKUCBTfEZlL8fqBlhzcDFbX8Catsk=";
+      sha256 = "sha256-BIY2Bed+RRwdwC2seqAjFULlAYgq5CUV78yVRC42K34=";
     };
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "3dcbc231722ab41c84e9f93eb759e0682155d55a";
+    version = "911c0019cb24c67e6bc192f5d75584a884ba4331";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "3dcbc231722ab41c84e9f93eb759e0682155d55a";
+      rev = "911c0019cb24c67e6bc192f5d75584a884ba4331";
       fetchSubmodules = false;
-      sha256 = "sha256-YJt6LzRBA26UhBFDWx26eTSgJ0HJxEVZIGeOKbFPfek=";
+      sha256 = "sha256-8Xh24uLtn2OtypiASgCF7UA5oLOPRgIpoj6bIYBU/B8=";
     };
-    date = "2026-05-27";
+    date = "2026-07-16";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
