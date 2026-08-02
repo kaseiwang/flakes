@@ -163,7 +163,7 @@
 
     nextcloud = {
       enable = true;
-      package = pkgs.nextcloud33;
+      package = pkgs.nextcloud34;
       home = "/pool0/encrypted/nextcloud";
       hostName = "nextcloud.kasei.im";
       https = true;
