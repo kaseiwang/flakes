@@ -105,15 +105,6 @@
             inherit self inputs nixpkgs;
           };
         };
-        gz2 =
-          { ... }:
-          {
-            deployment = {
-              targetHost = "gz2.kasei.im";
-              buildOnTarget = false;
-            };
-            imports = [ ./nixos/gz2 ];
-          };
         nas0 =
           { ... }:
           {
@@ -140,15 +131,6 @@
               buildOnTarget = false;
             };
             imports = [ ./nixos/cone3 ];
-          };
-        greencloud1 =
-          { ... }:
-          {
-            deployment = {
-              targetHost = "185.200.65.158";
-              buildOnTarget = false;
-            };
-            imports = [ ./nixos/greencloud1 ];
           };
         r5c =
           { ... }:
