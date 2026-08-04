@@ -109,8 +109,8 @@
           { ... }:
           {
             deployment = {
-              targetHost = "10.10.2.1";
-              buildOnTarget = false;
+              targetHost = "cmcc.i.kasei.im";
+              buildOnTarget = true;
             };
             imports = [ ./nixos/nas0 ];
           };
