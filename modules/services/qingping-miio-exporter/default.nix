@@ -6,7 +6,7 @@
 }:
 let
   cfg = config.services.qingping-miio-exporter;
-  exporter = ./exporter.py;
+  exporter = pkgs.writeText "qingping-miio-exporter.py" (builtins.readFile ./exporter.py);
   python = pkgs.python314.withPackages (
     ps: with ps; [
       prometheus-client
