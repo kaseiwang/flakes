@@ -6,6 +6,9 @@
       owner = config.users.users."nextcloud".name;
     };
     miio-token = { };
+    qingping-miio-token = {
+      restartUnits = [ "qingping-miio-exporter.service" ];
+    };
     nginx-basic-auth = {
       owner = config.users.users."nginx".name;
     };
@@ -86,6 +89,12 @@
       compression = "zstd";
     };
 
+    qingping-miio-exporter = {
+      enable = true;
+      host = "10.10.2.164";
+      tokenFile = config.sops.secrets.qingping-miio-token.path;
+    };
+
     prometheus = {
       enable = true;
       webExternalUrl = "https://${config.networking.hostName}.${config.networking.domain}/prometheus";
@@ -138,12 +147,16 @@
             { targets = [ "localhost:${toString config.services.prometheus.exporters.smartctl.port}" ]; }
           ];
         }
-        #{
-        #  job_name = "miio";
-        #  static_configs = [
-        #    { targets = [ "10.10.2.1:9191" ]; }
-        #  ];
-        #}
+        {
+          job_name = "miio-qingping";
+          static_configs = [
+            {
+              targets = [
+                "127.0.0.1:${toString config.services.qingping-miio-exporter.port}"
+              ];
+            }
+          ];
+        }
         {
           job_name = "ntpd-rs";
           static_configs = [
