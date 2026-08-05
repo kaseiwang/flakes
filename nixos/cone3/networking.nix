@@ -127,6 +127,8 @@ with pkgs.lib;
           { Destination = "fdcd:ad38:cdc5:3:10:10:0:20"; }
           { Destination = "10.10.2.0/24"; }
           { Destination = "fdcd:ad38:cdc5:1::/64"; }
+          { Destination = "10.10.5.0/24"; }
+          { Destination = "fdcd:ad38:cdc5:5::/64"; }
           { Destination = "2408:8206::/34"; }
           { Destination = "2408:8207::/34"; }
         ];
@@ -156,6 +158,8 @@ with pkgs.lib;
               "fdcd:ad38:cdc5:3:10:10:0:20"
               "10.10.2.0/24"
               "fdcd:ad38:cdc5:1::/64"
+              "10.10.5.0/24"
+              "fdcd:ad38:cdc5:5::/64"
               "2408:8206::/34"
               "2408:8207::/34"
             ];

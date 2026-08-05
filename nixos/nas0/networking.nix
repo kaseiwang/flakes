@@ -3,8 +3,8 @@ with pkgs.lib;
 let
   wanif = "ppp0";
   wanif-phy = "enp8s0";
-  #lanif-phy = "enp7s0";
   lanif = "enp7s0";
+  lan2if = "enp6s0";
   localRouteMark = 200;
   overlayRouteMark = 300;
   overlayRouteTable = 300;
@@ -89,6 +89,9 @@ in
           "/dns.google/bootstrap-dns-global"
           # extra china rules
           "/steamcontent.com/china"
+        ];
+        address = [
+          "/cmcc.i.kasei.im/10.10.2.1,fdcd:ad38:cdc5:1::2"
         ];
         speed-check-mode = "none";
       };
@@ -217,7 +220,7 @@ in
           content = ''
             flowtable f {
               hook ingress priority filter;
-              devices = { "${lanif}", "${wanif-phy}" };
+              devices = { "${lanif}", "${lan2if}", "${wanif-phy}" };
               counter
             }
 
@@ -226,7 +229,7 @@ in
 
               ct state established,related counter accept
 
-              iifname { "${lanif}", "tinc.kaseinet", "lo" } counter accept
+              iifname { "${lanif}", "${lan2if}", "tinc.kaseinet", "lo" } counter accept
 
               meta l4proto {icmp, icmpv6, igmp} accept;
 
@@ -256,7 +259,7 @@ in
               tcp dport {22, 443 } accept;
               udp dport {22, 443 } accept;
 
-              iifname { "${lanif}", "tinc.kaseinet" } counter accept;
+              iifname { "${lanif}", "${lan2if}" , "tinc.kaseinet" } counter accept;
               iifname "${wanif}" drop;
             }
 
@@ -287,10 +290,6 @@ in
           '';
         };
       };
-    };
-
-    interfaces.enp6s0 = {
-      useDHCP = true;
     };
 
     interfaces."${wanif-phy}" = {
@@ -329,8 +328,8 @@ in
       ignoredInterfaces = [
         "cuccppp"
         "wg0"
-        "enp6s0"
-        "enp7s0"
+        "${lanif}"
+        "${lan2if}"
       ];
     };
     netdevs = {
@@ -424,7 +423,7 @@ in
         ];
         routes = [
           { Destination = "10.10.2.0/24"; }
-          { Destination = "fdcd:ad38:cdc5::/48"; }
+          { Destination = "fdcd:ad38:cdc5:1::/64"; }
         ];
         networkConfig = {
           DHCP = false;
@@ -433,7 +432,6 @@ in
           DHCPPrefixDelegation = true;
           ConfigureWithoutCarrier = true;
           DHCPServer = true;
-          # VLAN = [ "laniptv" ];
         };
         dhcpServerConfig = {
           PoolSize = 100;
@@ -465,6 +463,61 @@ in
           {
             AddressAutoconfiguration = true;
             Prefix = "fdcd:ad38:cdc5:1::/64";
+            Assign = true;
+          }
+        ];
+      };
+      "71-lan2" = {
+        matchConfig = {
+          Name = "${lan2if}";
+        };
+        address = [
+          "10.10.5.1/24"
+          "fdcd:ad38:cdc5:5::1"
+        ];
+        routes = [
+          { Destination = "10.10.5.0/24"; }
+          { Destination = "fdcd:ad38:cdc5:5::/64"; }
+        ];
+        networkConfig = {
+          DHCP = false;
+          IPv6SendRA = true;
+          IPv6ProxyNDP = false;
+          DHCPPrefixDelegation = true;
+          ConfigureWithoutCarrier = true;
+          DHCPServer = true;
+          # VLAN = [ "laniptv" ];
+        };
+        dhcpServerConfig = {
+          PoolSize = 100;
+          PoolOffset = 129;
+          DNS = "_server_address";
+          NTP = "_server_address";
+          # https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
+          SendOption = "15:string:i.kasei.im";
+        };
+        dhcpServerStaticLeases = [
+          {
+            MACAddress = "4c:c6:4c:bd:41:bd";
+            Address = "10.10.5.10";
+          } # ax6000
+        ];
+        ipv6SendRAConfig = {
+          Managed = false;
+          OtherInformation = false;
+          EmitDNS = true;
+          DNS = "_link_local";
+          EmitDomains = true;
+          Domains = config.networking.domain;
+        };
+        dhcpPrefixDelegationConfig = {
+          UplinkInterface = "${wanif}";
+          Announce = true;
+        };
+        ipv6Prefixes = [
+          {
+            AddressAutoconfiguration = true;
+            Prefix = "fdcd:ad38:cdc5:5::/64";
             Assign = true;
           }
         ];
