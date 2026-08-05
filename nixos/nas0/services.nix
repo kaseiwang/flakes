@@ -261,8 +261,12 @@
           apiVersion = 1;
           providers = [
             {
-              name = "default";
-              options.path = "/var/lib/grafana/dashboards";
+              name = "qingping-air-monitor-lite";
+              orgId = 1;
+              folder = "Qingping";
+              disableDeletion = true;
+              allowUiUpdates = false;
+              options.path = "${./grafana-dashboards/qingping-air-monitor-lite}";
             }
           ];
         };
