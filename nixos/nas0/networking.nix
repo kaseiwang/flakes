@@ -466,6 +466,12 @@ in
             Assign = true;
           }
         ];
+        ipv6RoutePrefixes = [
+          {
+            Route = "fdcd:ad38:cdc5:5::/64";
+            Preference = "high";
+          }
+        ];
       };
       "71-lan2" = {
         matchConfig = {
@@ -494,13 +500,25 @@ in
           DNS = "_server_address";
           NTP = "_server_address";
           # https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
-          SendOption = "15:string:i.kasei.im";
+          SendOption = [
+            "15:string:i.kasei.im"
+            # RFC 3442 classless static routes:
+            #   0.0.0.0/0  via 10.10.5.1
+            #   10.10.2.0/24 via 10.10.5.1
+            # Keep the default route here because clients ignore the Router
+            # option when a classless static route option is present.
+            "121:string:\\x00\\x0a\\x0a\\x05\\x01\\x18\\x0a\\x0a\\x02\\x0a\\x0a\\x05\\x01"
+          ];
         };
         dhcpServerStaticLeases = [
           {
             MACAddress = "4c:c6:4c:bd:41:bd";
             Address = "10.10.5.10";
           } # ax6000
+          {
+            MACAddress = "cc:b5:d1:31:5b:8a";
+            Address = "10.10.5.164";
+          } # qingping air monitor lite
         ];
         ipv6SendRAConfig = {
           Managed = false;
@@ -519,6 +537,12 @@ in
             AddressAutoconfiguration = true;
             Prefix = "fdcd:ad38:cdc5:5::/64";
             Assign = true;
+          }
+        ];
+        ipv6RoutePrefixes = [
+          {
+            Route = "fdcd:ad38:cdc5:1::/64";
+            Preference = "high";
           }
         ];
       };

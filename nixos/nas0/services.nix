@@ -91,7 +91,7 @@
 
     qingping-miio-exporter = {
       enable = true;
-      host = "10.10.2.164";
+      host = "10.10.5.164";
       tokenFile = config.sops.secrets.qingping-miio-token.path;
     };
 
