@@ -249,10 +249,10 @@ in
             chain forward {
               type filter hook forward priority filter; policy accept;
 
+              tcp flags syn tcp option maxseg size set rt mtu;
+
               ct state established,related meta l4proto {tcp, udp} flow add @f counter;
               ct state established,related counter accept;
-
-              tcp flags syn tcp option maxseg size set rt mtu;
 
               # 12526, qbitorrent
               meta l4proto {icmp, icmpv6, igmp} accept;
