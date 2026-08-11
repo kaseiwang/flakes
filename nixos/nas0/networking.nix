@@ -438,8 +438,8 @@ in
           PoolOffset = 129;
           DNS = "_server_address";
           NTP = "_server_address";
-          # https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
-          SendOption = "15:string:i.kasei.im";
+          EmitDomain = true;
+          Domain = config.networking.domain;
         };
         dhcpServerStaticLeases = [
           {
@@ -500,15 +500,14 @@ in
           DNS = "_server_address";
           NTP = "_server_address";
           # https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
-          SendOption = [
-            "15:string:i.kasei.im"
-            # RFC 3442 classless static routes:
-            #   0.0.0.0/0  via 10.10.5.1
-            #   10.10.2.0/24 via 10.10.5.1
-            # Keep the default route here because clients ignore the Router
-            # option when a classless static route option is present.
-            "121:string:\\x00\\x0a\\x0a\\x05\\x01\\x18\\x0a\\x0a\\x02\\x0a\\x0a\\x05\\x01"
-          ];
+          # RFC 3442 classless static routes:
+          #   0.0.0.0/0  via 10.10.5.1
+          #   10.10.2.0/24 via 10.10.5.1
+          # Keep the default route here because clients ignore the Router
+          # option when a classless static route option is present.
+          SendOption = "121:string:\\x00\\x0a\\x0a\\x05\\x01\\x18\\x0a\\x0a\\x02\\x0a\\x0a\\x05\\x01";
+          EmitDomain = true;
+          Domain = config.networking.domain;
         };
         dhcpServerStaticLeases = [
           {
