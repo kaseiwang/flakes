@@ -1,23 +1,20 @@
 {
   config,
-  pkgs,
   lib,
   inputs,
   ...
 }:
 let
   cfg = config.environment.myhome;
-  unfreepkgs =
-    pkg:
-    builtins.elem (pkgs.lib.getName pkg) [
-      "feishu"
-      "code"
-      "vscode"
-      "vscode-extension-ms-vscode-remote-remote-ssh"
-      "vscode-extension-github-copilot"
-      "vscode-extension-github-copilot-chat"
-      "vscode-extension-signageos-signageos-vscode-sops"
-    ];
+  unfreePackages = [
+    "feishu"
+    "code"
+    "vscode"
+    "vscode-extension-ms-vscode-remote-remote-ssh"
+    "vscode-extension-github-copilot"
+    "vscode-extension-github-copilot-chat"
+    "vscode-extension-signageos-signageos-vscode-sops"
+  ];
 in
 with lib;
 {
@@ -35,7 +32,9 @@ with lib;
   };
 
   config = lib.mkIf cfg.enable {
-    nixpkgs.config.allowUnfreePredicate = lib.mkIf cfg.gui (lib.mkAfter unfreepkgs);
+    nixpkgs.config = lib.mkIf cfg.gui {
+      allowUnfreePackages = unfreePackages;
+    };
 
     i18n.supportedLocales = lib.mkIf cfg.gui ([ "all" ]);
 
