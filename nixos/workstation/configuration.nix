@@ -7,6 +7,9 @@
 {
   environment.baseline.enable = true;
 
+  # Keep the RTC in local time for compatibility with the Windows dual boot.
+  time.hardwareClockInLocalTime = true;
+
   environment.myhome = {
     enable = true;
     gui = true;
