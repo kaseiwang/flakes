@@ -89,7 +89,7 @@ with lib;
       systemPackages = with pkgs; [
         bpftrace
         btop
-        bwarp
+        bubblewrap
         curl
         dig
         file
