@@ -9,6 +9,8 @@ with pkgs.lib;
     useNetworkd = false;
     firewall.enable = false;
 
+    proxy.default = "http://10.10.5.1:1080";
+
     networkmanager = {
       enable = true;
       logLevel = "INFO";
