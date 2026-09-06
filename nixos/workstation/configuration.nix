@@ -65,15 +65,19 @@
    nixpkgs.config.allowUnfreePackages = [
     "nvidia-settings"
     "nvidia-x11"
+    "steam"
+    "steam-unwrapped"
   ];
 
   programs = {
     dconf.enable = true;
     wireshark.enable = true;
     fuse.userAllowOther = true;
-  };
 
-  services.dbus.implementation = "broker";
+    steam = {
+      enable = true;
+    };
+  };
 
   users.users.kasei = {
     extraGroups = [

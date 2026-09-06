@@ -65,8 +65,6 @@
     fuse.userAllowOther = true;
   };
 
-  services.dbus.implementation = "broker";
-
   users.users.kasei = {
     extraGroups = [
       "docker"
