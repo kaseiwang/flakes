@@ -80,6 +80,7 @@
 
     steam = {
       enable = true;
+      protontricks.enable = true;
     };
     gamemode.enable = true;
   };
