@@ -39,6 +39,7 @@ in
     binfmt.emulatedSystems = [ "aarch64-linux" ];
     kernelPackages = pkgs.linuxPackages_latest;
 
+    kernelModules = [ "ntsync" ];
     kernelParams = [
       "quiet"
       "vt.global_cursor_default=0"
