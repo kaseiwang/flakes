@@ -20,11 +20,6 @@ nixpkgs.lib.nixosSystem {
     {
       nixpkgs.overlays = [
         self.overlays.default
-        (_final: prev: {
-          spamassassin = prev.spamassassin.overrideAttrs (_old: {
-            doCheck = false;
-          });
-        })
       ];
     }
   ];
