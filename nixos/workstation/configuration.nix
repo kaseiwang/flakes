@@ -15,6 +15,10 @@
     gui = true;
   };
 
+  home-manager.users.kasei = {
+    home.sessionPath = [ "$HOME/.local/bin" ];
+  };
+
   fonts = {
     fontconfig = {
       subpixel = {
