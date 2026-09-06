@@ -77,6 +77,7 @@
     steam = {
       enable = true;
     };
+    gamemode.enable = true;
   };
 
   users.users.kasei = {
