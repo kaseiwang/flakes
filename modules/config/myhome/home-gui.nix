@@ -506,16 +506,22 @@ in
       '';
       "pipewire/pipewire.conf.d/20-main.conf".text = ''
         context.properties = {
-          default.clock.allowed-rates = [ 44100 48000 96000 192000 256000 512000 768000 ]
+          default.clock.allowed-rates = [ 44100 48000 88200 96000 176400 192000 352800 384000 705600 768000 ]
         }
       '';
-      "pipewire/pipewire.conf.d/30-xd05bal.conf".text = ''
-        pulse.rules = [
+      "wireplumber/wireplumber.conf.d/30-xd05bal.conf".text = ''
+        monitor.alsa.rules = [
           {
-            matches = [ { node.name = "alsa_output.usb-xduoo_XD-05_BAL-00.iec958-stereo" } ]
+            matches = [ { node.name = "~alsa_output[.]usb-xduoo_XD-05_BAL-00[.].*" } ]
             actions = {
               update-props = {
-                audio.rate = 96000
+                # Follow the graph rate; do not force a fixed hardware rate.
+                audio.rate = 0
+                audio.allowed-rates = [ 44100 48000 88200 96000 176400 192000 352800 384000 705600 768000 ]
+                # Use the DAC knob for volume. Clamp restored software gains
+                # to unity while retaining mute (unlike lock-volumes).
+                channelmix.min-volume = 1.0
+                channelmix.max-volume = 1.0
               }
             }
           }
