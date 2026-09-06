@@ -62,6 +62,11 @@
     };
   };
 
+   nixpkgs.config.allowUnfreePackages = [
+    "nvidia-settings"
+    "nvidia-x11"
+  ];
+
   programs = {
     dconf.enable = true;
     wireshark.enable = true;
