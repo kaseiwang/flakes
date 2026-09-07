@@ -447,7 +447,14 @@ in
 
     mpv = {
       enable = true;
-      package = pkgs.mpv.override { youtubeSupport = false; };
+      config = {
+        profile = "gpu-hq";
+        sub-auto = "fuzzy";
+        hwdec = "auto-safe";
+        video-sync = "display-resample";
+        interpolation = "yes";
+        tscale = "oversample";
+      };
     };
 
     ncmpcpp = {

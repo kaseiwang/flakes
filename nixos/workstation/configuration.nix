@@ -66,7 +66,7 @@
     };
   };
 
-   nixpkgs.config.allowUnfreePackages = [
+  nixpkgs.config.allowUnfreePackages = [
     "nvidia-settings"
     "nvidia-x11"
     "steam"
