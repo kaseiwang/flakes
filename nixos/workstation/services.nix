@@ -1,9 +1,43 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
+let
+  sambaOptions = [
+    "credentials=${config.sops.secrets.nas0-smb-credentials.path}"
+    "uid=kasei"
+    "gid=users"
+    "nofail"
+    "x-systemd.automount"
+    "x-systemd.mount-timeout=15s"
+  ];
+in
 {
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     tinced25519 = { };
     singboxpass = { };
+    # CIFS credentials file: username=... and password=... on separate lines.
+    nas0-smb-credentials = {
+      owner = "root";
+      mode = "0400";
+    };
+  };
+
+  boot.supportedFilesystems = [ "cifs" ];
+
+  fileSystems = {
+    "/home/kasei/samba/nas0" = {
+      device = "//nas0.i.kasei.im/nas0";
+      fsType = "cifs";
+      options = sambaOptions;
+    };
+    "/home/kasei/samba/qbittorrent" = {
+      device = "//nas0.i.kasei.im/qbittorrent";
+      fsType = "cifs";
+      options = sambaOptions ++ [ "ro" ];
+    };
   };
 
   services = {
