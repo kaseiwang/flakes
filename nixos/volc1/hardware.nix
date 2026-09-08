@@ -23,6 +23,12 @@ in
 
   disko = {
     enableConfig = true;
+    imageBuilder.pkgs = pkgs // {
+      vmTools = pkgs.vmTools.override {
+        # Disko's aggregateModules tree contains the image but has no target attribute.
+        kernelImage = config.disko.imageBuilder.kernelPackages.kernel.target;
+      };
+    };
     devices = {
       disk.vda = {
         device = "/dev/vda";

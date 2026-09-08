@@ -11,7 +11,7 @@ with pkgs.lib;
   };
 
   networking = {
-    hostName = "cone3";
+    hostName = "volc1";
     useNetworkd = true;
     useDHCP = true;
     tempAddresses = "disabled";
