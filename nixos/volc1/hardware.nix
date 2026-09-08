@@ -17,7 +17,7 @@ in
 
   boot = {
     loader = {
-      grub.enable = true;
+      systemd-boot.enable = true;
     };
   };
 
@@ -36,11 +36,6 @@ in
         content = {
           type = "gpt";
           partitions = {
-            boot = {
-              type = "EF02";
-              priority = 0;
-              size = "1M";
-            };
             ESP = {
               name = "ESP";
               size = "300M";
