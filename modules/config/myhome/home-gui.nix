@@ -58,6 +58,8 @@ in
     xdg-open-server # xdp proxy for app in docker
     xhost
     yubikey-manager
+
+    netease-cloud-music-gtk4
   ];
 
   sops = {
