@@ -92,10 +92,10 @@ in
   gtk = {
     enable = true;
     theme = {
-      name = "adwaita";
+      name = "Adwaita";
     };
     iconTheme = {
-      name = "adwaita";
+      name = "Adwaita";
       package = pkgs.adwaita-icon-theme;
     };
     font = {

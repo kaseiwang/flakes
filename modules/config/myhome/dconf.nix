@@ -9,13 +9,10 @@ with lib.hm.gvariant;
       clock-show-seconds = true;
       clock-show-weekday = true;
       show-battery-percentage = true;
-      font-name = "Noto Sans 12";
       document-font-name = "Noto Sans 11";
       monospace-font-name = "Noto Sans Mono 10";
       font-antialiasing = "rgba";
       font-hinting = "medium";
-      gtk-theme = "Adwaita";
-      icon-theme = "Adwaita";
       toolbar-icons-size = "small";
       toolbar-style = "text";
       toolkit-accessibility = false;
@@ -64,10 +61,7 @@ with lib.hm.gvariant;
     };
 
     "org/gnome/shell" = {
-      disable-user-extensions = false;
       enabled-extensions = [
-        "caffeine@patapon.info"
-        "kimpanel@kde.org"
         "system-monitor@gnome-shell-extensions.gcampax.github.com"
       ];
     };
