@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }:
@@ -121,14 +120,21 @@ in
         serif = [
           "Noto Serif CJK SC"
           "Noto Serif"
+          "Noto Sans Symbols 2"
+          "Noto Sans Symbols"
         ];
         sansSerif = [
           "Noto Sans CJK SC"
           "Noto Sans"
+          "Noto Sans Symbols 2"
+          "Noto Sans Symbols"
         ];
         monospace = [
-          "Noto Sans Mono"
+          "JetBrains Mono"
           "Noto Sans Mono CJK SC"
+          "Symbols Nerd Font Mono"
+          "Noto Sans Symbols 2"
+          "Noto Sans Symbols"
         ];
         emoji = [ "Noto Color Emoji" ];
       };
@@ -252,7 +258,7 @@ in
         };
         font = {
           normal = {
-            family = "terminal";
+            family = "monospace";
           };
           size = 14.0;
         };
@@ -501,18 +507,6 @@ in
       setSessionVariables = false;
     };
     configFile = {
-      "fontconfig/conf.d/20-my-fonts.conf".text = ''
-        <match target="pattern">
-          <test name="family">
-            <string>terminal</string>
-          </test>
-          <edit name="family" mode="prepend">
-            <string>JetBrains Mono</string>
-            <string>Noto Sans Mono CJK SC</string>
-            <string>Symbols Nerd Font Mono</string>
-          </edit>
-        </match>
-      '';
       "pipewire/pipewire.conf.d/20-main.conf".text = ''
         context.properties = {
           default.clock.allowed-rates = [ 44100 48000 88200 96000 176400 192000 352800 384000 705600 768000 ]
