@@ -59,7 +59,7 @@ in
     xhost
     yubikey-manager
 
-    netease-cloud-music-gtk4
+    netease-cloud-music-gtk
   ];
 
   sops = {
