@@ -165,6 +165,11 @@ in
     LIBCLANG_PATH = "${pkgs.libclang.lib}/lib";
   };
 
+  xdg.terminal-exec = {
+    enable = true;
+    settings.default = [ "com.mitchellh.ghostty.desktop" ];
+  };
+
   programs = {
     helix = {
       enable = true;
@@ -244,7 +249,7 @@ in
       settings = {
         general = {
           import = [
-            "${pkgs.alacritty-theme}/everforest_dark.toml"
+            "${pkgs.alacritty-theme}/share/alacritty-theme/everforest_dark.toml"
           ];
         };
         env = {
@@ -287,6 +292,27 @@ in
           primary.background = "#000000";
           primary.foreground = "#E8DEC8";
         };
+      };
+    };
+
+    ghostty = {
+      enable = true;
+      settings = {
+        theme = "Everforest Dark Hard";
+        term = "xterm-256color";
+        window-padding-x = 2;
+        window-padding-y = 2;
+        background-opacity = 0.75;
+        font-family = "monospace";
+        font-size = 14;
+        copy-on-select = true;
+        cursor-style = "underline";
+        cursor-style-blink = false;
+        shell-integration-features = "no-cursor";
+        # Ghostty limits scrollback by bytes rather than lines.
+        scrollback-limit = 256 * 1024 * 1024;
+        background = "#000000";
+        foreground = "#E8DEC8";
       };
     };
 
