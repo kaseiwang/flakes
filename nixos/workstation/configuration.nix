@@ -7,6 +7,11 @@
 {
   environment.baseline.enable = true;
 
+  zramSwap = {
+    enable = true;
+    memoryMax = 12 * 1024 * 1024 * 1024; # 12 GiB
+  };
+
   # Keep the RTC in local time for compatibility with the Windows dual boot.
   time.hardwareClockInLocalTime = true;
 
