@@ -2,6 +2,7 @@
   config,
   lib,
   inputs,
+  pkgs,
   ...
 }:
 let
@@ -37,6 +38,16 @@ with lib;
     };
 
     i18n.supportedLocales = lib.mkIf cfg.gui ([ "all" ]);
+
+    i18n.inputMethod = lib.mkIf cfg.gui {
+      enable = true;
+      type = "fcitx5";
+      fcitx5.addons = with pkgs; [
+        qt6Packages.fcitx5-chinese-addons
+        fcitx5-pinyin-zhwiki
+        fcitx5-pinyin-custom-pinyin-dictionary
+      ];
+    };
 
     home-manager = {
       extraSpecialArgs = { inherit inputs; };

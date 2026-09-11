@@ -144,18 +144,6 @@ in
     };
   };
 
-  i18n = {
-    inputMethod = {
-      enable = true;
-      type = "fcitx5";
-      fcitx5.addons = with pkgs; [
-        qt6Packages.fcitx5-chinese-addons
-        fcitx5-pinyin-zhwiki
-        fcitx5-pinyin-custom-pinyin-dictionary
-      ];
-    };
-  };
-
   home.sessionVariables = {
     # cache
     CARGO_HOME = "${config.xdg.cacheHome}/cargo";
