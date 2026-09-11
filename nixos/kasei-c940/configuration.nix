@@ -14,6 +14,7 @@
 
   fonts = {
     fontconfig = {
+      hinting.style = "slight";
       subpixel = {
         rgba = "rgb";
         lcdfilter = "default";

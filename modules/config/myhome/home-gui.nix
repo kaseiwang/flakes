@@ -121,14 +121,14 @@ in
       enable = true;
       defaultFonts = {
         serif = [
-          "Noto Serif CJK SC"
           "Noto Serif"
+          "Noto Serif CJK SC"
           "Noto Sans Symbols 2"
           "Noto Sans Symbols"
         ];
         sansSerif = [
-          "Noto Sans CJK SC"
           "Noto Sans"
+          "Noto Sans CJK SC"
           "Noto Sans Symbols 2"
           "Noto Sans Symbols"
         ];
