@@ -1,9 +1,11 @@
 {
   config,
+  inputs,
   pkgs,
   ...
 }:
 let
+  llm-agents = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
   patched-openssh = pkgs.openssh.overrideAttrs (prev: {
     patches = (prev.patches or [ ]) ++ [ ./openssh-home-config-permission.patch ];
   });
@@ -24,6 +26,7 @@ in
     jetbrains-mono
 
     btop
+    llm-agents.chatgpt
     ccls
     #(ccls.override { llvmPackages = pkgs.llvmPackages_latest; }) # c/c++ lsp server
     cloc # count lines of code
@@ -364,6 +367,7 @@ in
 
     codex = {
       enable = true;
+      package = llm-agents.codex;
     };
 
     vscode = {

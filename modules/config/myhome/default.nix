@@ -39,6 +39,7 @@ with lib;
     i18n.supportedLocales = lib.mkIf cfg.gui ([ "all" ]);
 
     home-manager = {
+      extraSpecialArgs = { inherit inputs; };
       useGlobalPkgs = true;
       useUserPackages = true;
       sharedModules = [
