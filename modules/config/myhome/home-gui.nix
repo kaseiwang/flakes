@@ -241,6 +241,7 @@ in
       extensions = with pkgs; [
         { package = gnomeExtensions.caffeine; }
         { package = gnomeExtensions.kimpanel; }
+        { package = gnomeExtensions.system-monitor-next; }
       ];
     };
 
