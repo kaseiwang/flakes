@@ -30,8 +30,7 @@ with pkgs.lib;
               ssid = "kaseinet";
             };
             wifi-security = {
-              key-mgmt = "wpa-psk";
-              auth-alg = "open";
+              key-mgmt = "sae";
               psk = "$kaseinet_PASSWORD";
             };
             ipv4 = {
