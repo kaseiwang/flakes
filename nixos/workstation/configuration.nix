@@ -22,6 +22,8 @@
 
   home-manager.users.kasei = {
     home.sessionPath = [ "$HOME/.local/bin" ];
+    # Vulkan auto-decoding triggers NVIDIA Xid 109 on mpv shutdown here.
+    programs.mpv.config.hwdec = "nvdec,auto-safe";
   };
 
   fonts = {
