@@ -55,6 +55,7 @@
             config.allowUnfreePredicate =
               pkg:
               builtins.elem (lib.getName pkg) [
+                "feilian"
                 "rockchip-firmware-rk3568"
               ];
           }

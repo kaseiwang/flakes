@@ -75,6 +75,7 @@
   };
 
   nixpkgs.config.allowUnfreePackages = [
+    "feilian"
     "nvidia-settings"
     "nvidia-x11"
     "steam"

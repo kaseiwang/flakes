@@ -41,6 +41,8 @@ in
   };
 
   services = {
+    feilian.enable = true;
+
     xserver = {
       enable = true;
       videoDrivers = [ "nvidia" ];
