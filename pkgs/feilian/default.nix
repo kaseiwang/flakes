@@ -7,13 +7,14 @@
 }:
 let
   # Based on zrubing/nix-config at e569287771599850b2759cec404125e0439b447a.
-  version = "3.1.18";
+  version = "3.2.16";
   unpacked = stdenvNoCC.mkDerivation {
     pname = "feilian-unpacked";
     inherit version;
     src = fetchurl {
-      url = "https://cdn.isealsuite.com/linux/FeiLian_Linux_amd64_v${version}_r6560_8a2fab.deb";
-      sha256 = "1nzvwcxmwl072w4sik2ivfydi4hdwg6dbv74qm7j2434s98sdmqa";
+      name = "feilian-${version}.deb";
+      url = "https://cdn.isealsuite.com/linux/FeiLian_Linux_amd64_v${version}_r7356_adbfd9.%7Bbytedance%7D.deb";
+      hash = "sha256-QLGLkgLUq4Z7ljt6mVVAyJuyqONjjqpQ8rtWddbdM2w=";
     };
     nativeBuildInputs = [ dpkg ];
     dontUnpack = true;
