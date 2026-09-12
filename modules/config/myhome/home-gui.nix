@@ -482,6 +482,7 @@ in
       bindings = {
         MBTN_RIGHT = "script-binding uosc/menu";
       };
+      scriptOpts.uosc_danmaku.api_server = "https://danmaku-api.152468.xyz";
       scriptOpts.uosc = {
         controls = "menu,gap,subtitles,<has_many_audio>audio,<has_many_video>video,<has_many_edition>editions,<stream>stream-quality,button:danmaku,cycle:toggle_on:show_danmaku@uosc_danmaku:on=toggle_on/off=toggle_off?弹幕开关,gap,space,speed,space,shuffle,loop-playlist,loop-file,gap,prev,items,next,gap,fullscreen";
       };
