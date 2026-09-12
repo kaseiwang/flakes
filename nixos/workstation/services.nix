@@ -41,7 +41,11 @@ in
   };
 
   services = {
-    feilian.enable = true;
+    feilian = {
+      enable = true;
+      autoStart = false;
+      companyId = "bytedance";
+    };
 
     xserver = {
       enable = true;

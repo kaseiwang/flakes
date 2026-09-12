@@ -76,6 +76,7 @@ let
         dnsmasq
         procps
         nettools
+        networkmanager
         which
       ];
     extraBuildCommands = ''
@@ -87,8 +88,11 @@ let
     '';
     extraBwrapArgs = [
       "--ro-bind ${unpacked}/opt /opt"
+      "--bind /var/lib/feilian /opt/apps/com.volcengine.feilian/files"
+      "--bind /etc/NetworkManager /etc/NetworkManager"
     ];
     profile = ''
+      export NODE_ENV=production
       export LD_LIBRARY_PATH=/feilian-libs:/usr/lib:/usr/lib64:/lib:/lib64:''${LD_LIBRARY_PATH:-}
       export XDG_DATA_DIRS=${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}:''${XDG_DATA_DIRS:-}
     '';
@@ -113,6 +117,7 @@ pkgs.symlinkJoin {
   name = "feilian-${version}";
   pname = "feilian";
   inherit version;
+  passthru = { inherit unpacked fhsEnv; };
   paths = [
     client
     service
