@@ -16,26 +16,26 @@
   };
   nvidia_gpu_exporter = {
     pname = "nvidia_gpu_exporter";
-    version = "v1.12.0";
+    version = "v1.15.1";
     src = fetchFromGitHub {
       owner = "utkuozdemir";
       repo = "nvidia_gpu_exporter";
-      rev = "v1.12.0";
+      rev = "v1.15.1";
       fetchSubmodules = false;
-      sha256 = "sha256-BIY2Bed+RRwdwC2seqAjFULlAYgq5CUV78yVRC42K34=";
+      sha256 = "sha256-75azonvsJ9fZSp9ht8ZUj4XmkmfsSRl2pp0jfBSEFiI=";
     };
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "911c0019cb24c67e6bc192f5d75584a884ba4331";
+    version = "c55bc322c2ebcb0e0d78614ef44951be629862ed";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "911c0019cb24c67e6bc192f5d75584a884ba4331";
+      rev = "c55bc322c2ebcb0e0d78614ef44951be629862ed";
       fetchSubmodules = false;
-      sha256 = "sha256-8Xh24uLtn2OtypiASgCF7UA5oLOPRgIpoj6bIYBU/B8=";
+      sha256 = "sha256-UeiZ+xOF0FlH9Ic1xn6Tvkr9BH7Jm5YVQL/s6zxi3FM=";
     };
-    date = "2026-07-16";
+    date = "2026-09-05";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
@@ -47,17 +47,6 @@
     };
     publisher = "ccls-project";
     name = "ccls";
-  };
-  vscode-ext-codeium = {
-    pname = "vscode-ext-codeium";
-    version = "1.49.2";
-    src = fetchurl {
-      url = "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.49.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage";
-      name = "codeium-1.49.2.zip";
-      sha256 = "sha256-fLDR0Gb8J9DkKTwFm0oMHB1GENKH/Cj2jMb1AsP0ZpQ=";
-    };
-    publisher = "Codeium";
-    name = "codeium";
   };
   vscode-ext-sops = {
     pname = "vscode-ext-sops";

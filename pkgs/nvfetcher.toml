@@ -21,11 +21,6 @@ src.vsmarketplace = "ccls-project.ccls"
 fetch.vsmarketplace = "ccls-project.ccls"
 passthru = { publisher = "ccls-project", name = "ccls" }
 
-[vscode-ext-codeium]
-src.vsmarketplace = "Codeium.codeium"
-fetch.vsmarketplace = "Codeium.codeium"
-passthru = { publisher = "Codeium", name = "codeium" }
-
 [nvidia_gpu_exporter]
 src.github = "utkuozdemir/nvidia_gpu_exporter"
 fetch.github = "utkuozdemir/nvidia_gpu_exporter"

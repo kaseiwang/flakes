@@ -28,16 +28,16 @@
             "name": null,
             "owner": "utkuozdemir",
             "repo": "nvidia_gpu_exporter",
-            "rev": "v1.12.0",
-            "sha256": "sha256-BIY2Bed+RRwdwC2seqAjFULlAYgq5CUV78yVRC42K34=",
+            "rev": "v1.15.1",
+            "sha256": "sha256-75azonvsJ9fZSp9ht8ZUj4XmkmfsSRl2pp0jfBSEFiI=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v1.12.0"
+        "version": "v1.15.1"
     },
     "smartdns-china-list": {
         "cargoLock": null,
-        "date": "2026-07-16",
+        "date": "2026-09-05",
         "extract": null,
         "name": "smartdns-china-list",
         "passthru": null,
@@ -49,12 +49,12 @@
             "name": null,
             "owner": "felixonmars",
             "repo": "dnsmasq-china-list",
-            "rev": "911c0019cb24c67e6bc192f5d75584a884ba4331",
-            "sha256": "sha256-8Xh24uLtn2OtypiASgCF7UA5oLOPRgIpoj6bIYBU/B8=",
+            "rev": "c55bc322c2ebcb0e0d78614ef44951be629862ed",
+            "sha256": "sha256-UeiZ+xOF0FlH9Ic1xn6Tvkr9BH7Jm5YVQL/s6zxi3FM=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "911c0019cb24c67e6bc192f5d75584a884ba4331"
+        "version": "c55bc322c2ebcb0e0d78614ef44951be629862ed"
     },
     "vscode-ext-ccls": {
         "cargoLock": null,
@@ -73,24 +73,6 @@
             "url": "https://ccls-project.gallery.vsassets.io/_apis/public/gallery/publisher/ccls-project/extension/ccls/0.1.32/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
         },
         "version": "0.1.32"
-    },
-    "vscode-ext-codeium": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "vscode-ext-codeium",
-        "passthru": {
-            "name": "codeium",
-            "publisher": "Codeium"
-        },
-        "pinned": false,
-        "src": {
-            "name": "codeium-1.49.2.zip",
-            "sha256": "sha256-fLDR0Gb8J9DkKTwFm0oMHB1GENKH/Cj2jMb1AsP0ZpQ=",
-            "type": "url",
-            "url": "https://Codeium.gallery.vsassets.io/_apis/public/gallery/publisher/Codeium/extension/codeium/1.49.2/assetbyname/Microsoft.VisualStudio.Services.VSIXPackage"
-        },
-        "version": "1.49.2"
     },
     "vscode-ext-sops": {
         "cargoLock": null,
