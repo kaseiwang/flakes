@@ -1,8 +1,8 @@
 {
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
     impermanence.url = "github:nix-community/impermanence";
+    colmena.url = "github:nix-community/colmena";
     llm-agents.url = "github:numtide/llm-agents.nix";
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -11,11 +11,6 @@
     sops-nix = {
       url = "github:kaseiwang/sops-nix";
       inputs.nixpkgs.follows = "nixpkgs";
-    };
-    colmena = {
-      url = "github:zhaofengli/colmena";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.follows = "flake-utils";
     };
     lanzaboote = {
       url = "github:nix-community/lanzaboote";
@@ -50,7 +45,7 @@
             inherit system;
             overlays = [
               self.overlays.default
-              inputs.colmena.overlay
+              #inputs.colmena.overlay
             ];
             config.allowUnfreePredicate =
               pkg:
@@ -75,7 +70,6 @@
             packages = [
               colmena
               sops
-              cachix
               e2fsprogs
               nvfetcher
               ripsecrets
