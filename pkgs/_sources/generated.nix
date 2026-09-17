@@ -25,6 +25,17 @@
       sha256 = "sha256-75azonvsJ9fZSp9ht8ZUj4XmkmfsSRl2pp0jfBSEFiI=";
     };
   };
+  rtp2httpd = {
+    pname = "rtp2httpd";
+    version = "v3.17.1";
+    src = fetchFromGitHub {
+      owner = "stackia";
+      repo = "rtp2httpd";
+      rev = "v3.17.1";
+      fetchSubmodules = false;
+      sha256 = "sha256-z8gMaNjg2NOWgItplwMtJ+NEbKbW0FLMAqZwpHJrEhc=";
+    };
+  };
   smartdns-china-list = {
     pname = "smartdns-china-list";
     version = "c55bc322c2ebcb0e0d78614ef44951be629862ed";
