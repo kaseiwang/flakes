@@ -45,7 +45,7 @@
             inherit system;
             overlays = [
               self.overlays.default
-              #inputs.colmena.overlay
+              inputs.colmena.overlay
             ];
             config.allowUnfreePredicate =
               pkg:
