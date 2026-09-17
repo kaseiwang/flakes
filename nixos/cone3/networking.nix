@@ -53,7 +53,7 @@ with pkgs.lib;
 
     interfaces."${wanif}" = {
       useDHCP = false;
-      mtu = 1400;
+      mtu = 1500;
       ipv4 = {
         addresses = [
           {
@@ -143,7 +143,7 @@ with pkgs.lib;
         netdevConfig = {
           Name = "wg0";
           Kind = "wireguard";
-          MTUBytes = 1312; # round down to 16bytes
+          MTUBytes = 1408; # round down to 16bytes
         };
         wireguardConfig = {
           ListenPort = 2480;
