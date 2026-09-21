@@ -27,6 +27,16 @@ in
 
   boot.supportedFilesystems = [ "cifs" ];
 
+  programs.dconf.profiles.user.databases = [
+    {
+      lockAll = true;
+      settings."org/gnome/settings-daemon/plugins/power" = {
+        sleep-inactive-ac-type = "nothing";
+        sleep-inactive-battery-type = "nothing";
+      };
+    }
+  ];
+
   fileSystems = {
     "/home/kasei/samba/nas0" = {
       device = "//nas0.i.kasei.im/nas0";
@@ -51,7 +61,10 @@ in
       enable = true;
       videoDrivers = [ "nvidia" ];
     };
-    displayManager.gdm.enable = true;
+    displayManager.gdm = {
+      enable = true;
+      autoSuspend = false;
+    };
     desktopManager.gnome.enable = true;
 
     pipewire = {

@@ -28,7 +28,8 @@ in
     nvidia = {
       open = true;
       modesetting.enable = true;
-      #powerManagement.enable = true;
+      powerManagement.enable = true;
+      moduleParams.nvidia.NVreg_TemporaryFilePath = "/var/lib/nvidia-vram";
     };
   };
 
