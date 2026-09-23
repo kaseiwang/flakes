@@ -401,16 +401,6 @@
                 extraConfig = ''proxy_cookie_path / "/; Secure";'';
               };
             };
-            "alist.kasei.im" = {
-              locations."/" = {
-                proxyPass = "http://localhost:5244";
-              };
-            };
-            "chat.kasei.im" = {
-              locations."/" = {
-                proxyPass = "http://localhost:3000";
-              };
-            };
             "peerbanhelper.kasei.im" = {
               locations."/" = {
                 proxyPass = "http://localhost:9898";
