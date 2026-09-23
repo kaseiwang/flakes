@@ -318,6 +318,10 @@
     nginx = {
       enable = true;
       enableQuicBPF = true;
+      defaultListen = [
+        { addr = "0.0.0.0"; }
+        { addr = "[::0]"; }
+      ];
       recommendedOptimisation = true;
       recommendedProxySettings = true;
       recommendedGzipSettings = false;
@@ -331,101 +335,94 @@
         ssl_stapling on;
         ssl_stapling_verify on;
       '';
-      virtualHosts =
-        let
-          mkVirtualHosts =
-            input:
-            input
+      virtualHosts = {
+        "default" = {
+          serverName = "_";
+          default = true;
+          rejectSSL = true;
+          # Apply reuseport once to both the shared QUIC and TCP listeners.
+          quic = true;
+          reuseport = true;
+          locations."/" = {
+            return = "444";
+          };
+        };
+      }
+      //
+        builtins.mapAttrs
+          (
+            _: vhost:
+            vhost
             // {
               quic = true;
-              http3 = true;
               onlySSL = true;
               sslCertificate = "${config.security.acme.certs."kasei.im".directory}/full.pem";
               sslCertificateKey = "${config.security.acme.certs."kasei.im".directory}/full.pem";
               extraConfig = ''
                 add_header Alt-Svc 'h3=":$server_port"; ma=86400';
               '';
-            };
-        in
-        {
-          "default" = {
-            serverName = "_";
-            default = true;
-            rejectSSL = true;
-            reuseport = true;
-            locations."/" = {
-              return = "444";
-            };
-          };
-          "${config.networking.hostName}.${config.networking.domain}" = mkVirtualHosts {
-            serverName = "${config.networking.hostName}.${config.networking.domain}";
-            basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
-            locations = {
-              "~ ^/prometheus" = {
-                proxyPass = "http://localhost:${toString config.services.prometheus.port}";
+            }
+          )
+          {
+            "${config.networking.hostName}.${config.networking.domain}" = {
+              basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
+              locations = {
+                "~ ^/prometheus" = {
+                  proxyPass = "http://localhost:${toString config.services.prometheus.port}";
+                };
+                "~ ^/peerbanhelper" = {
+                  extraConfig = ''
+                    rewrite /peerbanhelper/(.*) /$1 break;
+                  '';
+                  proxyPass = "http://localhost:9898";
+                };
+                "/" = {
+                  return = 404;
+                };
               };
-              "~ ^/peerbanhelper" = {
-                extraConfig = ''
-                  rewrite /peerbanhelper/(.*) /$1 break;
-                '';
+            };
+            "nextcloud.kasei.im" = { };
+            "grafana.kasei.im" = {
+              locations."/" = {
+                proxyPass = "http://unix:${config.services.grafana.settings.server.socket}";
+                proxyWebsockets = true;
+              };
+            };
+            "bitwarden.kasei.im" = {
+              locations."/" = {
+                proxyPass = "http://localhost:${toString config.services.vaultwarden.config.rocketPort}";
+                proxyWebsockets = true;
+              };
+            };
+            "bt.kasei.im" = {
+              basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
+              locations."/" = {
+                proxyPass = "http://localhost:${toString config.services.qbittorrent.webuiPort}";
+                extraConfig = ''proxy_cookie_path / "/; Secure";'';
+              };
+            };
+            "alist.kasei.im" = {
+              locations."/" = {
+                proxyPass = "http://localhost:5244";
+              };
+            };
+            "chat.kasei.im" = {
+              locations."/" = {
+                proxyPass = "http://localhost:3000";
+              };
+            };
+            "peerbanhelper.kasei.im" = {
+              locations."/" = {
                 proxyPass = "http://localhost:9898";
               };
-              "/" = {
-                return = 404;
+            };
+            "yarr.kasei.im" = {
+              basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
+              locations."/" = {
+                proxyPass = "http://localhost:${toString config.services.yarr.port}";
               };
             };
           };
-          "nextcloud.kasei.im" = mkVirtualHosts {
-            serverName = "nextcloud.kasei.im";
-          };
-          "grafana.kasei.im" = mkVirtualHosts {
-            serverName = "grafana.kasei.im";
-            locations."/" = {
-              proxyPass = "http://unix:${config.services.grafana.settings.server.socket}";
-              proxyWebsockets = true;
-            };
-          };
-          "bitwarden.kasei.im" = mkVirtualHosts {
-            serverName = "bitwarden.kasei.im";
-            locations."/" = {
-              proxyPass = "http://localhost:${toString config.services.vaultwarden.config.rocketPort}";
-              proxyWebsockets = true;
-            };
-          };
-          "bt.kasei.im" = mkVirtualHosts {
-            serverName = "bt.kasei.im";
-            basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
-            locations."/" = {
-              proxyPass = "http://localhost:${toString config.services.qbittorrent.webuiPort}";
-              extraConfig = ''proxy_cookie_path / "/; Secure";'';
-            };
-          };
-          "alist.kasei.im" = mkVirtualHosts {
-            serverName = "alist.kasei.im";
-            locations."/" = {
-              proxyPass = "http://localhost:5244";
-            };
-          };
-          "chat.kasei.im" = mkVirtualHosts {
-            serverName = "chat.kasei.im";
-            locations."/" = {
-              proxyPass = "http://localhost:3000";
-            };
-          };
-          "peerbanhelper.kasei.im" = mkVirtualHosts {
-            serverName = "peerbanhelper.kasei.im";
-            locations."/" = {
-              proxyPass = "http://localhost:9898";
-            };
-          };
-          "yarr.kasei.im" = mkVirtualHosts {
-            serverName = "yarr.kasei.im";
-            basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
-            locations."/" = {
-              proxyPass = "http://localhost:${toString config.services.yarr.port}";
-            };
-          };
-        };
     };
 
     vaultwarden = {
