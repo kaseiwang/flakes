@@ -238,11 +238,12 @@ in
               iifname ${wanif} udp dport 546 accept;
 
               # 22, ssh
+              # 443/udp, HTTP/3 (QUIC)
               # 2480, wireguard
               # 8688, proxy
               # 6771, 12526, 57299, bittorrent
               tcp dport { 22, 8688, 6771, 12526, 57299 } accept;
-              udp dport { 22, 2480, 8688, 6771, 12526, 57299 } accept;
+              udp dport { 22, 443, 2480, 8688, 6771, 12526, 57299 } accept;
 
               iifname "${wanif}" drop
             }
