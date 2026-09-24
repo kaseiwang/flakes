@@ -17,6 +17,7 @@ nixpkgs.lib.nixosSystem {
     ./hardware.nix
     ./networking.nix
     ./services.nix
+    ./comfyui.nix
     {
       nixpkgs.overlays = [
         self.overlays.default
