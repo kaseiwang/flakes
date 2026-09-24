@@ -7,7 +7,8 @@
 
 - 启用 NVIDIA Container Toolkit / CDI，容器使用 `nvidia.com/gpu=0`。
   RTX 3080 可与 GNOME 同时使用 GPU；容器并不独占 GPU，也没有显存配额隔离。
-- ComfyUI 按需启动，不随开机启动。切换此配置不会自动构建镜像或下载模型。
+- ComfyUI 按需启动，不随开机启动；闲置时切换配置不会启动构建或模型下载。
+  更新正在运行的容器配置时，switch 可能触发重启并构建新镜像。
 - 只发布 `127.0.0.1:8188`；容器内监听 `0.0.0.0` 是为了 Docker 端口转发。
 - 专用 `comfyui` 用户及组，UID/GID 均为 `10001`。`kasei` 加入该组；重新登录后生效。
   容器无需 privileged、X11 socket 或 Docker socket。
@@ -31,9 +32,21 @@
 | Python 依赖 | `requirements.lock`，全部固定版本及 SHA256 |
 
 基础镜像 digest、源码归档 SHA256、依赖和模型哈希均已固定。
-本地镜像标签根据 Dockerfile 与锁文件内容生成，`pull=never`，启动时不更新软件。
+本地镜像标签根据 Dockerfile、锁文件与 `h3-compatibility.patch` 内容生成，
+`pull=never`，启动时不更新软件。
 标签用于区分构建配置，不是远端 OCI digest，也不承诺构建产物逐字节相同。
 镜像内只安装固定的 GGUF 扩展；新增扩展应修改构建配置并重新构建。
+
+`h3-compatibility.patch` 在构建时应用于上述固定源码，解决实测发现的两个兼容问题：
+
+- H3 的原生 GGUF 文本编码器缺少 `general.architecture`。通过特定 tensor 名称与精确形状
+  识别该格式，按 Qwen3VL 加载；将未压缩 BF16 字节恢复为 BF16 tensor，并恢复视觉
+  Conv3d 的五维形状。其他 GGUF 继续使用原有架构校验，不改写或重新量化模型文件。
+- H3 视频 VAE 的 `qk_norm_scale` 在低显存 offload 时可能留在 CPU；在使用前迁移到
+  query 的 device/dtype，避免 CPU/CUDA 混用。
+
+构建会先将 GGUF 源码的 CRLF 转为 LF，再以 `--fuzz=0` 应用补丁并检查 Python 语法。
+上游更新导致补丁无法应用时构建会失败，需要重新审阅兼容处理。
 
 | 模型集 | 文件 | 大小（十进制 GB） |
 | --- | --- | ---: |
@@ -83,6 +96,15 @@ sudo systemctl stop docker-comfyui.service
 首次构建需要访问 Docker Hub、Debian snapshot、PyPI、PyTorch 和 GitHub。
 下载模型时需要访问 Hugging Face 及其文件 CDN。权重不会进入 Nix store。
 
+已有部署更新此修复时无需重新下载权重。Review 后执行 switch，再重启服务以使用新镜像：
+
+```sh
+sudo nixos-rebuild switch --flake path:/home/kasei/flakes#workstation
+sudo systemctl restart docker-comfyui.service
+```
+
+如果服务正在运行，switch 可能已触发重启；启动依赖会构建尚不存在的新标签镜像。
+
 可选模型单独下载，不会自动切换工作流：
 
 ```sh
@@ -115,9 +137,9 @@ GGUF 扩展有自己的 ModelPatcher；此起点采用明确的 CPU offload，**
 表示为系统保留 RAM 余量，不是将缓存限制在 6GB。没有为容器设置容易触发 OOM 的 RAM 硬上限。
 
 10GiB GPU 装不下这组模型，实际依赖约 45GiB 主机内存和 CPU/GPU 交换。
-此参数集尚未实测完整生成，不能保证不 OOM 或给出耗时承诺。Review 后先运行一个小任务，
-同时观察 `nvidia-smi`、系统内存和日志；必要时继续降低分辨率或帧数（H3 帧数按 `17n+5`）。
-先确认基础 20 步流程可用，再接入 turbo LoRA 调整为 8 步。
+2026-09-25 已在 RTX 3080 上完成上述参数的带音频生成；增大尺寸、帧数或桌面负载时仍需
+观察 `nvidia-smi`、系统内存和日志。必要时降低分辨率或帧数（H3 帧数按 `17n+5`）。
+turbo LoRA 的 8 步流程尚未验证。
 
 ## 更新和检查
 
@@ -141,7 +163,20 @@ git diff --check
 （包含 ShellCheck）、Docker 镜像构建及 `pip check`、无网络/无 GPU 的 CPU 启动检查。
 H3、GGUF 和 starter 工作流所需节点均成功注册；PyTorch wheel 包含 `sm_86`。
 下载器另用本地小文件验证了断点续传、重复运行和校验失败保护。
-未执行系统切换、真实模型下载或 GPU 生成；NVIDIA CDI 的运行时接入和实际显存峰值待部署后验证。
+部署后已完成系统切换、四个基础模型下载及 SHA256 校验、NVIDIA CDI 接入和完整 GPU 生成。
+首次测试暴露的 GGUF 加载和 VAE offload 问题已整理为构建补丁。
+
+固化镜像 `localhost/comfyui-h3:6c98077b12a22245f7e94a91e5916f50` 已通过完整 GPU 验证：
+独立容器使用正常入口和上述启动参数，关闭网络、只读挂载模型，无运行时补丁注入。
+640×384、124 帧、24 fps、20 步、seed 20260925，完整生成用时 **286.69 秒**，
+其中采样约 194 秒。输出 H.264 视频与 32kHz AAC 立体声音轨，时长 5.167 秒；
+成片位于 `output/video/h3-pinned-6c98077b_00001_.mp4`。
+每约 5 秒采样的整卡显存最高为 6119 MiB（5.98 GiB，含桌面与其他进程，不是瞬时峰值）；
+该结果不代表其他参数的耗时或显存上限。
+
+另将测试容器的显存预留临时提高到 4 GiB，复用已保存的 latent 单独验证 VAE 分载路径：
+视频 VAE 有 1035 MB 权重 offload 到 CPU，音视频解码及保存仍成功，用时 7.04 秒。
+正式 flake 继续使用 3 GiB 预留。两个验证容器均已停止，正式服务需部署新配置后更新。
 
 上游参考：
 

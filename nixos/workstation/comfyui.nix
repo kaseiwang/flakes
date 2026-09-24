@@ -14,10 +14,13 @@ let
     mkdir -p "$out"
     cp ${./comfyui/Dockerfile} "$out/Dockerfile"
     cp ${./comfyui/requirements.lock} "$out/requirements.lock"
+    cp ${./comfyui/h3-compatibility.patch} "$out/h3-compatibility.patch"
   '';
   imageKey = builtins.substring 0 32 (
     builtins.hashString "sha256" (
-      builtins.readFile ./comfyui/Dockerfile + builtins.readFile ./comfyui/requirements.lock
+      builtins.readFile ./comfyui/Dockerfile
+      + builtins.readFile ./comfyui/requirements.lock
+      + builtins.readFile ./comfyui/h3-compatibility.patch
     )
   );
   image = "localhost/comfyui-h3:${imageKey}";

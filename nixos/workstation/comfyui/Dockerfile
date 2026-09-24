@@ -49,6 +49,27 @@ for repo, revision, sha256, destination in sources:
                 archive.extract(member, destination, filter="data")
 PY
 
+# Keep this after the large dependency layers so compatibility changes reuse them.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends patch \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY h3-compatibility.patch /opt/h3-compatibility.patch
+RUN python - <<'PY'
+import subprocess
+from pathlib import Path
+
+# The pinned GGUF source uses CRLF; keep the reviewed patch in normal LF form.
+loader = Path("custom_nodes/ComfyUI-GGUF/loader.py")
+loader.write_bytes(loader.read_bytes().replace(b"\r\n", b"\n"))
+subprocess.run([
+    "patch", "--batch", "--forward", "--fuzz=0", "-p1",
+    "-i", "/opt/h3-compatibility.patch",
+], check=True)
+for source in (loader, Path("comfy/ldm/minimax/vae.py")):
+    compile(source.read_text(), str(source), "exec")
+PY
+
 USER 10001:10001
 EXPOSE 8188
 ENTRYPOINT ["python", "/opt/ComfyUI/main.py"]
