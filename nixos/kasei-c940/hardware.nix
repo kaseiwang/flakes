@@ -57,7 +57,10 @@ in
     loader = {
       timeout = 0;
       efi.canTouchEfiVariables = true;
-      systemd-boot.consoleMode = "auto";
+      systemd-boot = {
+        consoleMode = "auto";
+        edk2-uefi-shell.enable = true;
+      };
     };
 
     initrd = {
