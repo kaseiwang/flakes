@@ -324,7 +324,7 @@
       ];
       recommendedOptimisation = true;
       recommendedProxySettings = true;
-      recommendedGzipSettings = false;
+      recommendedGzipSettings = true;
       sslProtocols = "TLSv1.2 TLSv1.3";
       appendConfig = ''
         worker_processes auto;
@@ -334,6 +334,7 @@
         ssl_prefer_server_ciphers off;
         ssl_stapling on;
         ssl_stapling_verify on;
+        quic_gso on;
       '';
       virtualHosts = {
         "default" = {
