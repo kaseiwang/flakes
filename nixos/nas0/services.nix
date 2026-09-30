@@ -181,6 +181,7 @@
       hostName = "nextcloud.kasei.im";
       https = true;
       maxUploadSize = "16G";
+      phpOptions."opcache.interned_strings_buffer" = "32";
 
       database.createLocally = true;
       appstoreEnable = true;
