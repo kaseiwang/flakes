@@ -21,7 +21,6 @@
   };
 
   home-manager.users.kasei = {
-    home.sessionPath = [ "$HOME/.local/bin" ];
     programs.firefox.policies.Preferences."media.hardware-video-decoding.force-enabled" = {
       Value = true;
     };

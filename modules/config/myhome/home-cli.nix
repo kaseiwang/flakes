@@ -93,5 +93,6 @@
     };
   };
 
+  home.sessionPath = [ "$HOME/.local/bin" ];
   home.stateVersion = "22.05";
 }
