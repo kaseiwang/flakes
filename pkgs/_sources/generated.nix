@@ -27,26 +27,26 @@
   };
   rtp2httpd = {
     pname = "rtp2httpd";
-    version = "v3.17.1";
+    version = "v3.17.2";
     src = fetchFromGitHub {
       owner = "stackia";
       repo = "rtp2httpd";
-      rev = "v3.17.1";
+      rev = "v3.17.2";
       fetchSubmodules = false;
-      sha256 = "sha256-z8gMaNjg2NOWgItplwMtJ+NEbKbW0FLMAqZwpHJrEhc=";
+      sha256 = "sha256-jOxWN2I5rq2Fbb61EjjIuG8q64Nklfg3l8iJ9RM8cUE=";
     };
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "c55bc322c2ebcb0e0d78614ef44951be629862ed";
+    version = "be08315b4ef080af9231045307799eb44f8f40f1";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "c55bc322c2ebcb0e0d78614ef44951be629862ed";
+      rev = "be08315b4ef080af9231045307799eb44f8f40f1";
       fetchSubmodules = false;
-      sha256 = "sha256-UeiZ+xOF0FlH9Ic1xn6Tvkr9BH7Jm5YVQL/s6zxi3FM=";
+      sha256 = "sha256-Sb+QyvrsdkSLoo/ybLPDjR6Vv381LG0LwnfDT2yC4Yg=";
     };
-    date = "2026-09-05";
+    date = "2026-09-26";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
