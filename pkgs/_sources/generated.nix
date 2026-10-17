@@ -38,15 +38,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "be08315b4ef080af9231045307799eb44f8f40f1";
+    version = "c79474a5445e7ebbde7275648b1078a0582510ab";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "be08315b4ef080af9231045307799eb44f8f40f1";
+      rev = "c79474a5445e7ebbde7275648b1078a0582510ab";
       fetchSubmodules = false;
-      sha256 = "sha256-Sb+QyvrsdkSLoo/ybLPDjR6Vv381LG0LwnfDT2yC4Yg=";
+      sha256 = "sha256-nghhWOQsDiBs6+IfkqOt8xG+HasedGYIHsKEQc+bz0U=";
     };
-    date = "2026-09-26";
+    date = "2026-10-16";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";
