@@ -17,20 +17,31 @@ rec {
   packages = pkgs: mapPackages (name: pkgs.${name});
   overlay =
     final: prev:
+    let
+      sources = (import ./_sources/generated.nix) {
+        inherit (final)
+          fetchurl
+          fetchgit
+          fetchFromGitHub
+          dockerTools
+          ;
+      };
+    in
     mapPackages (
       name:
       let
-        sources = (import ./_sources/generated.nix) {
-          inherit (final)
-            fetchurl
-            fetchgit
-            fetchFromGitHub
-            dockerTools
-            ;
-        };
         package = import ./${name};
         args = builtins.intersectAttrs (builtins.functionArgs package) { source = sources.${name}; };
       in
       final.callPackage package args
-    );
+    )
+    // {
+      pythonPackagesExtensions = prev.pythonPackagesExtensions ++ [
+        (pythonFinal: pythonPrev: {
+          python-miio = pythonFinal.callPackage ./python-miio/package.nix {
+            source = sources.python-miio;
+          };
+        })
+      ];
+    };
 }

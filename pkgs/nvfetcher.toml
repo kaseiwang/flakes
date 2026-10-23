@@ -32,3 +32,8 @@ fetch.github = "jgkawell/yarr"
 [rtp2httpd]
 src.github = "stackia/rtp2httpd"
 fetch.github = "stackia/rtp2httpd"
+
+[python-miio]
+src.git = "https://github.com/rytilahti/python-miio"
+src.branch = "master"
+fetch.github = "rytilahti/python-miio"

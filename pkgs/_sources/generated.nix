@@ -25,6 +25,18 @@
       sha256 = "sha256-75azonvsJ9fZSp9ht8ZUj4XmkmfsSRl2pp0jfBSEFiI=";
     };
   };
+  python-miio = {
+    pname = "python-miio";
+    version = "9a00e0888ef85f8d8d84888cabd9e46d1b0a18df";
+    src = fetchFromGitHub {
+      owner = "rytilahti";
+      repo = "python-miio";
+      rev = "9a00e0888ef85f8d8d84888cabd9e46d1b0a18df";
+      fetchSubmodules = false;
+      sha256 = "sha256-JppOccNmiveJ+X9EQcB4XmvYO+itJK3CCUFgDW2KcB0=";
+    };
+    date = "2026-07-25";
+  };
   rtp2httpd = {
     pname = "rtp2httpd";
     version = "v3.17.2";
