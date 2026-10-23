@@ -9,6 +9,9 @@
     qingping-miio-token = {
       restartUnits = [ "qingping-miio-exporter.service" ];
     };
+    heater-ma3-miio-token = {
+      restartUnits = [ "heater-ma3-controller.service" ];
+    };
     nginx-basic-auth = {
       owner = config.users.users."nginx".name;
     };
@@ -30,6 +33,11 @@
   systemd.services.grafana.serviceConfig.EnvironmentFile = "${config.sops.secrets.grafana-envs.path}";
 
   services = {
+    heater-ma3-controller = {
+      enable = true;
+      tokenFile = config.sops.secrets.heater-ma3-miio-token.path;
+      origin = "https://${config.networking.hostName}.${config.networking.domain}";
+    };
     zfs = {
       autoScrub = {
         enable = true;
@@ -371,6 +379,12 @@
             "${config.networking.hostName}.${config.networking.domain}" = {
               basicAuthFile = "${config.sops.secrets.nginx-basic-auth.path}";
               locations = {
+                "= /iot/heater_ma3.html" = {
+                  proxyPass = "http://127.0.0.1:${toString config.services.heater-ma3-controller.port}";
+                };
+                "^~ /iot/heater_ma3/api/" = {
+                  proxyPass = "http://127.0.0.1:${toString config.services.heater-ma3-controller.port}";
+                };
                 "~ ^/prometheus" = {
                   proxyPass = "http://localhost:${toString config.services.prometheus.port}";
                 };

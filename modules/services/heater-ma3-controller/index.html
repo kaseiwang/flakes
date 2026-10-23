@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>油汀取暖器 · NAS0</title>
+<style>
+  :root { color-scheme: light dark; font: 16px/1.6 system-ui,sans-serif; }
+  body { margin: 0; background: light-dark(#f3f5f7,#131820); color: light-dark(#172331,#edf2f8); }
+  main { max-width: 680px; margin: 48px auto; padding: 0 20px; }
+  h1 { font-size: 1.65rem; margin: 8px 0; } p { margin: 8px 0; }
+  .muted { color: light-dark(#586778,#aab8ca); font-size: .9rem; }
+  .card { background: light-dark(white,#1c2531); border: 1px solid light-dark(#dbe2e9,#344152); border-radius: 16px; padding: 22px; margin: 20px 0; }
+  .control { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .toggle { width: 54px; height: 30px; accent-color: #087e83; cursor: pointer; flex-shrink: 0; }
+  label { font-weight: 650; cursor: pointer; } dl { display: grid; grid-template-columns: 1fr 1fr; margin: 16px 0 0; }
+  dt, dd { margin: 0; padding: 10px 0; border-bottom: 1px solid light-dark(#edf0f4,#344152); }
+  dd { text-align: right; font-weight: 600; } #error { color: light-dark(#a13116,#ffaf91); }
+  #error:empty { display: none; } button { padding: 6px 14px; border-radius: 8px; cursor: pointer; }
+</style>
+<main>
+  <div class="muted">NAS0 / IoT</div>
+  <h1>米家石墨烯油汀取暖器</h1>
+  <p class="muted">xiaomi.heater.ma3 · 10.10.5.189</p>
+  <section class="card">
+    <div class="control">
+      <div><label for="automation">启用自动循环</label><p class="muted">开启 30 分钟，关闭 30 分钟，循环运行。</p></div>
+      <input id="automation" class="toggle" type="checkbox" role="switch" disabled>
+    </div>
+    <p class="muted">启用后立即开机；停用后立即关机。保留当前加热档位和目标温度。</p>
+    <dl>
+      <dt>自动循环</dt><dd id="enabled">正在连接…</dd>
+      <dt>当前计划</dt><dd id="phase">—</dd>
+      <dt>下次操作</dt><dd id="next">—</dd>
+      <dt>剩余时间</dt><dd id="countdown">—</dd>
+    </dl>
+  </section>
+  <section class="card">
+    <strong>设备实测状态</strong>
+    <dl>
+      <dt>设备开关</dt><dd id="power">—</dd>
+      <dt>工作状态</dt><dd id="status">—</dd>
+      <dt>加热档位</dt><dd id="heat">—</dd>
+      <dt>环境温度</dt><dd id="temperature">—</dd>
+      <dt>目标温度</dt><dd id="target">—</dd>
+      <dt>设备故障</dt><dd id="fault">—</dd>
+      <dt>最近成功读取</dt><dd id="updated">—</dd>
+    </dl>
+    <p id="freshness" class="muted" role="status"></p>
+    <p class="muted">档位不代表实际耗电功率；设备未提供瓦数读数。</p>
+  </section>
+  <p id="error" role="alert"></p>
+  <button id="refresh" type="button">刷新状态</button>
+</main>
+<script>
+  const api = '/iot/heater_ma3/api/';
+  const el = id => document.getElementById(id);
+  let state = null, csrf = null, changing = false, fetching = false, receivedAt = 0;
+  const text = (id, value) => { el(id).textContent = value; };
+  const temperature = value => Number.isFinite(value) ? `${value.toFixed(1)} °C` : '—';
+  const mapped = (value, names) => value == null ? '—' : (names[value] ?? `未知（${value}）`);
+  function render(s) {
+    state = s; receivedAt = Date.now();
+    if (s.csrf) csrf = s.csrf;
+    el('automation').checked = s.enabled;
+    el('automation').disabled = changing || !csrf;
+    text('enabled', s.enabled ? '已启用' : '已停用');
+    text('phase', s.pending !== null ? (s.pending ? '等待开机确认' : '等待关机确认') : (s.enabled ? (s.phase === 'on' ? '开启阶段' : '关闭阶段') : '未运行'));
+    text('next', s.next_at ? `${s.phase === 'on' ? '关闭' : '开启'} · ${new Date(s.next_at * 1000).toLocaleTimeString()}` : '—');
+    const d = s.device ?? {};
+    text('power', typeof d.power === 'boolean' ? (d.power ? '开启' : '关闭') : '未知');
+    text('status', mapped(d.status, {1:'空闲',2:'工作中',3:'延时'}));
+    text('heat', mapped(d.heat_level, {0:'正常',1:'低档',2:'高档'}));
+    text('temperature', temperature(d.temperature)); text('target', temperature(d.target_temperature));
+    text('fault', d.fault == null ? '未知' : (d.fault === 0 ? '无故障' : `故障代码 ${d.fault}`));
+    text('updated', s.last_success ? new Date(s.last_success * 1000).toLocaleString() : '尚未成功');
+    text('error', s.error ?? '');
+    updateClock();
+  }
+  function updateClock() {
+    const seconds = state?.next_at ? Math.max(0, Math.ceil(state.next_at - Date.now()/1000)) : null;
+    text('countdown', seconds === null ? '—' : `${Math.floor(seconds/60)} 分 ${seconds%60} 秒`);
+    const stale = !state || state.stale || !state.last_success || Date.now()/1000 - state.last_success > 30 || Date.now() - receivedAt > 30000;
+    text('freshness', stale ? '状态已过期或尚未读取成功，请勿将历史读数视为当前状态。' : '状态正常 · 每 15 秒读取设备');
+    if (Date.now() - receivedAt > 30000) el('automation').disabled = true;
+  }
+  async function request(path, options = {}) {
+    const response = await fetch(api + path, {...options, cache:'no-store', signal:AbortSignal.timeout(20000)});
+    if (!response.ok) throw new Error(`请求失败（HTTP ${response.status}）`);
+    return response.json();
+  }
+  async function refresh() {
+    if (fetching || changing) return;
+    fetching = true;
+    try { render(await request('status')); }
+    catch (error) { text('error', `无法连接控制服务：${error.message}`); el('automation').disabled = true; }
+    finally { fetching = false; }
+  }
+  el('automation').addEventListener('change', async () => {
+    const enabled = el('automation').checked;
+    changing = true; el('automation').disabled = true;
+    try { render(await request('automation', {method:'POST', headers:{'Content-Type':'application/json','X-CSRF-Token':csrf}, body:JSON.stringify({enabled})})); }
+    catch (error) { text('error', `操作未确认：${error.message}`); }
+    finally { changing = false; await refresh(); }
+  });
+  el('refresh').addEventListener('click', refresh);
+  setInterval(refresh, 5000); setInterval(updateClock, 1000); refresh();
+</script>
+</html>

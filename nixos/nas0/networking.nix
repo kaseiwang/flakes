@@ -520,6 +520,10 @@ in
             MACAddress = "cc:b5:d1:31:5b:8a";
             Address = "10.10.5.164";
           } # qingping air monitor lite
+          {
+            MACAddress = "d4:43:8a:70:55:04";
+            Address = "10.10.5.189";
+          } # xiaomi heater ma3
         ];
         ipv6SendRAConfig = {
           Managed = false;
