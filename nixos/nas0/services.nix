@@ -1,4 +1,9 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   sops.secrets = {
@@ -10,7 +15,10 @@
       restartUnits = [ "qingping-miio-exporter.service" ];
     };
     heater-ma3-miio-token = {
-      restartUnits = [ "heater-ma3-controller.service" ];
+      restartUnits = [
+        "heater-ma3-controller.service"
+        "heater-ma3-miio-exporter.service"
+      ];
     };
     nginx-basic-auth = {
       owner = config.users.users."nginx".name;
@@ -32,11 +40,49 @@
   # provide prometheus key
   systemd.services.grafana.serviceConfig.EnvironmentFile = "${config.sops.secrets.grafana-envs.path}";
 
+  # Provisioning reuses a folder UID but does not rename an existing folder.
+  systemd.services.grafana-iot-folder = {
+    description = "Rename the existing Grafana Qingping folder to IOT";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "grafana.service" ];
+    requires = [ "grafana.service" ];
+    partOf = [ "grafana.service" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      User = "grafana";
+      Group = "grafana";
+      LoadCredential = "grafana-envs:${config.sops.secrets.grafana-envs.path}";
+      ExecStart = lib.escapeShellArgs [
+        "${pkgs.python3}/bin/python"
+        ./grafana-dashboards/ensure-iot-folder.py
+        "--credential"
+        "%d/grafana-envs"
+        "--socket"
+        config.services.grafana.settings.server.socket
+        "--uid"
+        "efu9ow8emyigwa"
+      ];
+      TimeoutStartSec = 180;
+      NoNewPrivileges = true;
+      ProtectSystem = "strict";
+      ProtectHome = true;
+      PrivateTmp = true;
+      RestrictAddressFamilies = [ "AF_UNIX" ];
+      UMask = "0077";
+    };
+  };
+
   services = {
     heater-ma3-controller = {
       enable = true;
       tokenFile = config.sops.secrets.heater-ma3-miio-token.path;
       origin = "https://${config.networking.hostName}.${config.networking.domain}";
+    };
+    heater-ma3-miio-exporter = {
+      enable = true;
+      host = "10.10.5.189";
+      tokenFile = config.sops.secrets.heater-ma3-miio-token.path;
     };
     zfs = {
       autoScrub = {
@@ -166,6 +212,16 @@
           ];
         }
         {
+          job_name = "miio-heater-ma3";
+          static_configs = [
+            {
+              targets = [
+                "127.0.0.1:${toString config.services.heater-ma3-miio-exporter.port}"
+              ];
+            }
+          ];
+        }
+        {
           job_name = "ntpd-rs";
           static_configs = [
             { targets = [ "localhost:9975" ]; }
@@ -274,10 +330,20 @@
             {
               name = "qingping-air-monitor-lite";
               orgId = 1;
-              folder = "Qingping";
+              folder = "IOT";
+              folderUid = "efu9ow8emyigwa";
               disableDeletion = true;
               allowUiUpdates = false;
               options.path = "${./grafana-dashboards/qingping-air-monitor-lite}";
+            }
+            {
+              name = "heater-ma3";
+              orgId = 1;
+              folder = "IOT";
+              folderUid = "efu9ow8emyigwa";
+              disableDeletion = true;
+              allowUiUpdates = false;
+              options.path = "${./grafana-dashboards/heater-ma3}";
             }
           ];
         };

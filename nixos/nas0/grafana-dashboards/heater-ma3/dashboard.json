@@ -1,0 +1,2134 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": {
+          "type": "grafana",
+          "uid": "-- Grafana --"
+        },
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": false,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "title": "取暖器定时控制",
+      "type": "link",
+      "url": "https://nas0.i.kasei.im/iot/heater_ma3.html",
+      "targetBlank": true
+    }
+  ],
+  "liveNow": false,
+  "refresh": "15s",
+  "schemaVersion": 39,
+  "tags": [
+    "iot",
+    "miio",
+    "heater",
+    "nas0"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "browser",
+  "title": "米家石墨烯油汀取暖器 · MA3",
+  "uid": "xiaomi-heater-ma3",
+  "version": 1,
+  "weekStart": "monday",
+  "description": "只读采集 xiaomi.heater.ma3 全部 21 个 MIoT 属性和 miIO.info。加热档位不是瓦数；设备未提供实测功率。",
+  "panels": [
+    {
+      "id": 1,
+      "title": "采集状态",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_up{job=\"miio-heater-ma3\"} and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "完整采集",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "Exporter 离线",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "采集不完整",
+                  "index": 0,
+                  "color": "red"
+                },
+                "1": {
+                  "text": "正常",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "description": "miIO.info 和全部 21 个 MIoT 属性均成功时为正常；部分失败可在读取状态表中定位。",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 2,
+      "title": "设备开关",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 4,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_power_on{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"power_on\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "开关",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "关闭",
+                  "index": 0,
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "开启",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 3,
+      "title": "工作状态",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_status{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"status\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "工作状态",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "空闲",
+                  "index": 0,
+                  "color": "blue"
+                },
+                "2": {
+                  "text": "工作中",
+                  "index": 1,
+                  "color": "orange"
+                },
+                "3": {
+                  "text": "延时",
+                  "index": 2,
+                  "color": "purple"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 4,
+      "title": "加热档位",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_heat_level{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"heat_level\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "档位",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "正常",
+                  "index": 0,
+                  "color": "green"
+                },
+                "1": {
+                  "text": "低档",
+                  "index": 1,
+                  "color": "yellow"
+                },
+                "2": {
+                  "text": "高档",
+                  "index": 2,
+                  "color": "red"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "description": "设备设置档位，不代表当前实际耗电功率；设备没有提供瓦数属性。",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 5,
+      "title": "环境温度",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_environment_temperature_celsius{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"environment_temperature_celsius\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "环境温度",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 6,
+      "title": "目标温度",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 20,
+        "y": 0,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_target_temperature_celsius{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"target_temperature_celsius\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "目标温度",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 7,
+      "title": "温度变化",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 4,
+        "w": 16,
+        "h": 8
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_environment_temperature_celsius{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"environment_temperature_celsius\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": false,
+          "range": true,
+          "legendFormat": "环境温度（4/7）",
+          "refId": "A",
+          "format": "time_series"
+        },
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_target_temperature_celsius{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"target_temperature_celsius\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": false,
+          "range": true,
+          "legendFormat": "目标温度",
+          "refId": "B",
+          "format": "time_series"
+        },
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_temperature_celsius{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"temperature_celsius\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": false,
+          "range": true,
+          "legendFormat": "加热器温度属性（2/6）",
+          "refId": "C",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "celsius",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false,
+            "showPoints": "never",
+            "axisCenteredZero": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "title": "开关历史",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 4,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_power_on{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"power_on\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": false,
+          "range": true,
+          "legendFormat": "设备开关",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "关闭",
+                  "index": 0,
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "开启",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "alignValue": "left",
+        "mergeValues": true,
+        "showValue": "auto",
+        "rowHeight": 0.8,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "title": "工作状态历史",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 8,
+        "w": 8,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_status{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"status\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": false,
+          "range": true,
+          "legendFormat": "工作状态",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "空闲",
+                  "index": 0,
+                  "color": "blue"
+                },
+                "2": {
+                  "text": "工作中",
+                  "index": 1,
+                  "color": "orange"
+                },
+                "3": {
+                  "text": "延时",
+                  "index": 2,
+                  "color": "purple"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "alignValue": "left",
+        "mergeValues": true,
+        "showValue": "auto",
+        "rowHeight": 0.8,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "title": "档位历史",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 12,
+        "w": 12,
+        "h": 5
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_heat_level{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"heat_level\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": false,
+          "range": true,
+          "legendFormat": "加热档位",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "正常",
+                  "index": 0,
+                  "color": "green"
+                },
+                "1": {
+                  "text": "低档",
+                  "index": 1,
+                  "color": "yellow"
+                },
+                "2": {
+                  "text": "高档",
+                  "index": 2,
+                  "color": "red"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "alignValue": "left",
+        "mergeValues": true,
+        "showValue": "auto",
+        "rowHeight": 0.8,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "title": "故障历史",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 12,
+        "w": 12,
+        "h": 5
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_fault_code{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"fault_code\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": false,
+          "range": true,
+          "legendFormat": "故障代码",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "无故障",
+                  "index": 0,
+                  "color": "green"
+                },
+                "1": {
+                  "text": "温度传感器异常",
+                  "index": 1,
+                  "color": "red"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "alignValue": "left",
+        "mergeValues": true,
+        "showValue": "auto",
+        "rowHeight": 0.8,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 12,
+      "title": "童锁",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 17,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_child_lock{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"child_lock\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "童锁",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "未锁定",
+                  "index": 0,
+                  "color": "blue"
+                },
+                "1": {
+                  "text": "已锁定",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 13,
+      "title": "提示音",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 4,
+        "y": 17,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_buzzer_enabled{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"buzzer_enabled\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "提示音",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "关闭",
+                  "index": 0,
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "开启",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 14,
+      "title": "屏幕灯光",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 17,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_screen_on{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"screen_on\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "屏幕灯光",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "关闭",
+                  "index": 0,
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "开启",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 15,
+      "title": "设备延时",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 17,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_delay_enabled{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"delay_enabled\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "设备延时",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "关闭",
+                  "index": 0,
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "开启",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 16,
+      "title": "自定义睡眠",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 17,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_sleep_enabled{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"sleep_enabled\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "自定义睡眠",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "关闭",
+                  "index": 0,
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "开启",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 17,
+      "title": "睡眠正在执行",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 20,
+        "y": 17,
+        "w": 4,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_sleep_active{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"sleep_active\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "睡眠正在执行",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "未执行",
+                  "index": 0,
+                  "color": "gray"
+                },
+                "1": {
+                  "text": "执行中",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 18,
+      "title": "设备延时设定与剩余时间",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 21,
+        "w": 12,
+        "h": 7
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_delay_seconds{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"delay_seconds\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": false,
+          "range": true,
+          "legendFormat": "延时设定",
+          "refId": "A",
+          "format": "time_series"
+        },
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_delay_remaining_seconds{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"delay_remaining_seconds\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": false,
+          "range": true,
+          "legendFormat": "剩余时间",
+          "refId": "B",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false,
+            "showPoints": "never",
+            "axisCenteredZero": false
+          }
+        },
+        "overrides": []
+      },
+      "description": "这是取暖器自身的延时功能，与 NAS0 网页上的 30 分钟循环独立。",
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 19,
+      "title": "设备运行时间",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 21,
+        "w": 4,
+        "h": 7
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_uptime_seconds{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_info_up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "设备运行时间",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 20,
+      "title": "Wi-Fi 信号",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 21,
+        "w": 4,
+        "h": 7
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_wifi_signal_dbm{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_info_up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "RSSI",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "dBm"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 21,
+      "title": "设备空闲内存",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 20,
+        "y": 21,
+        "w": 4,
+        "h": 7
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_free_memory_bytes{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_info_up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "空闲内存",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "bytes"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 22,
+      "title": "设备信息与自定义睡眠原始配置",
+      "type": "table",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 28,
+        "w": 24,
+        "h": 8
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_property_info{job=\"miio-heater-ma3\"} and on(job, instance, property) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "A",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "参数"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "manufacturer": {
+                        "text": "制造商",
+                        "index": 0,
+                        "color": "green"
+                      },
+                      "model": {
+                        "text": "型号",
+                        "index": 1,
+                        "color": "green"
+                      },
+                      "device_id": {
+                        "text": "设备 ID",
+                        "index": 2,
+                        "color": "green"
+                      },
+                      "firmware_version": {
+                        "text": "固件版本",
+                        "index": 3,
+                        "color": "green"
+                      },
+                      "serial_number": {
+                        "text": "序列号",
+                        "index": 4,
+                        "color": "green"
+                      },
+                      "sleep_settings": {
+                        "text": "自定义睡眠配置",
+                        "index": 5,
+                        "color": "green"
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 180
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "值"
+            },
+            "properties": [
+              {
+                "id": "custom.wrapText",
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "description": "覆盖全部 6 个字符串属性：制造商、型号、设备 ID、固件、序列号、自定义睡眠配置。配置按设备返回的原始文本展示。",
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "参数",
+            "desc": false
+          }
+        ]
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "instance": true,
+              "job": true,
+              "siid": true,
+              "piid": true
+            },
+            "indexByName": {
+              "property": 0,
+              "value": 1
+            },
+            "renameByName": {
+              "property": "参数",
+              "value": "值"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "title": "协议与硬件信息",
+      "type": "table",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 36,
+        "w": 24,
+        "h": 5
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_device_info{job=\"miio-heater-ma3\"}",
+          "instant": true,
+          "range": false,
+          "legendFormat": "信息",
+          "refId": "A",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "参数",
+            "desc": false
+          }
+        ]
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "Value": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "renameByName": {
+              "model": "型号",
+              "mac": "MAC",
+              "firmware_version": "固件",
+              "hardware_version": "硬件",
+              "miio_version": "miio 版本"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "title": "轮询耗时",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 41,
+        "w": 8,
+        "h": 6
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_poll_duration_seconds{job=\"miio-heater-ma3\"}",
+          "instant": false,
+          "range": true,
+          "legendFormat": "轮询耗时",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false,
+            "showPoints": "never",
+            "axisCenteredZero": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 25,
+      "title": "距上次完整采集",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 8,
+        "y": 41,
+        "w": 8,
+        "h": 6
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "clamp_min(time() - miio_heater_ma3_last_success_timestamp_seconds{job=\"miio-heater-ma3\"}, 0) and (miio_heater_ma3_last_success_timestamp_seconds{job=\"miio-heater-ma3\"} > 0)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "数据年龄",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      }
+    },
+    {
+      "id": 26,
+      "title": "轮询错误增量",
+      "type": "timeseries",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 16,
+        "y": 41,
+        "w": 8,
+        "h": 6
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "increase(miio_heater_ma3_poll_errors_total{job=\"miio-heater-ma3\"}[$__rate_interval])",
+          "instant": false,
+          "range": true,
+          "legendFormat": "不完整或失败轮询",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short",
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "stepAfter",
+            "lineWidth": 2,
+            "fillOpacity": 8,
+            "spanNulls": false,
+            "showPoints": "never",
+            "axisCenteredZero": false
+          }
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      }
+    },
+    {
+      "id": 27,
+      "title": "全部 21 个属性的读取状态",
+      "type": "table",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 47,
+        "w": 24,
+        "h": 10
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "miio_heater_ma3_property_up{job=\"miio-heater-ma3\"} and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "",
+          "refId": "A",
+          "format": "table"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "0": {
+                  "text": "读取失败",
+                  "index": 0,
+                  "color": "red"
+                },
+                "1": {
+                  "text": "正常",
+                  "index": 1,
+                  "color": "green"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "description": "单个属性失败时，其余成功属性仍可采集；历史值保留但当前状态卡会隐藏失败属性的旧读数。",
+      "options": {
+        "showHeader": true,
+        "cellHeight": "md",
+        "footer": {
+          "show": false
+        },
+        "sortBy": [
+          {
+            "displayName": "参数",
+            "desc": false
+          }
+        ]
+      },
+      "transformations": [
+        {
+          "id": "organize",
+          "options": {
+            "excludeByName": {
+              "Time": true,
+              "__name__": true,
+              "instance": true,
+              "job": true
+            },
+            "indexByName": {
+              "property": 0,
+              "siid": 1,
+              "piid": 2,
+              "Value": 3
+            },
+            "renameByName": {
+              "property": "参数",
+              "siid": "SIID",
+              "piid": "PIID",
+              "Value": "读取状态"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
