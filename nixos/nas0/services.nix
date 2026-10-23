@@ -216,6 +216,8 @@
     grafana = {
       enable = true;
       settings = {
+        # Grafana 13.2+ ships Prometheus as a standalone plugin; install it before provisioning.
+        plugins.preinstall_sync = "prometheus";
         server = {
           protocol = "socket";
           domain = "grafana.kasei.im";
