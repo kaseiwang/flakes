@@ -250,9 +250,6 @@
       database.createLocally = true;
       appstoreEnable = true;
       config = {
-        adminuser = "admin";
-        adminpassFile = "${config.sops.secrets.nextcloud-admin.path}";
-
         dbtype = "pgsql";
         dbuser = "nextcloud";
         dbname = "nextcloud";
