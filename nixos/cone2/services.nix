@@ -26,10 +26,11 @@
         servers = [
           {
             tag = "cloudflare";
-            address = "https://[2606:4700:4700::1111]/dns-query";
-            strategy = "prefer_ipv6";
+            type = "https";
+            server = "2606:4700:4700::1111";
           }
         ];
+        strategy = "prefer_ipv6";
         final = "cloudflare";
       };
       inbounds = [

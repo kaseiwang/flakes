@@ -219,13 +219,14 @@ with pkgs.lib;
         servers = [
           {
             tag = "cloudflare";
-            address = "tls://[2606:4700:4700::1111]";
-            strategy = "prefer_ipv6";
+            type = "tls";
+            server = "2606:4700:4700::1111";
+            detour = "direct";
           }
           {
             tag = "tencent";
-            address = "tls://120.53.53.53";
-            strategy = "prefer_ipv6";
+            type = "tls";
+            server = "120.53.53.53";
             detour = "direct";
           }
         ];
@@ -236,27 +237,23 @@ with pkgs.lib;
               "geoip-cn"
             ];
             server = "tencent";
-            outbound = "direct";
           }
         ];
+        strategy = "prefer_ipv6";
         final = "cloudflare";
       };
       inbounds = [
         {
           type = "mixed";
-          tag = "inbound";
+          tag = "inbound-v4";
           listen = "127.0.0.1";
           listen_port = 1080;
-          sniff = true;
-          sniff_override_destination = true;
         }
         {
           type = "mixed";
-          tag = "inbound";
+          tag = "inbound-v6";
           listen = "::1";
           listen_port = 1080;
-          sniff = true;
-          sniff_override_destination = true;
         }
       ];
       outbounds = [
@@ -264,12 +261,11 @@ with pkgs.lib;
           type = "shadowsocks";
           tag = "ss-cone3";
           server = "163.47.135.141";
-          server_port = 9555;
+          server_port = 8688;
           method = "2022-blake3-aes-128-gcm";
           password = {
             _secret = "${config.sops.secrets.singboxpass.path}";
           };
-          detour = "tls-cone3";
           multiplex = {
             enabled = true;
             protocol = "h2mux";
@@ -284,7 +280,6 @@ with pkgs.lib;
           password = {
             _secret = "${config.sops.secrets.singboxpass.path}";
           };
-          detour = "tls-cone2";
           multiplex = {
             enabled = true;
             protocol = "h2mux";
@@ -301,13 +296,28 @@ with pkgs.lib;
         {
           type = "direct";
           tag = "direct";
+          domain_resolver = {
+            server = "tencent";
+            strategy = "prefer_ipv6";
+          };
         }
       ];
 
       route = {
         default_mark = 200;
+        default_domain_resolver = {
+          server = "cloudflare";
+          strategy = "prefer_ipv6";
+        };
         final = "direct";
         rules = [
+          {
+            inbound = [
+              "inbound-v4"
+              "inbound-v6"
+            ];
+            action = "sniff";
+          }
           {
             ip_is_private = true;
             outbound = "direct";
