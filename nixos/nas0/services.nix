@@ -400,9 +400,6 @@
       recommendedProxySettings = true;
       recommendedGzipSettings = true;
       sslProtocols = "TLSv1.2 TLSv1.3";
-      appendConfig = ''
-        worker_processes auto;
-      '';
       commonHttpConfig = ''
         ssl_session_tickets on;
         ssl_prefer_server_ciphers off;
