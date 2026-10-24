@@ -212,6 +212,16 @@
           ];
         }
         {
+          job_name = "heater-pi-controller";
+          static_configs = [
+            {
+              targets = [
+                "127.0.0.1:${toString config.services.heater-ma3-controller.port}"
+              ];
+            }
+          ];
+        }
+        {
           job_name = "miio-heater-ma3";
           static_configs = [
             {
