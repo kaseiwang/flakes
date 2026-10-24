@@ -3,9 +3,10 @@ src.git = "https://github.com/felixonmars/dnsmasq-china-list"
 fetch.github = "felixonmars/dnsmasq-china-list"
 
 [fcitx5-pinyin-zhwiki]
-src.archpkg = "fcitx5-pinyin-zhwiki"
-src.prefix = "0.3.0."
-fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.3.0/zhwiki-$ver.dict"
+# Track both the release tag and dated dictionary asset within that release.
+src.webpage = "https://api.github.com/repos/felixonmars/fcitx5-pinyin-zhwiki/releases/latest"
+src.regex = '"browser_download_url":\s*"https://github\.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/([^/]+/zhwiki-[0-9]+)\.dict"'
+fetch.url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/$ver.dict"
 
 [xdg-open-server]
 src.github_tag = "kitsunyan/xdg-open-server"

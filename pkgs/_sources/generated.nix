@@ -8,10 +8,10 @@
 {
   fcitx5-pinyin-zhwiki = {
     pname = "fcitx5-pinyin-zhwiki";
-    version = "20260416";
+    version = "0.3.1/zhwiki-20261018";
     src = fetchurl {
-      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.3.0/zhwiki-20260416.dict";
-      sha256 = "sha256-m7b9A/A1DMEzQOw0/1n2lb336w8U22rPE8HryR+Jgjs=";
+      url = "https://github.com/felixonmars/fcitx5-pinyin-zhwiki/releases/download/0.3.1/zhwiki-20261018.dict";
+      sha256 = "sha256-ghPKF6yv/jo1Bs39HyYYEQSSAEen+A73BFsalh01KVk=";
     };
   };
   nvidia_gpu_exporter = {
@@ -50,15 +50,15 @@
   };
   smartdns-china-list = {
     pname = "smartdns-china-list";
-    version = "c79474a5445e7ebbde7275648b1078a0582510ab";
+    version = "eb9dc5e02c20f9dbcb81e2f868c6cbfc5fc1727f";
     src = fetchFromGitHub {
       owner = "felixonmars";
       repo = "dnsmasq-china-list";
-      rev = "c79474a5445e7ebbde7275648b1078a0582510ab";
+      rev = "eb9dc5e02c20f9dbcb81e2f868c6cbfc5fc1727f";
       fetchSubmodules = false;
-      sha256 = "sha256-nghhWOQsDiBs6+IfkqOt8xG+HasedGYIHsKEQc+bz0U=";
+      sha256 = "sha256-YjhfJdBwmtwXK5thktMELmfPlmn3pVypfn9D3kh5Els=";
     };
-    date = "2026-10-16";
+    date = "2026-10-23";
   };
   vscode-ext-ccls = {
     pname = "vscode-ext-ccls";

@@ -4,7 +4,8 @@
   lib,
 }:
 stdenv.mkDerivation {
-  inherit (source) pname version src;
+  inherit (source) pname src;
+  version = lib.replaceStrings [ "/zhwiki-" ] [ "." ] source.version;
   dontUnpack = true;
   installPhase = ''
     install -Dm644 $src $out/share/fcitx5/pinyin/dictionaries/zhwiki.dict
