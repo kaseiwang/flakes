@@ -69,7 +69,6 @@ in
     };
 
     initrd = {
-      systemd.enable = true;
       kernelModules = [
         "btrfs"
         "nvme"

@@ -64,7 +64,6 @@ in
     };
 
     initrd = {
-      systemd.enable = true;
       kernelModules = [
         "btrfs"
         "nvme"
@@ -75,12 +74,10 @@ in
           rootblk0 = {
             device = "/dev/disk/by-partlabel/CRYPT_NIXOS_P1";
             allowDiscards = true;
-            preLVM = true;
           };
           rootblk1 = {
             device = "/dev/disk/by-partlabel/CRYPT_NIXOS_P2";
             allowDiscards = true;
-            preLVM = true;
           };
         };
       };
