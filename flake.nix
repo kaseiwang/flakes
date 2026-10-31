@@ -1,5 +1,10 @@
 {
   inputs = {
+    openwrt-imagebuilder = {
+      url = "github:astro/nix-openwrt-imagebuilder";
+      flake = false;
+    };
+    flake-utils.url = "github:numtide/flake-utils";
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     impermanence.url = "github:nix-community/impermanence";
     colmena.url = "github:nix-community/colmena";
@@ -59,8 +64,22 @@
           };
       in
       {
-        packages = this.packages pkgs // {
-          inherit (pkgs) ;
+        packages =
+          this.packages pkgs
+          // {
+            inherit (pkgs) ;
+          }
+          // lib.optionalAttrs (system == "x86_64-linux") {
+            build-openwrt-ax6000 = import ./openwrt/ax6000 {
+              inherit pkgs;
+              imagebuilder = inputs.openwrt-imagebuilder;
+            };
+          };
+        apps = lib.optionalAttrs (system == "x86_64-linux") {
+          build-openwrt-ax6000 = {
+            type = "app";
+            program = "${self.packages.${system}.build-openwrt-ax6000}/bin/build-openwrt-ax6000";
+          };
         };
         legacyPackages = pkgs;
         formatter = pkgs.nixfmt-tree;

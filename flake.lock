@@ -140,8 +140,9 @@
         "type": "github"
       },
       "original": {
-        "id": "flake-utils",
-        "type": "indirect"
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
       }
     },
     "home-manager": {
@@ -354,6 +355,22 @@
         "type": "github"
       }
     },
+    "openwrt-imagebuilder": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1793373164,
+        "narHash": "sha256-Q4vv+Gbk/+VcxqyFNNJj635OCjSr/gcRCfKDKxGzj1A=",
+        "owner": "astro",
+        "repo": "nix-openwrt-imagebuilder",
+        "rev": "6223adc5dac04bd5897e2b706aa7def4f8a9daa0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "astro",
+        "repo": "nix-openwrt-imagebuilder",
+        "type": "github"
+      }
+    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -387,6 +404,7 @@
         "llm-agents": "llm-agents",
         "nix-index-database": "nix-index-database",
         "nixpkgs": "nixpkgs_4",
+        "openwrt-imagebuilder": "openwrt-imagebuilder",
         "sops-nix": "sops-nix"
       }
     },
