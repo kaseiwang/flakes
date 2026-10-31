@@ -53,6 +53,133 @@
   "description": "青萍室温 PI 温控效果与取暖器状态。PI 需求、设备开关和档位均不代表实测功率；原有设备属性由独立只读 exporter 采集。",
   "panels": [
     {
+      "id": 32,
+      "title": "选定时段 · 累计开启时长",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 0,
+        "y": 0,
+        "w": 12,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "clamp_max(sum_over_time((miio_heater_ma3_power_on{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"power_on\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1))[$__range:15s]) * 15, $__range_s)",
+          "instant": true,
+          "range": false,
+          "legendFormat": "选定时段 · 累计开启时长",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "s",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "description": "按所选时间范围内的设备开关状态，以 15 秒步长累计估算开启时长。仅计入开关属性读取成功且 exporter 在线的样本；缺失或失败时段不计入，可能低估，完全无有效数据时显示 —。开关变化及时间边界存在采样误差。"
+    },
+    {
+      "id": 33,
+      "title": "选定时段 · 估算耗电量（900W）",
+      "type": "stat",
+      "datasource": {
+        "type": "prometheus",
+        "uid": "cf6dec8c-44e1-4188-a19c-d535c9e966cc"
+      },
+      "gridPos": {
+        "x": 12,
+        "y": 0,
+        "w": 12,
+        "h": 4
+      },
+      "targets": [
+        {
+          "editorMode": "code",
+          "expr": "(clamp_max(sum_over_time((miio_heater_ma3_power_on{job=\"miio-heater-ma3\"} and on(job, instance) (miio_heater_ma3_property_up{job=\"miio-heater-ma3\",property=\"power_on\"} == 1) and on(job, instance) (up{job=\"miio-heater-ma3\"} == 1))[$__range:15s]) * 15, $__range_s)) / 3600 * 0.9",
+          "instant": true,
+          "range": false,
+          "legendFormat": "选定时段 · 估算耗电量（900W）",
+          "refId": "A",
+          "format": "time_series"
+        }
+      ],
+      "fieldConfig": {
+        "defaults": {
+          "noValue": "—",
+          "color": {
+            "mode": "palette-classic"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "kwatth",
+          "min": 0,
+          "decimals": 2
+        },
+        "overrides": []
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "description": "估算耗电量 = 累计开启秒数 ÷ 3600 × 0.9 kW，单位 kWh（度）。按开启期间恒定 900W 计算，非实测电量，未考虑设备内部温控、档位变化及待机功耗。缺失或失败时段不计入，可能低估；完全无有效数据时显示 —。"
+    },
+    {
       "id": 28,
       "title": "PI 室温与目标区间",
       "type": "timeseries",
@@ -62,7 +189,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 0,
+        "y": 4,
         "w": 12,
         "h": 8
       },
@@ -158,7 +285,7 @@
       },
       "gridPos": {
         "x": 12,
-        "y": 0,
+        "y": 4,
         "w": 12,
         "h": 8
       },
@@ -236,7 +363,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 8,
+        "y": 12,
         "w": 12,
         "h": 8
       },
@@ -323,7 +450,7 @@
       },
       "gridPos": {
         "x": 12,
-        "y": 8,
+        "y": 12,
         "w": 12,
         "h": 8
       },
@@ -426,7 +553,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 16,
+        "y": 20,
         "w": 4,
         "h": 4
       },
@@ -503,7 +630,7 @@
       },
       "gridPos": {
         "x": 4,
-        "y": 16,
+        "y": 20,
         "w": 4,
         "h": 4
       },
@@ -579,7 +706,7 @@
       },
       "gridPos": {
         "x": 8,
-        "y": 16,
+        "y": 20,
         "w": 4,
         "h": 4
       },
@@ -660,7 +787,7 @@
       },
       "gridPos": {
         "x": 12,
-        "y": 16,
+        "y": 20,
         "w": 4,
         "h": 4
       },
@@ -742,7 +869,7 @@
       },
       "gridPos": {
         "x": 16,
-        "y": 16,
+        "y": 20,
         "w": 4,
         "h": 4
       },
@@ -803,7 +930,7 @@
       },
       "gridPos": {
         "x": 20,
-        "y": 16,
+        "y": 20,
         "w": 4,
         "h": 4
       },
@@ -864,7 +991,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 20,
+        "y": 24,
         "w": 16,
         "h": 8
       },
@@ -950,7 +1077,7 @@
       },
       "gridPos": {
         "x": 16,
-        "y": 20,
+        "y": 24,
         "w": 8,
         "h": 4
       },
@@ -1026,7 +1153,7 @@
       },
       "gridPos": {
         "x": 16,
-        "y": 24,
+        "y": 28,
         "w": 8,
         "h": 4
       },
@@ -1107,7 +1234,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 28,
+        "y": 32,
         "w": 12,
         "h": 5
       },
@@ -1188,7 +1315,7 @@
       },
       "gridPos": {
         "x": 12,
-        "y": 28,
+        "y": 32,
         "w": 12,
         "h": 5
       },
@@ -1264,7 +1391,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 33,
+        "y": 37,
         "w": 4,
         "h": 4
       },
@@ -1340,7 +1467,7 @@
       },
       "gridPos": {
         "x": 4,
-        "y": 33,
+        "y": 37,
         "w": 4,
         "h": 4
       },
@@ -1416,7 +1543,7 @@
       },
       "gridPos": {
         "x": 8,
-        "y": 33,
+        "y": 37,
         "w": 4,
         "h": 4
       },
@@ -1492,7 +1619,7 @@
       },
       "gridPos": {
         "x": 12,
-        "y": 33,
+        "y": 37,
         "w": 4,
         "h": 4
       },
@@ -1568,7 +1695,7 @@
       },
       "gridPos": {
         "x": 16,
-        "y": 33,
+        "y": 37,
         "w": 4,
         "h": 4
       },
@@ -1644,7 +1771,7 @@
       },
       "gridPos": {
         "x": 20,
-        "y": 33,
+        "y": 37,
         "w": 4,
         "h": 4
       },
@@ -1720,7 +1847,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 37,
+        "y": 41,
         "w": 12,
         "h": 7
       },
@@ -1798,7 +1925,7 @@
       },
       "gridPos": {
         "x": 12,
-        "y": 37,
+        "y": 41,
         "w": 4,
         "h": 7
       },
@@ -1859,7 +1986,7 @@
       },
       "gridPos": {
         "x": 16,
-        "y": 37,
+        "y": 41,
         "w": 4,
         "h": 7
       },
@@ -1920,7 +2047,7 @@
       },
       "gridPos": {
         "x": 20,
-        "y": 37,
+        "y": 41,
         "w": 4,
         "h": 7
       },
@@ -1981,7 +2108,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 44,
+        "y": 48,
         "w": 24,
         "h": 8
       },
@@ -2129,7 +2256,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 52,
+        "y": 56,
         "w": 24,
         "h": 5
       },
@@ -2208,7 +2335,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 57,
+        "y": 61,
         "w": 8,
         "h": 6
       },
@@ -2276,7 +2403,7 @@
       },
       "gridPos": {
         "x": 8,
-        "y": 57,
+        "y": 61,
         "w": 8,
         "h": 6
       },
@@ -2337,7 +2464,7 @@
       },
       "gridPos": {
         "x": 16,
-        "y": 57,
+        "y": 61,
         "w": 8,
         "h": 6
       },
@@ -2405,7 +2532,7 @@
       },
       "gridPos": {
         "x": 0,
-        "y": 63,
+        "y": 67,
         "w": 24,
         "h": 10
       },
