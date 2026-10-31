@@ -151,6 +151,7 @@
 
     prometheus = {
       enable = true;
+      retentionTime = "180d";
       webExternalUrl = "https://${config.networking.hostName}.${config.networking.domain}/prometheus";
       globalConfig = {
         scrape_interval = "15s";
