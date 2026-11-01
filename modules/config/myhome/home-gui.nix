@@ -383,7 +383,7 @@ in
 
     codex = {
       enable = true;
-      package = pkgs.codex;
+      package = llm-agents.codex;
     };
 
     vscode = {
