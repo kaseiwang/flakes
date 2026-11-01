@@ -33,6 +33,8 @@ with lib;
   };
 
   config = lib.mkIf cfg.enable {
+    security.pam.services.hyprlock = lib.mkIf (cfg.gui && config.programs.hyprland.enable) { };
+
     nixpkgs.config = lib.mkIf cfg.gui {
       allowUnfreePackages = unfreePackages;
     };
@@ -63,7 +65,7 @@ with lib;
             imports = [
               ./home-cli.nix
               ./dconf.nix
-              ./home-gui.nix
+              ./gui
             ];
           }
         else

@@ -64,6 +64,11 @@
     dconf.enable = true;
     wireshark.enable = true;
     fuse.userAllowOther = true;
+
+    hyprland = {
+      enable = true;
+      withUWSM = true;
+    };
   };
 
   users.users.kasei = {

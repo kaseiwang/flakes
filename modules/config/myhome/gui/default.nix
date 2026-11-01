@@ -8,10 +8,12 @@
 let
   llm-agents = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system};
   patched-openssh = pkgs.openssh.overrideAttrs (prev: {
-    patches = (prev.patches or [ ]) ++ [ ./openssh-home-config-permission.patch ];
+    patches = (prev.patches or [ ]) ++ [ ../openssh-home-config-permission.patch ];
   });
 in
 {
+  imports = [ ./hyprland ];
+
   home.packages = with pkgs; [
     # fonts
     inter
@@ -69,7 +71,7 @@ in
     age = {
       keyFile = "${config.xdg.configHome}/sops/age/keys.txt";
     };
-    defaultSopsFile = ./secrets.yaml;
+    defaultSopsFile = ../secrets.yaml;
     defaultSymlinkPath = "${config.xdg.configHome}/secrets";
     secrets = {
       nixtoken = { };
