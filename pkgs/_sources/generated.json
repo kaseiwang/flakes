@@ -28,12 +28,12 @@
             "name": null,
             "owner": "utkuozdemir",
             "repo": "nvidia_gpu_exporter",
-            "rev": "v1.16.0",
-            "sha256": "sha256-VnDOf7GX9p7RUHEzqLflcgAkuwrCvPqIgwB9YQ11Iy4=",
+            "rev": "v1.18.0",
+            "sha256": "sha256-k4IZJkzN/4VFU9DMkQ+co24Eyh4qtvxaso4P5wWn6RQ=",
             "sparseCheckout": [],
             "type": "github"
         },
-        "version": "v1.16.0"
+        "version": "v1.18.0"
     },
     "python-miio": {
         "cargoLock": null,

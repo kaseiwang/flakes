@@ -16,13 +16,13 @@
   };
   nvidia_gpu_exporter = {
     pname = "nvidia_gpu_exporter";
-    version = "v1.16.0";
+    version = "v1.18.0";
     src = fetchFromGitHub {
       owner = "utkuozdemir";
       repo = "nvidia_gpu_exporter";
-      rev = "v1.16.0";
+      rev = "v1.18.0";
       fetchSubmodules = false;
-      sha256 = "sha256-VnDOf7GX9p7RUHEzqLflcgAkuwrCvPqIgwB9YQ11Iy4=";
+      sha256 = "sha256-k4IZJkzN/4VFU9DMkQ+co24Eyh4qtvxaso4P5wWn6RQ=";
     };
   };
   python-miio = {
