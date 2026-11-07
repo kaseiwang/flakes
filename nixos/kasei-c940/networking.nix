@@ -22,7 +22,6 @@ with pkgs.lib;
                 10.0.0.0/8,
                 172.16.0.0/12,
                 192.168.0.0/16,
-                74.48.96.113/32, # cone
                 163.47.135.141/32, # cone
               }
             }
@@ -272,25 +271,10 @@ with pkgs.lib;
           };
         }
         {
-          type = "shadowsocks";
-          tag = "ss-cone2";
-          server = "74.48.96.113";
-          server_port = 9555;
-          method = "2022-blake3-aes-128-gcm";
-          password = {
-            _secret = "${config.sops.secrets.singboxpass.path}";
-          };
-          multiplex = {
-            enabled = true;
-            protocol = "h2mux";
-          };
-        }
-        {
           type = "selector";
           tag = "select";
           outbounds = [
             "ss-cone3"
-            "ss-cone2"
           ];
         }
         {

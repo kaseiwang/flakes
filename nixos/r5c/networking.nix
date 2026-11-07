@@ -37,7 +37,6 @@
               type ipv4_addr
               flags constant, interval
               elements = {
-                74.48.96.113/32, # cone
                 148.135.81.252/32, # cone
               }
             }
@@ -47,7 +46,6 @@
               flags constant, interval
               elements = {
                 2607:f130:0:186::0/64, # cone
-                2607:f130:0:17e::0/64, # cone
               }
             }
 

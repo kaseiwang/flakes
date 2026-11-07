@@ -129,15 +129,6 @@
             };
             imports = [ ./nixos/nas0 ];
           };
-        cone2 =
-          { ... }:
-          {
-            deployment = {
-              targetHost = "117.55.237.3";
-              buildOnTarget = false;
-            };
-            imports = [ ./nixos/cone2 ];
-          };
         cone3 =
           { ... }:
           {

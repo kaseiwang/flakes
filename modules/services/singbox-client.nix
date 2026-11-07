@@ -84,25 +84,10 @@ in
             };
           }
           {
-            type = "shadowsocks";
-            tag = "ss-cone2";
-            server = "74.48.96.113";
-            server_port = 8688;
-            method = "2022-blake3-aes-128-gcm";
-            password = {
-              _secret = "${cfg.sercretPath}";
-            };
-            multiplex = {
-              enabled = true;
-              protocol = "h2mux";
-            };
-          }
-          {
             type = "selector";
             tag = "select";
             outbounds = [
               "ss-cone3"
-              "ss-cone2"
             ];
           }
           {

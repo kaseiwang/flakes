@@ -165,7 +165,6 @@ in
               type ipv4_addr
               flags constant, interval
               elements = {
-                74.48.96.113/32, # cone
                 163.47.135.141/32, # cone
               }
             }
