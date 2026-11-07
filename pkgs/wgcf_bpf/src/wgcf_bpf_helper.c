@@ -40,12 +40,19 @@ struct {
     __uint(max_entries, 1);
 } wgcf_config_map SEC(".maps");
 
+#ifndef WGCF_CLIENT_ID
+#define WGCF_CLIENT_ID 0xd0, 0xec, 0x47
+#endif
+#ifndef WGCF_LOCAL_PORT
+#define WGCF_LOCAL_PORT 0
+#endif
+
 struct wgcf_config_s config_g = {
     .peer_addr_v4 = { 0x01c09fa2 }, // 162.159.192.1, network order
     //.peer_addr_v4 = { 0x06c19fa2 }, // 162.159.193.6, network order
     .peer_addr_v6 = {},
     .peer_port = 2408,
-    .client_id = {0xd0, 0xec, 0x47},
+    .client_id = {WGCF_CLIENT_ID},
     //.client_id = {0x00, 0x17, 0x01},
 };
 
@@ -112,6 +119,13 @@ wg_cf_process(void* data, void* data_end, bool direction)
             return 0;
         }
 
+        /* The configured endpoint uses IPv4. Never interpret TCP, IP options,
+         * or fragments as a WireGuard UDP header. */
+        if (iph->version != 4 || iph->ihl != 5 || iph->protocol != IPPROTO_UDP
+            || (iph->frag_off & bpf_htons(0x3fff))) {
+            return 0;
+        }
+
         if ((direction == 1 && iph->daddr != config->peer_addr_v4.s_addr) // egress
           || (direction == 0 && iph->saddr != config->peer_addr_v4.s_addr)) // ingress
         {
@@ -123,25 +137,22 @@ wg_cf_process(void* data, void* data_end, bool direction)
         if (ctx_no_room(udph + 1, data_end)) {
             return 0;
         }
-    } else if (eth->h_proto == bpf_htons(ETH_P_IPV6)) {
-        data += sizeof(struct ethhdr);
-        struct ipv6hdr *ip6h = data;
-        if (ctx_no_room(ip6h + 1, data_end)) {
-            return 0;
-        }
-/*
-        if ((direction == 1 && !ipv6_addr_equal(&ip6h->daddr, &config->peer_addr_v6)) // egress
-          ||(direction == 0 && !ipv6_addr_equal(&ip6h->saddr, &config->peer_addr_v6))) // ingress
-        {
-            return 0;
-        }
-*/
-        data += sizeof(struct ipv6hdr);
-        udph = data;
-        if (ctx_no_room(udph + 1, data_end)) {
-            return 0;
-        }
     } else {
+        return 0;
+    }
+
+    if (bpf_ntohs(udph->len) < sizeof(*udph) + sizeof(*wgh)) {
+        return 0;
+    }
+    wgh = (void *)(udph + 1);
+    if (ctx_no_room(wgh + 1, data_end)
+        || wgh->type < 1 || wgh->type > 4) {
+        return 0;
+    }
+    /* A dedicated local port isolates cone3's tunnel from other WARP clients. */
+    if (WGCF_LOCAL_PORT != 0
+        && ((direction == 1 && udph->source != bpf_htons(WGCF_LOCAL_PORT))
+            || (direction == 0 && udph->dest != bpf_htons(WGCF_LOCAL_PORT)))) {
         return 0;
     }
 
