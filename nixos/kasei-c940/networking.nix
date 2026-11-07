@@ -8,6 +8,7 @@ with pkgs.lib;
     useDHCP = false;
     useNetworkd = false;
     firewall.enable = false;
+    proxy.default = "http://127.1:1080";
     nftables = {
       enable = true;
       tables = {
