@@ -34,6 +34,14 @@
           strategy = "prefer_ipv6";
           final = "cloudflare";
         };
+        outbounds = [
+          {
+            type = "direct";
+            tag = "warp";
+            bind_interface = "wgcf";
+          }
+        ];
+        route.final = "warp";
         inbounds = [
           {
             listen = "::";
