@@ -54,9 +54,6 @@ lib.mkIf osConfig.programs.hyprland.enable (
             ];
           };
         };
-        hyprlauncher = {
-          enable = true;
-        };
       };
     }
   ]

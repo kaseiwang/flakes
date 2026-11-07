@@ -162,6 +162,11 @@ in
   };
 
   programs = {
+    vicinae = {
+      enable = true;
+      systemd.enable = true;
+    };
+
     helix = {
       enable = true;
     };

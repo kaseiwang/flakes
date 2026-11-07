@@ -10,7 +10,7 @@ hl.bind("SUPER + Return", hl.dsp.exec_cmd("uwsm app -- ghostty"))
 
 hl.bind("SUPER + 1", hl.dsp.exec_cmd("uwsm app -- chromium"))
 hl.bind("SUPER + 2", hl.dsp.exec_cmd("uwsm app -- code"))
-hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("uwsm app -- hyprlauncher"))
+hl.bind("SUPER + SPACE", hl.dsp.exec_cmd("vicinae toggle"))
 
 hl.bind("SUPER + q", hl.dsp.focus({ workspace = "1" }))
 hl.bind("SUPER + w", hl.dsp.focus({ workspace = "2" }))
