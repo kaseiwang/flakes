@@ -1,4 +1,9 @@
-{ lib, osConfig, ... }:
+{
+  lib,
+  osConfig,
+  pkgs,
+  ...
+}:
 lib.mkIf osConfig.programs.hyprland.enable (
   lib.mkMerge [
     (import ./waybar.nix { inherit lib; })
@@ -31,6 +36,24 @@ lib.mkIf osConfig.programs.hyprland.enable (
       };
 
       services = {
+        hyprpaper = {
+          enable = true;
+          systemdTarget =
+            if osConfig.programs.hyprland.withUWSM then
+              "wayland-session@hyprland.desktop.target"
+            else
+              "hyprland-session.target";
+          settings = {
+            splash = false;
+            wallpaper = [
+              {
+                monitor = "";
+                path = pkgs.nixos-artwork.wallpapers.simple-blue.gnomeFilePath;
+                fit_mode = "cover";
+              }
+            ];
+          };
+        };
         hyprlauncher = {
           enable = true;
         };
