@@ -72,7 +72,12 @@ in
           {
             type = "shadowsocks";
             tag = "ss-cone3";
-            server = "2607:f130:0:179::2f6b:52ea";
+            # Resolve through direct DNS to avoid a proxy bootstrap dependency.
+            server = "cone3.kasei.im";
+            domain_resolver = {
+              server = "tencent";
+              strategy = "prefer_ipv6";
+            };
             server_port = 8688;
             method = "2022-blake3-aes-128-gcm";
             password = {
