@@ -37,11 +37,23 @@
         outbounds = [
           {
             type = "direct";
+            tag = "direct";
+          }
+          {
+            type = "direct";
             tag = "warp";
             bind_interface = "wgcf";
           }
         ];
-        route.final = "warp";
+        route = {
+          rules = [
+            {
+              domain_suffix = [ "nyaa.si" ];
+              outbound = "direct";
+            }
+          ];
+          final = "warp";
+        };
         inbounds = [
           {
             listen = "::";
