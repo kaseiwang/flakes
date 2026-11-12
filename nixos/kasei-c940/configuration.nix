@@ -81,7 +81,41 @@
 
   # Override shared desktop settings only for this host.
   home-manager.users.kasei = {
+    imports = [
+      {
+        # Filter the merged package list without duplicating the shared desktop profile.
+        options.home.packages = lib.mkOption {
+          apply = lib.filter (
+            package:
+            !(lib.elem (lib.getName package) [
+              "wqy-microhei"
+              "sarasa-gothic"
+            ])
+          );
+        };
+      }
+    ];
+
     nix.settings.substituters = lib.mkForce [ "https://cache.nixos.org/" ];
+
+    fonts.fontconfig.defaultFonts = {
+      serif = lib.mkForce [
+        "Noto Serif"
+        "Noto Sans Symbols 2"
+        "Noto Sans Symbols"
+      ];
+      sansSerif = lib.mkForce [
+        "Noto Sans"
+        "Noto Sans Symbols 2"
+        "Noto Sans Symbols"
+      ];
+      monospace = lib.mkForce [
+        "JetBrains Mono"
+        "Symbols Nerd Font Mono"
+        "Noto Sans Symbols 2"
+        "Noto Sans Symbols"
+      ];
+    };
 
     dconf.settings = {
       "org/gnome/system/location".enabled = false;

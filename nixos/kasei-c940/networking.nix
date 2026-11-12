@@ -127,10 +127,30 @@ with pkgs.lib;
       ensureProfiles = {
         environmentFiles = [ "${config.sops.secrets.networkmanager-env.path}" ];
         profiles = {
+          "kaseinetover" = {
+            connection = {
+              id = "kaseinetover";
+              type = "wifi";
+              autoconnect = true;
+            };
+            wifi = {
+              mode = "infrastructure";
+              ssid = "kaseinetover";
+            };
+            wifi-security = {
+              key-mgmt = "sae";
+              # The OpenWrt SSIDs share the same password.
+              psk = "$kaseinet_PASSWORD";
+            };
+            ipv4.method = "auto";
+            # The isolated wgverizon client network only provides IPv4.
+            ipv6.method = "disabled";
+          };
           "kaseinet" = {
             connection = {
               id = "kaseinet";
               type = "wifi";
+              autoconnect = false;
             };
             wifi = {
               mode = "infrastructure";
@@ -151,6 +171,7 @@ with pkgs.lib;
             connection = {
               id = "comm";
               type = "wifi";
+              autoconnect = false;
             };
             wifi = {
               mode = "infrastructure";
