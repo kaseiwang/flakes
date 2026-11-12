@@ -40,6 +40,7 @@ in
       "vt.global_cursor_default=0"
       "mitigations=off"
       "zswap.enabled=1"
+      "zswap.shrinker_enabled=1"
       "amd_pstate=active"
       "amdgpu.abmlevel=0"
       #"lockdown=integrity"
@@ -138,6 +139,11 @@ in
       fileSystems = [ "/mnt/bareroot" ];
       interval = "monthly";
     };
+  };
+
+  systemd.oomd = {
+    enableRootSlice = true;
+    enableUserSlices = true;
   };
 
   swapDevices = [
