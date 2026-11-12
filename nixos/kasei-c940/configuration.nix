@@ -96,8 +96,9 @@
       }
     ];
 
-    home.packages = [
-      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+    home.packages = with inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}; [
+      claude-code
+      claude-desktop
     ];
 
     nix.settings.substituters = lib.mkForce [ "https://cache.nixos.org/" ];
