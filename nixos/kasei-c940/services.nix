@@ -10,6 +10,8 @@
     tinced25519 = { };
   };
 
+  environment.gnome.excludePackages = [ pkgs.epiphany ];
+
   services = {
     # Keep the laptop reachable over SSH with the lid closed on AC power.
     logind.settings.Login.HandleLidSwitchExternalPower = "ignore";

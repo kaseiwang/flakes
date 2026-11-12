@@ -175,6 +175,9 @@
       man-pages
       man-pages-posix
     ];
+    # xdg-open falls back to $BROWSER when the desktop entry's Exec cannot be resolved, e.g. when
+    # claude-desktop runs it with a PATH that excludes the home-manager profile. Use an absolute path.
+    sessionVariables.BROWSER = lib.getExe config.home-manager.users.kasei.programs.firefox.finalPackage;
     etc = {
       "nfc/libnfc.conf" = {
         mode = "0555";
