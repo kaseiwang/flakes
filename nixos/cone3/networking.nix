@@ -13,6 +13,9 @@ with pkgs.lib;
     wgcf-key = {
       owner = "systemd-network";
     };
+    wgverizon-key = {
+      owner = "systemd-network";
+    };
     wgkey = {
       owner = "systemd-network";
     };
@@ -146,6 +149,22 @@ with pkgs.lib;
             ];
         # Keep all traffic on existing routes until host routes are added manually.
       };
+      "75-wgverizon" = {
+        matchConfig.Name = "wgverizon";
+        linkConfig.RequiredForOnline = false;
+        networkConfig = {
+          DHCP = false;
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "no";
+        };
+        addresses = [
+          {
+            Address = "10.7.0.2/32";
+            AddPrefixRoute = false;
+          }
+        ];
+        # Keep all traffic on existing routes until host routes are added manually.
+      };
       "40-${wanif}" = {
         matchConfig.Name = "${wanif}";
         networkConfig = {
@@ -208,6 +227,27 @@ with pkgs.lib;
     };
 
     netdevs = {
+      "20-wgverizon" = {
+        netdevConfig = {
+          Name = "wgverizon";
+          Kind = "wireguard";
+          MTUBytes = 1380;
+        };
+        wireguardConfig = {
+          PrivateKeyFile = config.sops.secrets.wgverizon-key.path;
+          FirewallMark = 200;
+          RouteTable = "off";
+        };
+        wireguardPeers = [
+          {
+            PublicKey = "jOe62jDrCrtnliHT9foTN930/19Rtlc7UMNdcCE51ho=";
+            Endpoint = "i.i1j.net:33329";
+            AllowedIPs = [ "0.0.0.0/0" ];
+            PersistentKeepalive = 25;
+            RouteTable = "off";
+          }
+        ];
+      };
       "20-wgcf" = {
         netdevConfig = {
           Name = "wgcf";
