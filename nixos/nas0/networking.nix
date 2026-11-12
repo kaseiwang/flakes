@@ -146,7 +146,7 @@ in
                 {
                   publicKey = "k4QhCtsNJYywFsIU7Uk/ci8hdFxDQgZKlMX13anrL0I=";
                   allowedIPs = [ "0.0.0.0/0" ];
-                  endpoint = "163.47.135.141:${toString overPort}";
+                  endpoint = "[2607:f130:0:179::2f6b:52ea]:${toString overPort}";
                   persistentKeepalive = 25;
                 }
               ];
