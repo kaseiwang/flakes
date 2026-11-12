@@ -3,30 +3,6 @@ let
   wanif = "ens3";
   overPort = 2481;
   verizonPeer = "jOe62jDrCrtnliHT9foTN930/19Rtlc7UMNdcCE51ho=";
-  overFirewall = ''
-    table inet over_filter {
-      chain input {
-        type filter hook input priority filter; policy drop;
-        iifname "lo" accept
-      }
-      chain forward {
-        type filter hook forward priority filter; policy drop;
-        ct state invalid drop
-        iifname "wgover" oifname "wgverizon" ip saddr 10.10.10.0/24 accept
-        iifname "wgverizon" oifname "wgover" ip daddr 10.10.10.0/24 ct state established,related accept
-      }
-      chain mss {
-        type filter hook forward priority mangle; policy accept;
-        meta nfproto ipv4 tcp flags & (syn | rst) == syn tcp option maxseg size > 1340 tcp option maxseg size set 1340
-      }
-    }
-    table ip over_nat {
-      chain postrouting {
-        type nat hook postrouting priority srcnat; policy accept;
-        oifname "wgverizon" ip saddr 10.10.10.0/24 snat to 10.7.0.2
-      }
-    }
-  '';
   overHostFirewall = pkgs.writeText "kaseinetover-host-guard.nft" ''
     destroy table inet kaseinetover_host_guard
     table inet kaseinetover_host_guard {
@@ -157,6 +133,7 @@ with pkgs.lib;
       };
     };
     config = { lib, ... }: {
+      imports = [ ./kaseinetover-proxy.nix ];
       system.stateVersion = "26.11";
       time.timeZone = "America/Los_Angeles";
       networking = {
@@ -164,10 +141,6 @@ with pkgs.lib;
         useHostResolvConf = false;
         enableIPv6 = false;
         firewall.enable = false;
-        nftables = {
-          enable = true;
-          ruleset = overFirewall;
-        };
         wireguard = {
           interfaces = {
             wgover = {
