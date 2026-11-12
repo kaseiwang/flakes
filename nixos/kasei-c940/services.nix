@@ -11,6 +11,9 @@
   };
 
   services = {
+    # Keep the laptop reachable over SSH with the lid closed on AC power.
+    logind.settings.Login.HandleLidSwitchExternalPower = "ignore";
+
     # Disable system location providers and location-based timezone updates.
     geoclue2.enable = lib.mkForce false;
     gpsd.enable = false;
