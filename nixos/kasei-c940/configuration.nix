@@ -96,6 +96,10 @@
       }
     ];
 
+    home.packages = [
+      inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code
+    ];
+
     nix.settings.substituters = lib.mkForce [ "https://cache.nixos.org/" ];
 
     fonts.fontconfig.defaultFonts = {
