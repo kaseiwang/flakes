@@ -1,11 +1,16 @@
 {
   config,
+  lib,
   pkgs,
   inputs,
   ...
 }:
 {
   environment.baseline.enable = true;
+
+  # Keep this host on Los Angeles time instead of the shared Shanghai timezone.
+  time.timeZone = lib.mkForce "America/Los_Angeles";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   environment.myhome = {
     enable = true;
@@ -53,14 +58,17 @@
         "big-parallel"
       ];
       substituters = [
-        "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
-        "https://mirrors.ustc.edu.cn/nix-channels/store"
         "https://cache.nixos.org/"
       ];
     };
   };
 
   programs = {
+    chromium = {
+      enable = true;
+      extraOpts.DefaultGeolocationSetting = 2;
+    };
+
     dconf.enable = true;
     wireshark.enable = true;
     fuse.userAllowOther = true;
@@ -68,6 +76,26 @@
     hyprland = {
       enable = true;
       withUWSM = true;
+    };
+  };
+
+  # Override shared desktop settings only for this host.
+  home-manager.users.kasei = {
+    nix.settings.substituters = lib.mkForce [ "https://cache.nixos.org/" ];
+
+    dconf.settings = {
+      "org/gnome/system/location".enabled = false;
+      "org/gnome/desktop/datetime".automatic-timezone = false;
+    };
+
+    programs.firefox.policies = {
+      languagePacks = lib.mkForce [ ];
+      # Also remove the language pack from existing Firefox profiles.
+      Extensions.Uninstall = [ "langpack-zh-CN@firefox.mozilla.org" ];
+      Preferences."geo.enabled" = {
+        Value = false;
+        Status = "locked";
+      };
     };
   };
 

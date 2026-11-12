@@ -8,7 +8,6 @@ with pkgs.lib;
     useDHCP = false;
     useNetworkd = false;
     firewall.enable = false;
-    proxy.default = "http://127.1:1080";
     nftables = {
       enable = true;
       tables = {
@@ -119,6 +118,8 @@ with pkgs.lib;
 
     networkmanager = {
       enable = true;
+      # Use DNS servers supplied by the active connection (DHCP/IPv6 RA).
+      dns = "default";
       logLevel = "INFO";
       unmanaged = [
         "interface-name:tinc.kaseinet"
@@ -176,41 +177,5 @@ with pkgs.lib;
     fwmark = 200;
     enableV4 = true;
     enableV6 = false;
-  };
-
-  services.smartdns = {
-    enable = true;
-    settings = {
-      bind = "[::]:53";
-      bind-tcp = "[::]:53";
-      cache-size = 32768; # 16MB
-      cache-persist = false;
-      #resolv-hostname = true;
-      prefetch-domain = false;
-      log-console = true;
-      log-size = "0";
-      audit-enable = true;
-      audit-console = true;
-      audit-num = "0";
-      conf-file = [
-        "${pkgs.smartdns-china-list}/accelerated-domains.china.smartdns.conf"
-        "${pkgs.smartdns-china-list}/apple.china.smartdns.conf"
-        #"${pkgs.smartdns-china-list}/google.china.smartdns.conf"
-      ];
-      # smartdns does not read SAN, use CN
-      server-tls = [
-        "1.1.1.1 -tls-host-verify cloudflare-dns.com"
-        "1.0.0.1 -tls-host-verify cloudflare-dns.com"
-        "1.12.12.12 -tls-host-verify 120.53.53.53 -group china -exclude-default-group"
-        "120.53.53.53 -tls-host-verify 120.53.53.53 -group china -exclude-default-group"
-        #"223.5.5.5 -tls-host-verify *.alidns.com -group china -exclude-default-group"
-        #"223.6.6.6 -tls-host-verify *.alidns.com -group china -exclude-default-group"
-      ];
-    };
-  };
-
-  services.singbox-client = {
-    enable = true;
-    sercretPath = config.sops.secrets.singboxpass.path;
   };
 }

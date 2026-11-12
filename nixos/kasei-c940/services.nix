@@ -1,12 +1,22 @@
-{ config, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   sops.defaultSopsFile = ./secrets.yaml;
   sops.secrets = {
     tinced25519 = { };
-    singboxpass = { };
   };
 
   services = {
+    # Disable system location providers and location-based timezone updates.
+    geoclue2.enable = lib.mkForce false;
+    gpsd.enable = false;
+    automatic-timezoned.enable = false;
+    localtimed.enable = false;
+
     kaseinet = {
       enable = true;
       name = "c940";
