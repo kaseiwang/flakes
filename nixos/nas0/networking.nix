@@ -9,6 +9,22 @@ let
   overlayRouteMark = 300;
   overlayRouteTable = 300;
   overPort = 2481;
+  overNetdevFiles = [
+    "20-over-bridge.netdev"
+    "20-over-vlan.netdev"
+  ];
+  overBridgePort = {
+    linkConfig = {
+      RequiredForOnline = false;
+      MTUBytes = 1380;
+    };
+    networkConfig = {
+      Bridge = "brover10";
+      ConfigureWithoutCarrier = true;
+      IPv4Forwarding = false;
+      IPv6Forwarding = false;
+    };
+  };
   # Persistent guards are outside nftables.tables so stopping the main firewall
   # cannot delete them. Both loaders replace them in a single nft transaction.
   overHostFirewall = ''
@@ -92,6 +108,8 @@ in
   containers.kaseinetover = {
     autoStart = true;
     privateNetwork = true;
+    # Let the container's time.timeZone own /etc/localtime, not nspawn's host copy.
+    extraFlags = [ "--timezone=off" ];
     interfaces = [ "wgover" ];
     # Both ends are named over10, in different namespaces. networkd attaches
     # the host end to brover10; all IP configuration lives in the container.
@@ -105,6 +123,7 @@ in
     };
     config = { lib, ... }: {
       system.stateVersion = "26.11";
+      time.timeZone = "America/Los_Angeles";
       networking = {
         useNetworkd = true;
         useHostResolvConf = false;
@@ -192,6 +211,7 @@ in
                 "1.0.0.1"
               ];
               EmitNTP = false;
+              Timezone = "America/Los_Angeles";
               SendOption = "26:uint16:1380";
             };
           };
@@ -221,18 +241,6 @@ in
   systemd.services = {
     kaseinetover-host-guard = {
       description = "Isolate the kaseinetover bridge and host WireGuard interface";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "sysinit.target" ];
-      before = [
-        "network-pre.target"
-        "shutdown.target"
-      ];
-      wants = [
-        "network-pre.target"
-        "sysinit.target"
-      ];
-      conflicts = [ "shutdown.target" ];
-      unitConfig.DefaultDependencies = false;
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
@@ -241,12 +249,58 @@ in
       };
     };
     systemd-networkd = {
-      # Never create or activate the VLAN/bridge before isolation is installed.
-      requires = [ "kaseinetover-host-guard.service" ];
-      after = [ "kaseinetover-host-guard.service" ];
+      # systemd 262 can create these new netdevs on reload. Move only these two
+      # files out of NixOS's default restart triggers; keep the existing host
+      # netdev/link/global-config restart policy and wait-online unit unchanged.
+      restartTriggers = mkForce (
+        map (name: config.environment.etc."systemd/network/${name}".source) (
+          filter (name: !hasSuffix ".network" name && !elem name overNetdevFiles) (
+            attrNames config.systemd.network.units
+          )
+        )
+        ++ [ config.environment.etc."systemd/networkd.conf".source ]
+      );
+      reloadTriggers = map (
+        name: config.environment.etc."systemd/network/${name}".source
+      ) overNetdevFiles;
+    };
+    kaseinetover-links = {
+      description = "Enable the isolated kaseinetover bridge and VLAN";
+      partOf = [ "container@kaseinetover.service" ];
+      requires = [
+        "kaseinetover-host-guard.service"
+        "sys-subsystem-net-devices-brover10.device"
+        "sys-subsystem-net-devices-vlanover10.device"
+      ];
+      after = [
+        "kaseinetover-host-guard.service"
+        "sys-subsystem-net-devices-brover10.device"
+        "sys-subsystem-net-devices-vlanover10.device"
+      ];
+      # Bound waiting for missing devices without involving network.target or
+      # the host's networkd/wait-online. Only the container depends on this job.
+      unitConfig.JobTimeoutSec = "45s";
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        TimeoutStartSec = "15s";
+        TimeoutStopSec = "15s";
+        ExecStart = [
+          "${pkgs.iproute2}/bin/ip link set dev brover10 up"
+          "${pkgs.iproute2}/bin/ip link set dev vlanover10 up"
+        ];
+        # Also run after a partially failed start. Never touch the parent NIC.
+        ExecStopPost = [
+          "-${pkgs.iproute2}/bin/ip link set dev vlanover10 down"
+          "-${pkgs.iproute2}/bin/ip link set dev brover10 down"
+        ];
+      };
     };
     "wireguard-wgover" = {
       partOf = [ "container@kaseinetover.service" ];
+      # The native WG module orders this before network.target by default.
+      # A container-only tunnel must not delay the host's network startup.
+      before = mkForce [ ];
       requires = [
         "kaseinetover-host-guard.service"
       ]
@@ -259,12 +313,12 @@ in
     "container@kaseinetover" = {
       requires = [
         "wireguard-wgover.service"
-        "sys-subsystem-net-devices-brover10.device"
+        "kaseinetover-links.service"
         "kaseinetover-host-guard.service"
       ];
       after = [
         "wireguard-wgover.service"
-        "sys-subsystem-net-devices-brover10.device"
+        "kaseinetover-links.service"
         "kaseinetover-host-guard.service"
       ];
     };
@@ -401,6 +455,9 @@ in
       # Also restore the guards atomically if an old generation's deletions file
       # contains `flush ruleset`. Raw ruleset tables are not deleted on stop.
       ruleset = overHostFirewall;
+      # china-route also uses a raw ruleset; retain its replace-on-reload/stop
+      # behavior while leaving only the isolation guards persistent.
+      extraDeletions = "destroy table inet china-route";
       flattenRulesetFile = true;
       preCheckRuleset = ''
         sed 's/.*devices.*/devices = { lo }/g' -i ruleset.conf
@@ -637,7 +694,10 @@ in
       # Dedicated L2 segment: neither the bridge nor either port gets an IP.
       "30-over-bridge" = {
         matchConfig.Name = "brover10";
-        linkConfig.RequiredForOnline = false;
+        linkConfig = {
+          RequiredForOnline = false;
+          ActivationPolicy = "manual";
+        };
         networkConfig = {
           LinkLocalAddressing = "no";
           ConfigureWithoutCarrier = true;
@@ -645,18 +705,14 @@ in
           IPv6Forwarding = false;
         };
       };
-      "30-over-ports" = {
-        matchConfig.Name = "vlanover10 over10";
-        linkConfig = {
-          RequiredForOnline = false;
-          MTUBytes = 1380;
-        };
-        networkConfig = {
-          Bridge = "brover10";
-          ConfigureWithoutCarrier = true;
-          IPv4Forwarding = false;
-          IPv6Forwarding = false;
-        };
+      # VLAN ingress stays DOWN until the guard-gated service enables it.
+      "30-over-vlan" = recursiveUpdate overBridgePort {
+        matchConfig.Name = "vlanover10";
+        linkConfig.ActivationPolicy = "manual";
+      };
+      # nspawn creates this veth only after the same guard has succeeded.
+      "30-over-ports" = overBridgePort // {
+        matchConfig.Name = "over10";
       };
       "40-cuccppp" = {
         matchConfig = {

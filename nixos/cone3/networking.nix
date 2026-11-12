@@ -136,6 +136,8 @@ with pkgs.lib;
   containers.kaseinetover = {
     autoStart = true;
     privateNetwork = true;
+    # Let the container's time.timeZone own /etc/localtime, not nspawn's host copy.
+    extraFlags = [ "--timezone=off" ];
     interfaces = [
       "wgover"
       "wgverizon"
@@ -156,6 +158,7 @@ with pkgs.lib;
     };
     config = { lib, ... }: {
       system.stateVersion = "26.11";
+      time.timeZone = "America/Los_Angeles";
       networking = {
         useNetworkd = true;
         useHostResolvConf = false;
