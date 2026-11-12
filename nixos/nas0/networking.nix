@@ -96,8 +96,10 @@ in
     # Both ends are named over10, in different namespaces. networkd attaches
     # the host end to brover10; all IP configuration lives in the container.
     extraVeths.over10 = { };
+    # Use the outer host config's secret path on both sides of the mount.
+    # /run/keys is overmounted by the container's boot process.
     bindMounts = {
-      "/run/keys/wgover" = {
+      "${config.sops.secrets.wgover-key.path}" = {
         hostPath = config.sops.secrets.wgover-key.path;
       };
     };
@@ -115,7 +117,7 @@ in
         wireguard = {
           interfaces = {
             wgover = {
-              privateKeyFile = "/run/keys/wgover";
+              privateKeyFile = config.sops.secrets.wgover-key.path;
               listenPort = overPort;
               fwMark = "200";
               mtu = 1380;

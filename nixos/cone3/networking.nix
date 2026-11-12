@@ -140,11 +140,13 @@ with pkgs.lib;
       "wgover"
       "wgverizon"
     ];
+    # Use the outer host config's secret paths on both sides of each mount.
+    # /run/keys is overmounted by the container's boot process.
     bindMounts = {
-      "/run/keys/wgover" = {
+      "${config.sops.secrets.wgover-key.path}" = {
         hostPath = config.sops.secrets.wgover-key.path;
       };
-      "/run/keys/wgverizon" = {
+      "${config.sops.secrets.wgverizon-key.path}" = {
         hostPath = config.sops.secrets.wgverizon-key.path;
       };
       # Mount the directory, not the socket inode: resolver restarts replace sockets.
@@ -166,7 +168,7 @@ with pkgs.lib;
         wireguard = {
           interfaces = {
             wgover = {
-              privateKeyFile = "/run/keys/wgover";
+              privateKeyFile = config.sops.secrets.wgover-key.path;
               listenPort = overPort;
               fwMark = "200";
               mtu = 1380;
@@ -183,7 +185,7 @@ with pkgs.lib;
               ];
             };
             wgverizon = {
-              privateKeyFile = "/run/keys/wgverizon";
+              privateKeyFile = config.sops.secrets.wgverizon-key.path;
               fwMark = "200";
               mtu = 1380;
               ips = [ "10.7.0.2/32" ];
