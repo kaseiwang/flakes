@@ -8,9 +8,73 @@ let
   localRouteMark = 200;
   overlayRouteMark = 300;
   overlayRouteTable = 300;
+  overPort = 2481;
+  # Persistent guards are outside nftables.tables so stopping the main firewall
+  # cannot delete them. Both loaders replace them in a single nft transaction.
+  overHostFirewall = ''
+    destroy table bridge kaseinetover_bridge_guard
+    table bridge kaseinetover_bridge_guard {
+      chain input {
+        type filter hook input priority -10; policy accept;
+        iifname { "vlanover10", "over10" } drop
+      }
+      chain output {
+        type filter hook output priority -10; policy accept;
+        oifname { "vlanover10", "over10" } drop
+      }
+      chain forward {
+        type filter hook forward priority -10; policy accept;
+        iifname "vlanover10" oifname "over10" ether type { ip, arp } accept
+        iifname "over10" oifname "vlanover10" ether type { ip, arp } accept
+        iifname { "vlanover10", "over10" } drop
+        oifname { "vlanover10", "over10" } drop
+      }
+    }
+    destroy table inet kaseinetover_host_guard
+    table inet kaseinetover_host_guard {
+      chain input {
+        type filter hook input priority -10; policy accept;
+        iifname { "brover10", "vlanover10", "over10", "wgover" } drop
+      }
+      chain output {
+        type filter hook output priority -10; policy accept;
+        oifname { "brover10", "vlanover10", "over10", "wgover" } drop
+      }
+      # Block unenslaved ports during link setup and WG returned by nspawn.
+      # br_netfilter presents enslaved ports as brover10 here; bridge hooks
+      # handle that path so legitimate VLAN <-> veth forwarding still works.
+      chain forward {
+        type filter hook forward priority -10; policy accept;
+        iifname { "vlanover10", "over10", "wgover" } drop
+        oifname { "vlanover10", "over10", "wgover" } drop
+      }
+    }
+  '';
+  overFirewall = ''
+    table inet over_filter {
+      chain input {
+        type filter hook input priority filter; policy drop;
+        iifname "lo" accept
+        ct state invalid drop
+        iifname "over10" meta nfproto ipv4 udp sport 68 udp dport 67 accept
+      }
+      chain forward {
+        type filter hook forward priority filter; policy drop;
+        ct state invalid drop
+        iifname "over10" oifname "wgover" ip saddr 10.10.10.0/24 accept
+        iifname "wgover" oifname "over10" ip daddr 10.10.10.0/24 ct state established,related accept
+      }
+      chain mss {
+        type filter hook forward priority mangle; policy accept;
+        meta nfproto ipv4 tcp flags & (syn | rst) == syn tcp option maxseg size > 1340 tcp option maxseg size set 1340
+      }
+    }
+  '';
+
 in
 {
   sops.secrets = {
+    wgover-key.restartUnits = [ "container@kaseinetover.service" ];
     wgkey = {
       owner = "systemd-network";
     };
@@ -24,6 +88,185 @@ in
     wifipsk = { };
   };
 
+  # nspawn owns the namespace, WG transfer and the dedicated Wi-Fi veth pair.
+  containers.kaseinetover = {
+    autoStart = true;
+    privateNetwork = true;
+    interfaces = [ "wgover" ];
+    # Both ends are named over10, in different namespaces. networkd attaches
+    # the host end to brover10; all IP configuration lives in the container.
+    extraVeths.over10 = { };
+    bindMounts = {
+      "/run/keys/wgover" = {
+        hostPath = config.sops.secrets.wgover-key.path;
+      };
+    };
+    config = { lib, ... }: {
+      system.stateVersion = "26.11";
+      networking = {
+        useNetworkd = true;
+        useHostResolvConf = false;
+        enableIPv6 = false;
+        firewall.enable = false;
+        nftables = {
+          enable = true;
+          ruleset = overFirewall;
+        };
+        wireguard = {
+          interfaces = {
+            wgover = {
+              privateKeyFile = "/run/keys/wgover";
+              listenPort = overPort;
+              fwMark = "200";
+              mtu = 1380;
+              ips = [ "10.203.0.1/30" ];
+              allowedIPsAsRoutes = false;
+              peers = [
+                {
+                  publicKey = "k4QhCtsNJYywFsIU7Uk/ci8hdFxDQgZKlMX13anrL0I=";
+                  allowedIPs = [ "0.0.0.0/0" ];
+                  endpoint = "163.47.135.141:${toString overPort}";
+                  persistentKeepalive = 25;
+                }
+              ];
+            };
+          };
+        };
+      };
+      # The tunnel endpoint is numeric; no DNS lookup is needed here.
+      services.resolved.enable = false;
+      system.nssDatabases.hosts = lib.mkForce [ "files" ];
+      boot.kernel.sysctl = {
+        "net.ipv4.ip_forward" = 1;
+        "net.ipv4.conf.all.rp_filter" = 0;
+        "net.ipv4.conf.default.rp_filter" = 0;
+        "net.ipv4.conf.all.send_redirects" = 0;
+        "net.ipv4.conf.default.send_redirects" = 0;
+        "net.ipv4.conf.all.accept_redirects" = 0;
+        "net.ipv4.conf.default.accept_redirects" = 0;
+      };
+      systemd.network = {
+        # Startup/endpoint resolution must not wait for VPN connectivity.
+        wait-online.enable = false;
+        config.networkConfig.IPv4Forwarding = true;
+        networks = {
+          "10-lo" = {
+            matchConfig.Name = "lo";
+            routes = [
+              {
+                Destination = "0.0.0.0/0";
+                Type = "blackhole";
+                Metric = 32760;
+              }
+            ];
+          };
+          "40-wgover" = {
+            linkConfig.RequiredForOnline = false;
+            networkConfig = {
+              LinkLocalAddressing = "no";
+            };
+            routes = [
+              {
+                Destination = "0.0.0.0/0";
+                Metric = 10;
+              }
+            ];
+          };
+          "40-over10" = {
+            matchConfig.Name = "over10";
+            address = [ "10.10.10.1/24" ];
+            linkConfig.MTUBytes = 1380;
+            networkConfig = {
+              DHCPServer = true;
+              LinkLocalAddressing = "no";
+              ConfigureWithoutCarrier = true;
+            };
+            dhcpServerConfig = {
+              PoolOffset = 100;
+              PoolSize = 100;
+              DefaultLeaseTimeSec = "12h";
+              DNS = [
+                "1.1.1.1"
+                "1.0.0.1"
+              ];
+              EmitNTP = false;
+              SendOption = "26:uint16:1380";
+            };
+          };
+        };
+      };
+      # Fail closed if the firewall cannot load, including initial container boot.
+      systemd.services.systemd-networkd = {
+        requires = [ "nftables.service" ];
+        after = [ "nftables.service" ];
+      };
+    };
+  };
+
+  # The host's script backend is provided by NixOS. Unlike host networkd netdevs,
+  # it does not recreate a same-named WG while the real device is in the container.
+  networking.wireguard = {
+    useNetworkd = false;
+    interfaces = {
+      wgover = {
+        privateKeyFile = config.sops.secrets.wgover-key.path;
+        mtu = 1380;
+        fwMark = "200";
+        allowedIPsAsRoutes = false;
+      };
+    };
+  };
+  systemd.services = {
+    kaseinetover-host-guard = {
+      description = "Isolate the kaseinetover bridge and host WireGuard interface";
+      wantedBy = [ "multi-user.target" ];
+      after = [ "sysinit.target" ];
+      before = [
+        "network-pre.target"
+        "shutdown.target"
+      ];
+      wants = [
+        "network-pre.target"
+        "sysinit.target"
+      ];
+      conflicts = [ "shutdown.target" ];
+      unitConfig.DefaultDependencies = false;
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${pkgs.nftables}/bin/nft -f ${pkgs.writeText "kaseinetover-host-guard.nft" overHostFirewall}";
+        # No ExecStop: interfaces may survive networkd/container shutdown.
+      };
+    };
+    systemd-networkd = {
+      # Never create or activate the VLAN/bridge before isolation is installed.
+      requires = [ "kaseinetover-host-guard.service" ];
+      after = [ "kaseinetover-host-guard.service" ];
+    };
+    "wireguard-wgover" = {
+      partOf = [ "container@kaseinetover.service" ];
+      requires = [
+        "kaseinetover-host-guard.service"
+      ]
+      ++ optional config.sops.useSystemdActivation "sops-install-secrets.service";
+      after = [
+        "kaseinetover-host-guard.service"
+        "sops-install-secrets.service"
+      ];
+    };
+    "container@kaseinetover" = {
+      requires = [
+        "wireguard-wgover.service"
+        "sys-subsystem-net-devices-brover10.device"
+        "kaseinetover-host-guard.service"
+      ];
+      after = [
+        "wireguard-wgover.service"
+        "sys-subsystem-net-devices-brover10.device"
+        "kaseinetover-host-guard.service"
+      ];
+    };
+  };
   services = {
     pppd = {
       enable = true;
@@ -152,6 +395,10 @@ in
 
     nftables = {
       enable = true;
+      flushRuleset = false;
+      # Also restore the guards atomically if an old generation's deletions file
+      # contains `flush ruleset`. Raw ruleset tables are not deleted on stop.
+      ruleset = overHostFirewall;
       flattenRulesetFile = true;
       preCheckRuleset = ''
         sed 's/.*devices.*/devices = { lo }/g' -i ruleset.conf
@@ -238,11 +485,11 @@ in
 
               # 22, ssh
               # 443/udp, HTTP/3 (QUIC)
-              # 2480, wireguard
+              # 2480/2481, WireGuard underlay
               # 8688, proxy
               # 6771, 12526, 57299, bittorrent
               tcp dport { 22, 8688, 6771, 12526, 57299 } accept;
-              udp dport { 22, 443, 2480, 8688, 6771, 12526, 57299 } accept;
+              udp dport { 22, 443, 2480, ${toString overPort}, 8688, 6771, 12526, 57299 } accept;
 
               iifname "${wanif}" drop
             }
@@ -334,6 +581,25 @@ in
       ];
     };
     netdevs = {
+      "20-over-vlan" = {
+        netdevConfig = {
+          Name = "vlanover10";
+          Kind = "vlan";
+          MTUBytes = 1380;
+        };
+        vlanConfig.Id = 10;
+      };
+      "20-over-bridge" = {
+        netdevConfig = {
+          Name = "brover10";
+          Kind = "bridge";
+          MTUBytes = 1380;
+        };
+        bridgeConfig = {
+          STP = false;
+          MulticastSnooping = false;
+        };
+      };
       "20-wg0" = {
         netdevConfig = {
           Name = "wg0";
@@ -362,6 +628,34 @@ in
       };
     };
     networks = {
+      "10-kaseinetover-unmanaged" = {
+        matchConfig.Name = "wgover";
+        linkConfig.Unmanaged = true;
+      };
+      # Dedicated L2 segment: neither the bridge nor either port gets an IP.
+      "30-over-bridge" = {
+        matchConfig.Name = "brover10";
+        linkConfig.RequiredForOnline = false;
+        networkConfig = {
+          LinkLocalAddressing = "no";
+          ConfigureWithoutCarrier = true;
+          IPv4Forwarding = false;
+          IPv6Forwarding = false;
+        };
+      };
+      "30-over-ports" = {
+        matchConfig.Name = "vlanover10 over10";
+        linkConfig = {
+          RequiredForOnline = false;
+          MTUBytes = 1380;
+        };
+        networkConfig = {
+          Bridge = "brover10";
+          ConfigureWithoutCarrier = true;
+          IPv4Forwarding = false;
+          IPv6Forwarding = false;
+        };
+      };
       "40-cuccppp" = {
         matchConfig = {
           Name = "cuccppp";
@@ -487,6 +781,7 @@ in
           { Destination = "fdcd:ad38:cdc5:5::/64"; }
         ];
         networkConfig = {
+          VLAN = [ "vlanover10" ];
           DHCP = false;
           IPv6SendRA = true;
           IPv6ProxyNDP = false;
