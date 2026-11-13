@@ -13,6 +13,7 @@ nixpkgs.lib.nixosSystem {
     inputs.impermanence.nixosModules.impermanence
     inputs.lanzaboote.nixosModules.lanzaboote
     ./configuration.nix
+    ./corp-git.nix
     ./hardware.nix
     ./networking.nix
     ./services.nix

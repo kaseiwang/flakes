@@ -75,7 +75,6 @@ in
     defaultSymlinkPath = "${config.xdg.configHome}/secrets";
     secrets = {
       nixtoken = { };
-      corp-ssh-config = { };
       corp-git-config = { };
       gomod-git-config = { };
     };
@@ -183,7 +182,6 @@ in
           user = "kasei";
         };
       };
-      includes = [ "${config.sops.secrets.corp-ssh-config.path}" ];
       extraConfig = ''
         # default off in openssh 8.8 <https://www.openssh.com/txt/release-8.8>
         HostKeyAlgorithms=+ssh-rsa
