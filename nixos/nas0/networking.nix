@@ -68,18 +68,6 @@ let
   '';
   overFirewall = ''
     table inet over_filter {
-      chain input {
-        type filter hook input priority filter; policy drop;
-        iifname "lo" accept
-        ct state invalid drop
-        iifname "over10" meta nfproto ipv4 udp sport 68 udp dport 67 accept
-      }
-      chain forward {
-        type filter hook forward priority filter; policy drop;
-        ct state invalid drop
-        iifname "over10" oifname "wgover" ip saddr 10.10.10.0/24 accept
-        iifname "wgover" oifname "over10" ip daddr 10.10.10.0/24 ct state established,related accept
-      }
       chain mss {
         type filter hook forward priority mangle; policy accept;
         meta nfproto ipv4 tcp flags & (syn | rst) == syn tcp option maxseg size > 1340 tcp option maxseg size set 1340
@@ -217,7 +205,7 @@ in
           };
         };
       };
-      # Fail closed if the firewall cannot load, including initial container boot.
+      # Load MSS clamping before configuring the container's network.
       systemd.services.systemd-networkd = {
         requires = [ "nftables.service" ];
         after = [ "nftables.service" ];
