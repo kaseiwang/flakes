@@ -66,19 +66,11 @@ let
       }
     }
   '';
-  overFirewall = ''
-    table inet over_filter {
-      chain mss {
-        type filter hook forward priority mangle; policy accept;
-        meta nfproto ipv4 tcp flags & (syn | rst) == syn tcp option maxseg size > 1340 tcp option maxseg size set 1340
-      }
-    }
-  '';
-
 in
 {
   sops.secrets = {
     wgover-key.restartUnits = [ "container@kaseinetover.service" ];
+    kaseinetover-domains.restartUnits = [ "container@kaseinetover.service" ];
     wgkey = {
       owner = "systemd-network";
     };
@@ -108,8 +100,13 @@ in
       "${config.sops.secrets.wgover-key.path}" = {
         hostPath = config.sops.secrets.wgover-key.path;
       };
+      "${config.sops.secrets.kaseinetover-domains.path}" = {
+        hostPath = config.sops.secrets.kaseinetover-domains.path;
+      };
     };
     config = { lib, ... }: {
+      imports = [ ./kaseinetover-proxy.nix ];
+      services.kaseinetover-proxy.domainSuffixesFile = config.sops.secrets.kaseinetover-domains.path;
       system.stateVersion = "26.11";
       time.timeZone = "America/Los_Angeles";
       networking = {
@@ -117,10 +114,6 @@ in
         useHostResolvConf = false;
         enableIPv6 = false;
         firewall.enable = false;
-        nftables = {
-          enable = true;
-          ruleset = overFirewall;
-        };
         wireguard = {
           interfaces = {
             wgover = {
@@ -136,6 +129,11 @@ in
                   allowedIPs = [ "0.0.0.0/0" ];
                   endpoint = "[2607:f130:0:179::2f6b:52ea]:${toString overPort}";
                   persistentKeepalive = 25;
+                }
+                {
+                  # devbox initiates the connection to cmcc.i.kasei.im:2481.
+                  publicKey = "H05j10qr+RXFULmdU/yqZIAtHutMMrN7Et4x+P7bBmo=";
+                  allowedIPs = [ "10.203.1.2/32" ];
                 }
               ];
             };
@@ -176,6 +174,10 @@ in
             };
             routes = [
               {
+                Destination = "10.203.1.2/32";
+                PreferredSource = "10.203.0.1";
+              }
+              {
                 Destination = "0.0.0.0/0";
                 Metric = 10;
               }
@@ -195,8 +197,7 @@ in
               PoolSize = 100;
               DefaultLeaseTimeSec = "12h";
               DNS = [
-                "1.1.1.1"
-                "1.0.0.1"
+                "10.10.10.1"
               ];
               EmitNTP = false;
               Timezone = "America/Los_Angeles";
