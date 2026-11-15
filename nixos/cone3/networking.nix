@@ -158,6 +158,11 @@ with pkgs.lib;
                     "10.203.0.1/32"
                   ];
                 }
+                {
+                  # devbox initiates the connection using its existing wgover key.
+                  publicKey = "H05j10qr+RXFULmdU/yqZIAtHutMMrN7Et4x+P7bBmo=";
+                  allowedIPs = [ "10.203.1.2/32" ];
+                }
               ];
             };
             wgverizon = {
@@ -216,6 +221,11 @@ with pkgs.lib;
             routes = [
               {
                 Destination = "10.10.10.0/24";
+                Metric = 10;
+              }
+              {
+                Destination = "10.203.1.2/32";
+                PreferredSource = "10.203.0.2";
                 Metric = 10;
               }
             ];

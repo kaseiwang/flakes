@@ -2,6 +2,7 @@
 let
   cfg = config.services.kaseinetover-tcp-proxy;
   port = 12345;
+  clientIPs = "{ 10.10.10.0/24, 10.203.1.2/32 }";
 in
 {
   options.services.kaseinetover-tcp-proxy.enable = lib.mkOption {
@@ -56,14 +57,14 @@ in
             ${lib.optionalString cfg.enable ''
               ct state invalid drop
               iifname { "wgover", "wgverizon" } ct state established,related accept
-              iifname "wgover" ip saddr 10.10.10.0/24 ct status dnat tcp dport ${toString port} accept
+              iifname "wgover" ip saddr ${clientIPs} ct status dnat tcp dport ${toString port} accept
             ''}
           }
           chain forward {
             type filter hook forward priority filter; policy drop;
             ct state invalid drop
-            iifname "wgover" oifname "wgverizon" ip saddr 10.10.10.0/24 accept
-            iifname "wgverizon" oifname "wgover" ip daddr 10.10.10.0/24 ct state established,related accept
+            iifname "wgover" oifname "wgverizon" ip saddr ${clientIPs} accept
+            iifname "wgverizon" oifname "wgover" ip daddr ${clientIPs} ct state established,related accept
           }
           chain mss {
             type filter hook forward priority mangle; policy accept;
@@ -73,7 +74,7 @@ in
             # Redirected TCP no longer traverses the forward hook.
             chain proxy_mss_in {
               type filter hook prerouting priority mangle; policy accept;
-              iifname "wgover" ip saddr 10.10.10.0/24 tcp flags & (syn | rst) == syn tcp option maxseg size > 1340 tcp option maxseg size set 1340
+              iifname "wgover" ip saddr ${clientIPs} tcp flags & (syn | rst) == syn tcp option maxseg size > 1340 tcp option maxseg size set 1340
             }
             chain proxy_mss_out {
               type filter hook output priority mangle; policy accept;
@@ -91,12 +92,12 @@ in
             }
             chain prerouting {
               type nat hook prerouting priority dstnat; policy accept;
-              iifname "wgover" ip saddr 10.10.10.0/24 meta l4proto tcp jump tcp_proxy
+              iifname "wgover" ip saddr ${clientIPs} meta l4proto tcp jump tcp_proxy
             }
           ''}
           chain postrouting {
             type nat hook postrouting priority srcnat; policy accept;
-            oifname "wgverizon" ip saddr 10.10.10.0/24 snat to 10.7.0.2
+            oifname "wgverizon" ip saddr ${clientIPs} snat to 10.7.0.2
           }
         }
       '';
