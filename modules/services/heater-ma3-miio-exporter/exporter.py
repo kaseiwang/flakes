@@ -7,6 +7,7 @@ urn:miot-spec-v2:device:heater:0000A01A:xiaomi-ma3:1
 from __future__ import annotations
 
 import argparse
+import copy
 import logging
 import math
 import re
@@ -76,8 +77,14 @@ def validate_value(prop, value):
 
 class Metrics:
     def __init__(self, registry):
+        # Poll into a private registry. Scrapes see only the last completed
+        # snapshot, never a mixture of values and temporary validity flags.
+        self._registry = CollectorRegistry()
+        self._snapshot = ()
+        self._lock = threading.Lock()
+
         def gauge(name, help, labels=()):
-            return Gauge(PREFIX + name, help, labels, registry=registry)
+            return Gauge(PREFIX + name, help, labels, registry=self._registry)
 
         self.numeric = {p.name: gauge(p.name, p.description) for p in PROPERTIES if p.kind != "string"}
         for g in self.numeric.values():
@@ -93,16 +100,28 @@ class Metrics:
         self.memory = gauge("free_memory_bytes", "Free memory reported by miIO.info in bytes")
         self.rssi = gauge("wifi_signal_dbm", "Wi-Fi RSSI reported by miIO.info in dBm")
         self.info_up = gauge("info_up", "Whether miIO.info succeeded in the latest poll")
+        self.info_last_success = gauge("info_last_success_timestamp_seconds", "Last successful miIO.info read")
         self.up = gauge("up", "Whether miIO.info and all 21 properties succeeded in the latest poll")
         self.duration = gauge("poll_duration_seconds", "Duration of the latest poll")
         self.last_success = gauge("last_success_timestamp_seconds", "Last complete successful poll")
-        self.errors = Counter(PREFIX + "poll_errors", "Number of incomplete or failed polls", registry=registry)
+        self.errors = Counter(PREFIX + "poll_errors", "Number of incomplete or failed polls", registry=self._registry)
         self.up.set(0)
         self.info_up.set(0)
         for g in (self.uptime, self.memory, self.rssi):
             g.set(float("nan"))
         for p in PROPERTIES:
             self.property_up.labels(p.name, p.siid, p.piid).set(0)
+        self.publish()
+        registry.register(self)
+
+    def publish(self):
+        snapshot = tuple(copy.deepcopy(list(self._registry.collect())))
+        with self._lock:
+            self._snapshot = snapshot
+
+    def collect(self):
+        with self._lock:
+            return iter(self._snapshot)
 
     def record_property(self, prop, value, timestamp):
         labels = (prop.name, prop.siid, prop.piid)
@@ -127,6 +146,7 @@ class Metrics:
         for gauge, value in ((self.uptime, info.get("life")), (self.memory, info.get("mmfree")), (self.rssi, info.get("ap", {}).get("rssi"))):
             gauge.set(value if type(value) in (int, float) and math.isfinite(value) else float("nan"))
         self.info_up.set(1)
+        self.info_last_success.set(time.time())
 
 
 class Poller:
@@ -186,6 +206,7 @@ class Poller:
         else:
             m.errors.inc()
             self.logger.warning("Incomplete poll: %d/%d properties", len(successes), len(PROPERTIES))
+        m.publish()
         return complete
 
 

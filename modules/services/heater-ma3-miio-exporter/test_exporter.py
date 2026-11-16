@@ -87,6 +87,37 @@ class ExporterTests(unittest.TestCase):
         self.assertEqual(self.metric("poll_errors_total"), 1)
         self.assertEqual(self.metric("last_success_timestamp_seconds"), previous)
 
+    def test_scrape_during_poll_sees_only_previous_completed_snapshot(self):
+        self.poller.poll_once()
+        before = generate_latest(self.registry)
+        send = self.d.send
+        seen = []
+
+        def scrape_while_polling(*args, **kwargs):
+            seen.append(generate_latest(self.registry))
+            return send(*args, **kwargs)
+
+        self.d.send = scrape_while_polling
+        self.d.bad_property = "power_on"
+        self.assertFalse(self.poller.poll_once())
+        self.assertEqual(len(seen), 5)
+        self.assertTrue(all(sample == before for sample in seen))
+        self.assertEqual(self.metric("property_up", {"property":"power_on","siid":"2","piid":"1"}), 0)
+        self.assertEqual(self.metric("up"), 0)
+        self.assertNotEqual(generate_latest(self.registry), before)
+
+    def test_first_poll_does_not_expose_partial_success(self):
+        before = generate_latest(self.registry)
+        send = self.d.send
+
+        def scrape_while_polling(*args, **kwargs):
+            self.assertEqual(generate_latest(self.registry), before)
+            return send(*args, **kwargs)
+
+        self.d.send = scrape_while_polling
+        self.assertTrue(self.poller.poll_once())
+        self.assertEqual(self.metric("up"), 1)
+
     def test_duplicate_response_is_not_accepted(self):
         self.d.duplicate = "power_on"
         self.assertFalse(self.poller.poll_once())
