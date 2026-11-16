@@ -2,8 +2,14 @@
 let
   cfg = config.services.kaseinetover-proxy;
   port = 12345;
+  # The host can originate traffic from its directly connected overlan address.
+  internalAddresses = lib.concatStringsSep ", " (cfg.internalNetworks ++ [ "10.203.2.1/32" ]);
 in
 {
+  options.services.kaseinetover-proxy.internalNetworks = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    description = "IPv4 LAN networks routed through nas0, bypassing the public proxy.";
+  };
   options.services.kaseinetover-proxy.domainSuffixesFile = lib.mkOption {
     type = lib.types.str;
     description = "Runtime path to a JSON array of domain suffixes routed through devbox.";
@@ -130,6 +136,10 @@ in
       enable = true;
       ruleset = ''
         table inet over_filter {
+          set internal_v4 {
+            type ipv4_addr; flags interval;
+            elements = { ${internalAddresses} }
+          }
           chain input {
             type filter hook input priority filter; policy drop;
             iifname "lo" accept
@@ -139,15 +149,28 @@ in
             iifname "over10" udp sport 68 udp dport 67 accept
             iifname "over10" ip saddr 10.10.10.0/24 meta l4proto { tcp, udp } th dport 53 accept
             iifname "over10" ip saddr 10.10.10.0/24 ct status dnat tcp dport ${toString port} accept
-            iifname "over10" ip saddr 10.10.10.0/24 ip protocol icmp accept
+            iifname "over10" ip saddr 10.10.10.0/24 ip daddr @internal_v4 accept
+            iifname { "overlan", "wgover" } ip saddr @internal_v4 ip daddr @internal_v4 accept
           }
           chain forward {
             type filter hook forward priority filter; policy drop;
             ct state invalid drop
-            # Clients must use the proxy, not address other tunnel peers directly.
-            iifname "over10" ip daddr { 10.203.0.0/30, 10.203.1.2 } drop
+            # Only private-to-private forwarding is allowed on the host link.
+            iifname "overlan" oifname "wgover" ip saddr { 10.10.2.0/24, 10.10.5.0/24 } ip daddr 10.203.1.2 accept
+            iifname "wgover" oifname "overlan" ip saddr 10.203.1.2 ip daddr { 10.10.2.0/24, 10.10.5.0/24 } accept
+            iifname "over10" oifname "overlan" ip saddr 10.10.10.0/24 ip daddr @internal_v4 accept
+            iifname "overlan" oifname "over10" ip saddr @internal_v4 ip daddr 10.10.10.0/24 accept
             iifname "over10" oifname "wgover" ip saddr 10.10.10.0/24 accept
+            iifname "wgover" oifname "over10" ip saddr @internal_v4 ip daddr 10.10.10.0/24 accept
             iifname "wgover" oifname "over10" ip daddr 10.10.10.0/24 ct state established,related accept
+          }
+          chain output {
+            type filter hook output priority filter; policy drop;
+            oifname "lo" accept
+            oifname "wgover" meta nfproto ipv4 accept
+            oifname "over10" ip daddr 10.10.10.0/24 accept
+            oifname "over10" udp sport 67 udp dport 68 accept
+            oifname "overlan" ip saddr @internal_v4 ip daddr @internal_v4 accept
           }
           chain mss_in {
             type filter hook prerouting priority mangle; policy accept;
@@ -155,19 +178,21 @@ in
           }
           chain mss_out {
             type filter hook output priority mangle; policy accept;
-            oifname { "over10", "wgover" } meta nfproto ipv4 tcp flags & (syn | rst) == syn tcp option maxseg size > 1340 tcp option maxseg size set 1340
+            oifname { "over10", "overlan", "wgover" } meta nfproto ipv4 tcp flags & (syn | rst) == syn tcp option maxseg size > 1340 tcp option maxseg size set 1340
           }
         }
         table ip over_nat {
           chain tcp_proxy {
             fib daddr type local return
-            # Do not bypass RFC1918: corporate domains can resolve to private IPs.
-            ip daddr { 0.0.0.0/8, 10.10.10.0/24, 10.203.0.0/30, 10.203.1.2, 127.0.0.0/8, 169.254.0.0/16, 224.0.0.0/4, 240.0.0.0/4 } return
+            ip daddr { ${internalAddresses} } return
+            ip daddr { 0.0.0.0/8, 127.0.0.0/8, 169.254.0.0/16, 224.0.0.0/4, 240.0.0.0/4 } return
             meta l4proto tcp redirect to :${toString port}
           }
           chain prerouting {
             type nat hook prerouting priority dstnat; policy accept;
-            # Also catch clients still using the previous DHCP DNS addresses.
+            # LAN DNS servers remain directly reachable; public DNS keeps the
+            # existing interception and domain-selected wgover egress.
+            ip daddr { ${internalAddresses} } return
             iifname "over10" ip saddr 10.10.10.0/24 meta l4proto { tcp, udp } th dport 53 redirect to :53
             iifname "over10" ip saddr 10.10.10.0/24 meta l4proto tcp jump tcp_proxy
           }

@@ -9,6 +9,12 @@ let
   overlayRouteMark = 300;
   overlayRouteTable = 300;
   overPort = 2481;
+  overInternalNetworks = [
+    "10.10.2.0/24"
+    "10.10.5.0/24"
+  ];
+  # Trust the host's link address without adding it to routes via overlan.
+  overInternalAddresses = concatStringsSep ", " (overInternalNetworks ++ [ "10.203.2.1/32" ]);
   overNetdevFiles = [
     "20-over-bridge.netdev"
     "20-over-vlan.netdev"
@@ -48,12 +54,22 @@ let
     }
     destroy table inet kaseinetover_host_guard
     table inet kaseinetover_host_guard {
+      set internal_v4 {
+        type ipv4_addr; flags interval;
+        elements = { ${overInternalAddresses} }
+      }
       chain input {
         type filter hook input priority -10; policy accept;
+        iifname "overlan" ip saddr 10.203.1.2 ip daddr { 10.10.2.0/24, 10.10.5.0/24 } accept
+        iifname "overlan" ip saddr { 10.10.10.0/24, 10.203.2.2 } ip daddr @internal_v4 accept
+        iifname "overlan" drop
         iifname { "brover10", "vlanover10", "over10", "wgover" } drop
       }
       chain output {
         type filter hook output priority -10; policy accept;
+        oifname "overlan" ip saddr { 10.10.2.0/24, 10.10.5.0/24 } ip daddr 10.203.1.2 accept
+        oifname "overlan" ip saddr @internal_v4 ip daddr { 10.10.10.0/24, 10.203.2.2 } accept
+        oifname "overlan" drop
         oifname { "brover10", "vlanover10", "over10", "wgover" } drop
       }
       # Block unenslaved ports during link setup and WG returned by nspawn.
@@ -61,6 +77,14 @@ let
       # handle that path so legitimate VLAN <-> veth forwarding still works.
       chain forward {
         type filter hook forward priority -10; policy accept;
+        # Keep the LAN path private-only, even during container/network reloads.
+        iifname "overlan" oifname "${wanif}" drop
+        iifname "overlan" ip saddr 10.203.1.2 ip daddr { 10.10.2.0/24, 10.10.5.0/24 } accept
+        oifname "overlan" ip saddr { 10.10.2.0/24, 10.10.5.0/24 } ip daddr 10.203.1.2 accept
+        iifname "overlan" ip saddr { 10.10.10.0/24, 10.203.2.2 } ip daddr @internal_v4 accept
+        iifname "overlan" drop
+        oifname "overlan" ip saddr @internal_v4 ip daddr { 10.10.10.0/24, 10.203.2.2 } accept
+        oifname "overlan" drop
         iifname { "vlanover10", "over10", "wgover" } drop
         oifname { "vlanover10", "over10", "wgover" } drop
       }
@@ -93,7 +117,11 @@ in
     interfaces = [ "wgover" ];
     # Both ends are named over10, in different namespaces. networkd attaches
     # the host end to brover10; all IP configuration lives in the container.
-    extraVeths.over10 = { };
+    extraVeths = {
+      over10 = { };
+      # A routed LAN link, separate from the isolated Wi-Fi bridge.
+      overlan = { };
+    };
     # Use the outer host config's secret path on both sides of the mount.
     # /run/keys is overmounted by the container's boot process.
     bindMounts = {
@@ -106,7 +134,10 @@ in
     };
     config = { lib, ... }: {
       imports = [ ./kaseinetover-proxy.nix ];
-      services.kaseinetover-proxy.domainSuffixesFile = config.sops.secrets.kaseinetover-domains.path;
+      services.kaseinetover-proxy = {
+        domainSuffixesFile = config.sops.secrets.kaseinetover-domains.path;
+        internalNetworks = overInternalNetworks;
+      };
       system.stateVersion = "26.11";
       time.timeZone = "America/Los_Angeles";
       networking = {
@@ -165,7 +196,30 @@ in
                 Type = "blackhole";
                 Metric = 32760;
               }
-            ];
+            ]
+            ++ map (network: {
+              Destination = network;
+              Type = "blackhole";
+              Metric = 32760;
+            }) overInternalNetworks;
+          };
+          "40-overlan" = {
+            matchConfig.Name = "overlan";
+            address = [ "10.203.2.2/30" ];
+            linkConfig = {
+              RequiredForOnline = false;
+              MTUBytes = 1380;
+            };
+            networkConfig = {
+              LinkLocalAddressing = "no";
+              ConfigureWithoutCarrier = true;
+            };
+            # No default route via the host, including when wgover is down.
+            routes = map (network: {
+              Destination = network;
+              Gateway = "10.203.2.1";
+              Metric = 10;
+            }) overInternalNetworks;
           };
           "40-wgover" = {
             linkConfig.RequiredForOnline = false;
@@ -201,7 +255,15 @@ in
               ];
               EmitNTP = false;
               Timezone = "America/Los_Angeles";
-              SendOption = "26:uint16:1380";
+              SendOption = [
+                "26:uint16:1380"
+                # As on LAN2, advertise the same /24 as tinc so the client's
+                # Wi-Fi DHCP metric (600 on c940) wins over tinc's 1024.
+                # RFC 3442: default, 10.10.2.0/24 and 10.10.5.0/24
+                # via 10.10.10.1.
+                # Include the default: option 121 makes clients ignore Router.
+                "121:string:\\x00\\x0a\\x0a\\x0a\\x01\\x18\\x0a\\x0a\\x02\\x0a\\x0a\\x0a\\x01\\x18\\x0a\\x0a\\x05\\x0a\\x0a\\x0a\\x01"
+              ];
             };
           };
         };
@@ -229,7 +291,7 @@ in
   };
   systemd.services = {
     kaseinetover-host-guard = {
-      description = "Isolate the kaseinetover bridge and host WireGuard interface";
+      description = "Guard kaseinetover's private LAN link, bridge and WireGuard interface";
       serviceConfig = {
         Type = "oneshot";
         RemainAfterExit = true;
@@ -547,7 +609,8 @@ in
 
               tcp flags syn tcp option maxseg size set rt mtu;
 
-              ct state established,related meta l4proto {tcp, udp} flow add @f counter;
+              # Keep the persistent LAN guard in the path for every packet.
+              iifname != "overlan" oifname != "overlan" ct state established,related meta l4proto {tcp, udp} flow add @f counter;
               ct state established,related counter accept;
 
               # 12526, qbitorrent
@@ -679,6 +742,48 @@ in
       "10-kaseinetover-unmanaged" = {
         matchConfig.Name = "wgover";
         linkConfig.Unmanaged = true;
+      };
+      "30-over-lan" = {
+        matchConfig.Name = "overlan";
+        address = [ "10.203.2.1/30" ];
+        linkConfig = {
+          RequiredForOnline = false;
+          MTUBytes = 1380;
+        };
+        networkConfig = {
+          LinkLocalAddressing = "no";
+          ConfigureWithoutCarrier = true;
+          IPv4Forwarding = true;
+          IPv6Forwarding = false;
+        };
+        routes = [
+          {
+            Destination = "10.10.10.0/24";
+            Gateway = "10.203.2.2";
+          }
+          {
+            Destination = "10.203.1.2/32";
+            Gateway = "10.203.2.2";
+            PreferredSource = "10.10.2.1";
+          }
+        ];
+        # The LAN link may use specific host routes, never a host default route
+        # (including the overlay default in table 300). Missing LAN routes fail closed.
+        routingPolicyRules = [
+          {
+            IncomingInterface = "overlan";
+            Family = "ipv4";
+            Priority = 100;
+            Table = 254;
+            SuppressPrefixLength = 0;
+          }
+          {
+            IncomingInterface = "overlan";
+            Family = "ipv4";
+            Priority = 101;
+            Type = "unreachable";
+          }
+        ];
       };
       # Dedicated L2 segment: neither the bridge nor either port gets an IP.
       "30-over-bridge" = {
