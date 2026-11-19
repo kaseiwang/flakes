@@ -138,15 +138,6 @@
             };
             imports = [ ./nixos/cone3 ];
           };
-        us02 =
-          { ... }:
-          {
-            deployment = {
-              targetHost = "68.164.60.170";
-              buildOnTarget = false;
-            };
-            imports = [ ./nixos/us02 ];
-          };
         r5c =
           { ... }:
           {
