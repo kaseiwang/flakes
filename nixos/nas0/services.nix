@@ -35,6 +35,10 @@
     vaultwarden = {
       owner = config.users.users."vaultwarden".name;
     };
+    # Read through systemd LoadCredential, so it can stay root-owned.
+    harmonia-sign-key = {
+      restartUnits = [ "harmonia.service" ];
+    };
   };
 
   # provide prometheus key
@@ -430,6 +434,21 @@
             return = "444";
           };
         };
+        # Kept out of the QUIC wrapper below: UDP 443 is open on ppp0, while
+        # TCP 443 is not, and Nix fetches over HTTP/1.1 or HTTP/2 anyway.
+        "cache-nas0.${config.networking.domain}" = {
+          onlySSL = true;
+          sslCertificate = "${config.security.acme.certs."kasei.im".directory}/full.pem";
+          sslCertificateKey = "${config.security.acme.certs."kasei.im".directory}/full.pem";
+          locations."/" = {
+            proxyPass = "http://${config.services.harmonia.cache.settings.bind}";
+            # Stream NARs instead of spooling them to nginx temp files.
+            extraConfig = ''
+              proxy_http_version 1.1;
+              proxy_buffering off;
+            '';
+          };
+        };
       }
       //
         builtins.mapAttrs
@@ -502,6 +521,20 @@
               };
             };
           };
+    };
+
+    # Serve this host's /nix/store as a LAN binary cache, published through
+    # nginx as cache-nas0. Clients enable environment.nas0Cache.
+    harmonia.cache = {
+      enable = true;
+      signKeyPaths = [ config.sops.secrets.harmonia-sign-key.path ];
+      settings = {
+        # Outside /run/harmonia: RuntimeDirectory cleanup on restart would delete
+        # the socket file that harmonia.socket keeps listening on.
+        bind = "unix:/run/harmonia.sock";
+        # Lower than the upstream caches' 40 so LAN hits are tried first.
+        priority = 30;
+      };
     };
 
     vaultwarden = {
