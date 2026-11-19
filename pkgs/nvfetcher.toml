@@ -22,14 +22,6 @@ src.vsmarketplace = "ccls-project.ccls"
 fetch.vsmarketplace = "ccls-project.ccls"
 passthru = { publisher = "ccls-project", name = "ccls" }
 
-[nvidia_gpu_exporter]
-src.github = "utkuozdemir/nvidia_gpu_exporter"
-fetch.github = "utkuozdemir/nvidia_gpu_exporter"
-
-[yarr-pgsql]
-src.github_tag = "jgkawell/yarr"
-fetch.github = "jgkawell/yarr"
-
 [rtp2httpd]
 src.github = "stackia/rtp2httpd"
 fetch.github = "stackia/rtp2httpd"

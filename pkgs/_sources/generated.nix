@@ -14,17 +14,6 @@
       sha256 = "sha256-ghPKF6yv/jo1Bs39HyYYEQSSAEen+A73BFsalh01KVk=";
     };
   };
-  nvidia_gpu_exporter = {
-    pname = "nvidia_gpu_exporter";
-    version = "v1.18.0";
-    src = fetchFromGitHub {
-      owner = "utkuozdemir";
-      repo = "nvidia_gpu_exporter";
-      rev = "v1.18.0";
-      fetchSubmodules = false;
-      sha256 = "sha256-k4IZJkzN/4VFU9DMkQ+co24Eyh4qtvxaso4P5wWn6RQ=";
-    };
-  };
   python-miio = {
     pname = "python-miio";
     version = "9a00e0888ef85f8d8d84888cabd9e46d1b0a18df";
@@ -91,17 +80,6 @@
       rev = "v1.3";
       fetchSubmodules = false;
       sha256 = "sha256-BX/Z3e1MQMISWWtrw+D1ChwdIhwxgWOx2evgZdMkPjg=";
-    };
-  };
-  yarr-pgsql = {
-    pname = "yarr-pgsql";
-    version = "v3.1.6";
-    src = fetchFromGitHub {
-      owner = "jgkawell";
-      repo = "yarr";
-      rev = "v3.1.6";
-      fetchSubmodules = false;
-      sha256 = "sha256-RO3kZFpryKmYDlQBDOK/6ujcCuT/F2rg7TyV25Y4PgY=";
     };
   };
 }

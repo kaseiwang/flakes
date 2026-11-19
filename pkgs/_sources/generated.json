@@ -14,27 +14,6 @@
         },
         "version": "0.3.1/zhwiki-20261018"
     },
-    "nvidia_gpu_exporter": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "nvidia_gpu_exporter",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "utkuozdemir",
-            "repo": "nvidia_gpu_exporter",
-            "rev": "v1.18.0",
-            "sha256": "sha256-k4IZJkzN/4VFU9DMkQ+co24Eyh4qtvxaso4P5wWn6RQ=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "v1.18.0"
-    },
     "python-miio": {
         "cargoLock": null,
         "date": "2026-07-25",
@@ -154,26 +133,5 @@
             "type": "github"
         },
         "version": "v1.3"
-    },
-    "yarr-pgsql": {
-        "cargoLock": null,
-        "date": null,
-        "extract": null,
-        "name": "yarr-pgsql",
-        "passthru": null,
-        "pinned": false,
-        "src": {
-            "deepClone": false,
-            "fetchSubmodules": false,
-            "leaveDotGit": false,
-            "name": null,
-            "owner": "jgkawell",
-            "repo": "yarr",
-            "rev": "v3.1.6",
-            "sha256": "sha256-RO3kZFpryKmYDlQBDOK/6ujcCuT/F2rg7TyV25Y4PgY=",
-            "sparseCheckout": [],
-            "type": "github"
-        },
-        "version": "v3.1.6"
     }
 }
