@@ -138,15 +138,6 @@
             };
             imports = [ ./nixos/cone3 ];
           };
-        volc1 =
-          { ... }:
-          {
-            deployment = {
-              targetHost = "115.191.44.54";
-              buildOnTarget = false;
-            };
-            imports = [ ./nixos/volc1 ];
-          };
         us02 =
           { ... }:
           {
