@@ -6,6 +6,7 @@
 }:
 {
   environment.baseline.enable = true;
+  environment.nas0Cache.enable = true;
 
   zramSwap = {
     enable = true;
