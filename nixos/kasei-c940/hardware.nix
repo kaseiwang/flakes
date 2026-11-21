@@ -75,10 +75,12 @@ in
           rootblk0 = {
             device = "/dev/disk/by-partlabel/CRYPT_NIXOS_P1";
             allowDiscards = true;
+            bypassWorkqueues = true;
           };
           rootblk1 = {
             device = "/dev/disk/by-partlabel/CRYPT_NIXOS_P2";
             allowDiscards = true;
+            bypassWorkqueues = true;
           };
         };
       };
@@ -152,6 +154,7 @@ in
       discardPolicy = "once";
       randomEncryption = {
         enable = true;
+        allowDiscards = true;
       };
     }
     {
@@ -159,6 +162,7 @@ in
       discardPolicy = "once";
       randomEncryption = {
         enable = true;
+        allowDiscards = true;
       };
     }
   ];
