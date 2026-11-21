@@ -71,7 +71,7 @@ in
       memory = {
         format = "≣ {used:0.1f} GiB";
       };
-      "network#wifi" = network "wlo1" "";
+      "network#wifi" = network "wl*" "";
       "network#ethernet" = network "enp2s0" "";
       "network#usb1" = network "en*u1" "U1:";
       "network#usb2" = network "en*u2" "U2:";

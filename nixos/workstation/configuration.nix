@@ -51,7 +51,7 @@
       btrbk-sshkey = {
         owner = config.users.users."btrbk".name;
       };
-      networkmanager-env = { };
+      "wireless/kaseinet" = { };
     };
   };
 

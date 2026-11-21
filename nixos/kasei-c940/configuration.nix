@@ -39,7 +39,9 @@
       btrbk-sshkey = {
         owner = config.users.users."btrbk".name;
       };
-      networkmanager-env = { };
+      "wireless/kaseinetover" = { };
+      "wireless/kaseinet" = { };
+      "wireless/comm" = { };
     };
   };
 
@@ -172,6 +174,7 @@
       amdgpu_top
       android-tools
       config.boot.kernelPackages.cpupower
+      impala
       man-pages
       man-pages-posix
     ];

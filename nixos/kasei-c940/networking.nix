@@ -1,12 +1,10 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 
-with pkgs.lib;
 {
-  systemd.network.enable = mkForce false;
   networking = {
     hostName = "kasei-c940";
     useDHCP = false;
-    useNetworkd = false;
+    useNetworkd = true;
     firewall.enable = false;
     nftables = {
       enable = true;
@@ -66,6 +64,9 @@ with pkgs.lib;
 
               tcp dport { 22, 655, 3690, 8080} accept;
               udp dport { 22, 655} accept;
+              # DHCP replies for networkd on wired and wireless uplinks.
+              udp sport 67 udp dport 68 accept;
+              udp sport 547 udp dport 546 accept;
 
               # Allow trusted networks to access the router
               iifname {lo, docker0, tinc.kaseinet} accept;
@@ -97,7 +98,8 @@ with pkgs.lib;
 
             chain postrouting {
               type nat hook postrouting priority 100; policy accept;
-              oifname { enp2s0,wlo1,tinc.kaseinet,tun0,tun1 } masquerade
+              oifname { enp2s0,tinc.kaseinet,tun0,tun1 } masquerade
+              oifname "wl*" masquerade
             }
           '';
         };
@@ -116,81 +118,10 @@ with pkgs.lib;
       };
     };
 
-    networkmanager = {
+    networkmanager.enable = false;
+    wireless.iwd = {
       enable = true;
-      # Use DNS servers supplied by the active connection (DHCP/IPv6 RA).
-      dns = "default";
-      logLevel = "INFO";
-      unmanaged = [
-        "interface-name:tinc.kaseinet"
-      ];
-      ensureProfiles = {
-        environmentFiles = [ "${config.sops.secrets.networkmanager-env.path}" ];
-        profiles = {
-          "kaseinetover" = {
-            connection = {
-              id = "kaseinetover";
-              type = "wifi";
-              autoconnect = true;
-            };
-            wifi = {
-              mode = "infrastructure";
-              ssid = "kaseinetover";
-            };
-            wifi-security = {
-              key-mgmt = "sae";
-              # The OpenWrt SSIDs share the same password.
-              psk = "$kaseinet_PASSWORD";
-            };
-            ipv4.method = "auto";
-            # The isolated wgverizon client network only provides IPv4.
-            ipv6.method = "disabled";
-          };
-          "kaseinet" = {
-            connection = {
-              id = "kaseinet";
-              type = "wifi";
-              autoconnect = false;
-            };
-            wifi = {
-              mode = "infrastructure";
-              ssid = "kaseinet";
-            };
-            wifi-security = {
-              key-mgmt = "sae";
-              psk = "$kaseinet_PASSWORD";
-            };
-            ipv4 = {
-              method = "auto";
-            };
-            ipv6 = {
-              method = "auto";
-            };
-          };
-          "comm" = {
-            connection = {
-              id = "comm";
-              type = "wifi";
-              autoconnect = false;
-            };
-            wifi = {
-              mode = "infrastructure";
-              ssid = "comm";
-            };
-            wifi-security = {
-              key-mgmt = "wpa-psk";
-              auth-alg = "open";
-              psk = "$comm_PASSWORD";
-            };
-            ipv4 = {
-              method = "auto";
-            };
-            ipv6 = {
-              method = "auto";
-            };
-          };
-        };
-      };
+      settings.General.EnableNetworkConfiguration = false;
     };
   };
 
@@ -198,5 +129,66 @@ with pkgs.lib;
     fwmark = 200;
     enableV4 = true;
     enableV6 = false;
+  };
+
+  services.resolved.enable = true;
+
+  systemd.network = {
+    enable = true;
+    # Either wired or wireless connectivity is sufficient for this desktop.
+    wait-online.enable = false;
+    networks = {
+      "20-wired" = {
+        matchConfig = {
+          Type = "ether";
+          # Only physical devices; leave Docker, tinc and VPN links alone.
+          Path = "*";
+        };
+        networkConfig = {
+          DHCP = "yes";
+          IPv6AcceptRA = true;
+        };
+        dhcpV4Config.RouteMetric = 100;
+        ipv6AcceptRAConfig.RouteMetric = 100;
+      };
+      "25-wifi-kaseinetover" = {
+        matchConfig = {
+          Type = "wlan";
+          SSID = "kaseinetover";
+        };
+        networkConfig = {
+          DHCP = "ipv4";
+          IPv6AcceptRA = false;
+          LinkLocalAddressing = "no";
+        };
+        dhcpV4Config.RouteMetric = 600;
+      };
+      "30-wifi" = {
+        matchConfig.Type = "wlan";
+        networkConfig = {
+          DHCP = "yes";
+          IPv6AcceptRA = true;
+        };
+        dhcpV4Config.RouteMetric = 600;
+        ipv6AcceptRAConfig.RouteMetric = 600;
+      };
+    };
+  };
+
+  # Seed writable iwd profiles from SOPS; C preserves existing local profiles.
+  systemd.tmpfiles.settings."10-iwd" = {
+    "/var/lib/iwd".d.mode = "0700";
+    "/var/lib/iwd/kaseinetover.psk".C = {
+      mode = "0600";
+      argument = config.sops.secrets."wireless/kaseinetover".path;
+    };
+    "/var/lib/iwd/kaseinet.psk".C = {
+      mode = "0600";
+      argument = config.sops.secrets."wireless/kaseinet".path;
+    };
+    "/var/lib/iwd/comm.psk".C = {
+      mode = "0600";
+      argument = config.sops.secrets."wireless/comm".path;
+    };
   };
 }
