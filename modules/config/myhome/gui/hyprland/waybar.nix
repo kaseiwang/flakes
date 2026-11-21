@@ -1,4 +1,4 @@
-{ lib }:
+{ lib, pkgs }:
 let
   # The packaged UWSM login entry starts hyprland.desktop.
   sessionTarget = "wayland-session@hyprland.desktop.target";
@@ -25,6 +25,7 @@ in
       modules-left = [ "hyprland/workspaces" ];
       modules-right = [
         "cpu"
+        "custom/gpu"
         "temperature"
         "memory"
         "network#wifi"
@@ -62,11 +63,18 @@ in
       cpu = {
         format = "⌬ {usage}%";
       };
+      "custom/gpu" = {
+        # amdgpu iGPU: address by PCI path, as cardN is not stable.
+        exec = "cat /sys/devices/pci0000:00/0000:00:08.1/0000:35:00.0/gpu_busy_percent";
+        # Custom modules run exec once without an interval; match cpu's 10s.
+        interval = 10;
+        format = "GPU {}%";
+      };
       temperature = {
         # CPU k10temp device: avoid the unstable hwmonN index.
         hwmon-path-abs = "/sys/devices/pci0000:00/0000:00:18.3/hwmon";
         input-filename = "temp1_input";
-        format = "/{temperatureC}°";
+        format = "{temperatureC}°";
       };
       memory = {
         format = "≣ {used:0.1f} GiB";
@@ -84,10 +92,29 @@ in
         format = " {volume}%";
         format-muted = " MUTE";
       };
-      clock = {
-        format = "{:%b%d%a|%H:%M:%S}";
-      };
+      clock =
+        let
+          long = "{:%Y/%m/%d %A %H:%M:%S}";
+        in
+        {
+          format = "{:%I:%M %p}";
+          # Click toggles to the long format; GTK3 tooltips have a fixed hover delay.
+          format-alt = long;
+          tooltip-format = long;
+          # Default is 60s, which freezes the long format's %S field at :00.
+          interval = 1;
+        };
     };
+    # Keep the packaged stylesheet; it has no rule for custom/gpu.
+    style = ''
+      @import url("${pkgs.waybar}/etc/xdg/waybar/style.css");
+
+      #custom-gpu {
+        padding: 0 10px;
+        background-color: #00cec9;
+        color: #000000;
+      }
+    '';
   };
 
   # Remove the generic tray.target startup entry added by Home Manager.

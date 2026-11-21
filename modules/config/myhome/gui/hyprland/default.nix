@@ -6,7 +6,7 @@
 }:
 lib.mkIf osConfig.programs.hyprland.enable (
   lib.mkMerge [
-    (import ./waybar.nix { inherit lib; })
+    (import ./waybar.nix { inherit lib pkgs; })
     {
       home.packages = [ pkgs.brightnessctl ];
 
