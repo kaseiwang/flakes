@@ -8,6 +8,8 @@ lib.mkIf osConfig.programs.hyprland.enable (
   lib.mkMerge [
     (import ./waybar.nix { inherit lib; })
     {
+      home.packages = [ pkgs.brightnessctl ];
+
       wayland.windowManager = {
         hyprland = {
           enable = true;
