@@ -6,15 +6,6 @@
   modulesPath,
   ...
 }:
-let
-  crossPkgs = import pkgs.path {
-    localSystem.system = "x86_64-linux";
-    crossSystem = {
-      system = "aarch64-linux";
-      config = "aarch64-unknown-linux-gnu";
-    };
-  };
-in
 {
   hardware = {
     enableRedistributableFirmware = lib.mkDefault true;
@@ -33,29 +24,7 @@ in
         enable = true;
       };
     };
-    kernelPackages = crossPkgs.linuxPackages_latest;
-    # https://github.com/NixOS/nixos-hardware/blob/master/friendlyarm/nanopi-r5s/default.nix
-    kernelPatches = [
-      {
-        name = "rockchip-config.patch";
-        patch = null;
-        extraConfig = ''
-          PCIE_ROCKCHIP_EP y
-          PCIE_ROCKCHIP_DW_HOST y
-          ROCKCHIP_VOP2 y
-        '';
-      }
-      {
-        name = "status-leds.patch";
-        patch = null;
-        extraConfig = ''
-          LED_TRIGGER_PHY y
-          USB_LED_TRIG y
-          LEDS_BRIGHTNESS_HW_CHANGED y
-          LEDS_TRIGGER_MTD y
-        '';
-      }
-    ];
+    kernelPackages = pkgs.linuxPackages_latest;
     initrd = {
       availableKernelModules = [
         ## Rockchip

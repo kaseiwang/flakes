@@ -29,11 +29,7 @@
       '';
     };
 
-    journald = {
-      extraConfig = ''
-        MaxRetentionSec=6week
-      '';
-    };
+    journald.settings.Journal.MaxRetentionSec = "6week";
 
     prometheus = {
       exporters = {
