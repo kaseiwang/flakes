@@ -2,6 +2,7 @@
 let
   cfg = config.services.kaseinetover-proxy;
   port = 12345;
+  lanRanges = lib.concatStringsSep ", " cfg.internalNetworks;
   # The host can originate traffic from its directly connected overlan address.
   internalAddresses = lib.concatStringsSep ", " (cfg.internalNetworks ++ [ "10.203.2.1/32" ]);
 in
@@ -156,8 +157,8 @@ in
             type filter hook forward priority filter; policy drop;
             ct state invalid drop
             # Only private-to-private forwarding is allowed on the host link.
-            iifname "overlan" oifname "wgover" ip saddr { 10.10.2.0/24, 10.10.5.0/24 } ip daddr 10.203.1.2 accept
-            iifname "wgover" oifname "overlan" ip saddr 10.203.1.2 ip daddr { 10.10.2.0/24, 10.10.5.0/24 } accept
+            iifname "overlan" oifname "wgover" ip saddr { ${lanRanges} } ip daddr 10.203.1.2 accept
+            iifname "wgover" oifname "overlan" ip saddr 10.203.1.2 ip daddr { ${lanRanges} } accept
             iifname "over10" oifname "overlan" ip saddr 10.10.10.0/24 ip daddr @internal_v4 accept
             iifname "overlan" oifname "over10" ip saddr @internal_v4 ip daddr 10.10.10.0/24 accept
             iifname "over10" oifname "wgover" ip saddr 10.10.10.0/24 accept

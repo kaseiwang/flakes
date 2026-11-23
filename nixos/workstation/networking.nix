@@ -7,7 +7,7 @@
     useNetworkd = true;
     firewall.enable = false;
 
-    proxy.default = "http://10.10.5.1:1080";
+    proxy.default = "http://10.10.2.1:1080";
 
     networkmanager.enable = false;
     wireless.iwd = {

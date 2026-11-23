@@ -20,7 +20,7 @@ in
 
     host = lib.mkOption {
       type = lib.types.str;
-      example = "10.10.5.189";
+      example = "10.10.2.189";
       description = "IP address or hostname of the Qingping device.";
     };
 

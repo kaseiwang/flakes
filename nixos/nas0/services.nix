@@ -85,7 +85,7 @@
     };
     heater-ma3-miio-exporter = {
       enable = true;
-      host = "10.10.5.189";
+      host = "10.10.2.189";
       tokenFile = config.sops.secrets.heater-ma3-miio-token.path;
     };
     zfs = {
@@ -150,7 +150,7 @@
 
     qingping-miio-exporter = {
       enable = true;
-      host = "10.10.5.164";
+      host = "10.10.2.164";
       tokenFile = config.sops.secrets.qingping-miio-token.path;
     };
 

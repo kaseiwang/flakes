@@ -3,16 +3,27 @@ with pkgs.lib;
 let
   wanif = "ppp0";
   wanif-phy = "enp8s0";
-  lanif = "enp7s0";
-  lan2if = "enp6s0";
+  lanPort = "enp7s0";
+  apPort = "enp6s0";
+  nativeVlan = {
+    PVID = 1;
+    EgressUntagged = 1;
+  };
+  # The AX6000 uplink and the bridge itself carry both tagged VLANs.
+  trunkVlans = [
+    nativeVlan
+    { VLAN = 5; }
+    { VLAN = 10; }
+  ];
   localRouteMark = 200;
   overlayRouteMark = 300;
   overlayRouteTable = 300;
   overPort = 2481;
   overInternalNetworks = [
     "10.10.2.0/24"
-    "10.10.5.0/24"
+    "10.10.6.0/24"
   ];
+  overLanRanges = concatStringsSep ", " overInternalNetworks;
   # Trust the host's link address without adding it to routes via overlan.
   overInternalAddresses = concatStringsSep ", " (overInternalNetworks ++ [ "10.203.2.1/32" ]);
   overNetdevFiles = [
@@ -60,14 +71,14 @@ let
       }
       chain input {
         type filter hook input priority -10; policy accept;
-        iifname "overlan" ip saddr 10.203.1.2 ip daddr { 10.10.2.0/24, 10.10.5.0/24 } accept
+        iifname "overlan" ip saddr 10.203.1.2 ip daddr { ${overLanRanges} } accept
         iifname "overlan" ip saddr { 10.10.10.0/24, 10.203.2.2 } ip daddr @internal_v4 accept
         iifname "overlan" drop
         iifname { "brover10", "vlanover10", "over10", "wgover" } drop
       }
       chain output {
         type filter hook output priority -10; policy accept;
-        oifname "overlan" ip saddr { 10.10.2.0/24, 10.10.5.0/24 } ip daddr 10.203.1.2 accept
+        oifname "overlan" ip saddr { ${overLanRanges} } ip daddr 10.203.1.2 accept
         oifname "overlan" ip saddr @internal_v4 ip daddr { 10.10.10.0/24, 10.203.2.2 } accept
         oifname "overlan" drop
         oifname { "brover10", "vlanover10", "over10", "wgover" } drop
@@ -79,8 +90,8 @@ let
         type filter hook forward priority -10; policy accept;
         # Keep the LAN path private-only, even during container/network reloads.
         iifname "overlan" oifname "${wanif}" drop
-        iifname "overlan" ip saddr 10.203.1.2 ip daddr { 10.10.2.0/24, 10.10.5.0/24 } accept
-        oifname "overlan" ip saddr { 10.10.2.0/24, 10.10.5.0/24 } ip daddr 10.203.1.2 accept
+        iifname "overlan" ip saddr 10.203.1.2 ip daddr { ${overLanRanges} } accept
+        oifname "overlan" ip saddr { ${overLanRanges} } ip daddr 10.203.1.2 accept
         iifname "overlan" ip saddr { 10.10.10.0/24, 10.203.2.2 } ip daddr @internal_v4 accept
         iifname "overlan" drop
         oifname "overlan" ip saddr @internal_v4 ip daddr { 10.10.10.0/24, 10.203.2.2 } accept
@@ -257,12 +268,12 @@ in
               Timezone = "America/Los_Angeles";
               SendOption = [
                 "26:uint16:1380"
-                # As on LAN2, advertise the same /24 as tinc so the client's
+                # As on brlanauto, advertise the same /24 as tinc so the client's
                 # Wi-Fi DHCP metric (600 on c940) wins over tinc's 1024.
-                # RFC 3442: default, 10.10.2.0/24 and 10.10.5.0/24
+                # RFC 3442: default, 10.10.2.0/24 and 10.10.6.0/24
                 # via 10.10.10.1.
                 # Include the default: option 121 makes clients ignore Router.
-                "121:string:\\x00\\x0a\\x0a\\x0a\\x01\\x18\\x0a\\x0a\\x02\\x0a\\x0a\\x0a\\x01\\x18\\x0a\\x0a\\x05\\x0a\\x0a\\x0a\\x01"
+                "121:string:\\x00\\x0a\\x0a\\x0a\\x01\\x18\\x0a\\x0a\\x02\\x0a\\x0a\\x0a\\x01\\x18\\x0a\\x0a\\x06\\x0a\\x0a\\x0a\\x01"
               ];
             };
           };
@@ -577,7 +588,7 @@ in
           content = ''
             flowtable f {
               hook ingress priority filter;
-              devices = { "${lanif}", "${lan2if}", "${wanif-phy}" };
+              devices = { "${lanPort}", "${apPort}", "${wanif-phy}" };
               counter
             }
 
@@ -586,7 +597,7 @@ in
 
               ct state established,related counter accept
 
-              iifname { "${lanif}", "${lan2if}", "tinc.kaseinet", "lo" } counter accept
+              iifname { "brlan", "brlanauto", "tinc.kaseinet", "lo" } counter accept
 
               meta l4proto {icmp, icmpv6, igmp} accept;
 
@@ -618,7 +629,7 @@ in
               tcp dport {22, 443 } accept;
               udp dport {22, 443 } accept;
 
-              iifname { "${lanif}", "${lan2if}" , "tinc.kaseinet" } counter accept;
+              iifname { "brlan", "brlanauto", "tinc.kaseinet" } counter accept;
               iifname "${wanif}" drop;
             }
 
@@ -687,11 +698,34 @@ in
       ignoredInterfaces = [
         "cuccppp"
         "wg0"
-        "${lanif}"
-        "${lan2if}"
+        lanPort
+        apPort
+        "brlan"
+        "brlanauto"
+        "vlan5"
       ];
     };
     netdevs = {
+      "20-brlan" = {
+        netdevConfig = {
+          Name = "brlan";
+          Kind = "bridge";
+        };
+        bridgeConfig.VLANFiltering = true;
+      };
+      "20-vlan5" = {
+        netdevConfig = {
+          Name = "vlan5";
+          Kind = "vlan";
+        };
+        vlanConfig.Id = 5;
+      };
+      "20-brlanauto" = {
+        netdevConfig = {
+          Name = "brlanauto";
+          Kind = "bridge";
+        };
+      };
       "20-over-vlan" = {
         netdevConfig = {
           Name = "vlanover10";
@@ -860,19 +894,32 @@ in
           }
         ];
       };
-      "70-lan" = {
-        matchConfig = {
-          Name = "${lanif}";
-        };
+      "60-lan-port" = {
+        matchConfig.Name = lanPort;
+        networkConfig.Bridge = "brlan";
+        bridgeVLANs = [ nativeVlan ];
+      };
+      "60-ap-port" = {
+        matchConfig.Name = apPort;
+        networkConfig.Bridge = "brlan";
+        bridgeVLANs = trunkVlans;
+      };
+      "60-vlan5" = {
+        matchConfig.Name = "vlan5";
+        networkConfig.Bridge = "brlanauto";
+      };
+      "70-brlan" = {
+        matchConfig.Name = "brlan";
+        bridgeVLANs = trunkVlans;
         address = [
           "10.10.2.1/24"
-          "fdcd:ad38:cdc5:1::2"
-        ];
-        routes = [
-          { Destination = "10.10.2.0/24"; }
-          { Destination = "fdcd:ad38:cdc5:1::/64"; }
+          "fdcd:ad38:cdc5:1::2/64"
         ];
         networkConfig = {
+          VLAN = [
+            "vlan5"
+            "vlanover10"
+          ];
           DHCP = false;
           IPv6SendRA = true;
           IPv6ProxyNDP = false;
@@ -893,6 +940,14 @@ in
             MACAddress = "4c:c6:4c:bd:41:bd";
             Address = "10.10.2.10";
           } # ax6000
+          {
+            MACAddress = "cc:b5:d1:31:5b:8a";
+            Address = "10.10.2.164";
+          } # qingping air monitor lite
+          {
+            MACAddress = "d4:43:8a:70:55:04";
+            Address = "10.10.2.189";
+          } # xiaomi heater ma3
         ];
         ipv6SendRAConfig = {
           Managed = false;
@@ -915,32 +970,24 @@ in
         ];
         ipv6RoutePrefixes = [
           {
-            Route = "fdcd:ad38:cdc5:5::/64";
+            Route = "fdcd:ad38:cdc5:6::/64";
             Preference = "high";
           }
         ];
       };
-      "71-lan2" = {
-        matchConfig = {
-          Name = "${lan2if}";
-        };
+      "71-brlanauto" = {
+        matchConfig.Name = "brlanauto";
         address = [
-          "10.10.5.1/24"
-          "fdcd:ad38:cdc5:5::1"
-        ];
-        routes = [
-          { Destination = "10.10.5.0/24"; }
-          { Destination = "fdcd:ad38:cdc5:5::/64"; }
+          "10.10.6.1/24"
+          "fdcd:ad38:cdc5:6::1/64"
         ];
         networkConfig = {
-          VLAN = [ "vlanover10" ];
           DHCP = false;
           IPv6SendRA = true;
           IPv6ProxyNDP = false;
           DHCPPrefixDelegation = true;
           ConfigureWithoutCarrier = true;
           DHCPServer = true;
-          # VLAN = [ "laniptv" ];
         };
         dhcpServerConfig = {
           PoolSize = 100;
@@ -949,28 +996,14 @@ in
           NTP = "_server_address";
           # https://www.iana.org/assignments/bootp-dhcp-parameters/bootp-dhcp-parameters.xhtml
           # RFC 3442 classless static routes:
-          #   0.0.0.0/0  via 10.10.5.1
-          #   10.10.2.0/24 via 10.10.5.1
+          #   0.0.0.0/0  via 10.10.6.1
+          #   10.10.2.0/24 via 10.10.6.1
           # Keep the default route here because clients ignore the Router
           # option when a classless static route option is present.
-          SendOption = "121:string:\\x00\\x0a\\x0a\\x05\\x01\\x18\\x0a\\x0a\\x02\\x0a\\x0a\\x05\\x01";
+          SendOption = "121:string:\\x00\\x0a\\x0a\\x06\\x01\\x18\\x0a\\x0a\\x02\\x0a\\x0a\\x06\\x01";
           EmitDomain = true;
           Domain = config.networking.domain;
         };
-        dhcpServerStaticLeases = [
-          {
-            MACAddress = "4c:c6:4c:bd:41:bd";
-            Address = "10.10.5.10";
-          } # ax6000
-          {
-            MACAddress = "cc:b5:d1:31:5b:8a";
-            Address = "10.10.5.164";
-          } # qingping air monitor lite
-          {
-            MACAddress = "d4:43:8a:70:55:04";
-            Address = "10.10.5.189";
-          } # xiaomi heater ma3
-        ];
         ipv6SendRAConfig = {
           Managed = false;
           OtherInformation = false;
@@ -986,7 +1019,7 @@ in
         ipv6Prefixes = [
           {
             AddressAutoconfiguration = true;
-            Prefix = "fdcd:ad38:cdc5:5::/64";
+            Prefix = "fdcd:ad38:cdc5:6::/64";
             Assign = true;
           }
         ];

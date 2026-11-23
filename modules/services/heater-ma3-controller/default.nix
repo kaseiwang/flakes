@@ -18,7 +18,7 @@ in
     enable = lib.mkEnableOption "Qingping PI room-temperature controller for the MIoT heater";
     host = lib.mkOption {
       type = lib.types.str;
-      default = "10.10.5.189";
+      default = "10.10.2.189";
     };
     tokenFile = lib.mkOption {
       type = lib.types.path;
