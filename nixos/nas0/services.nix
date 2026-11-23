@@ -121,6 +121,7 @@
 
     postgresql = {
       enable = true;
+      package = pkgs.postgresql_18;
       enableTCPIP = true;
       enableJIT = true;
       dataDir = "/pool0/encrypted/postgresql/${config.services.postgresql.package.psqlSchema}";
